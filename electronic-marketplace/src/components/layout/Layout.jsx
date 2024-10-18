@@ -1,28 +1,20 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
-import { Link } from 'react-router-dom';
+import Header from './Header';
+import Footer from './Footer';
+import "./layout.css";
+
 
 const Layout = () => {
   return (
     <>
-      <header>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/"> Home</Link>
-            </li>
-            <li>
-              <Link to="/electronicItem">Electronic Item</Link>
-            </li>
-            <li>
-              <Link to="/users">Users</Link>
-            </li>
-          </ul>
-        </nav>
-      </header>
-      <main>
+      <div className="wrapper">
+      <Header />
+      <div className="container">
         <Outlet />
-      </main>
+      </div>
+      <Footer />
+      </div>
     </>
   )
 }
