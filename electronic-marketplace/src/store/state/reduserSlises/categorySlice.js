@@ -13,7 +13,7 @@ export const categorySlice = createSlice({
       state.categoryList = action.payload;
     },
     addCategory: (state, action) => {
-      debugger
+      // debugger
       state.categoryList = [...state.categoryList, action.payload];
     },
     // update: (state, action) => {

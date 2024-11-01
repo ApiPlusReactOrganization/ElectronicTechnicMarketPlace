@@ -13,7 +13,7 @@ export default class HttpClient {
       ...configs,
     });
 
-    this.initInterceptors();
+    // this.initInterceptors();
     this.setAuthorizationToken(localStorage.getItem("token"));
   }
 
@@ -57,38 +57,38 @@ export default class HttpClient {
     }
   }
 
-  initInterceptors() {
-    this.axiosInstance.interceptors.request.use(
-      (config) => {
-        const apiKey =
-          localStorage.getItem("apiKey") || "SrFeARsHHeiM2kaAABFGnnlk6Tgu4Wzt";
+  // initInterceptors() {
+  //   this.axiosInstance.interceptors.request.use(
+  //     (config) => {
+  //       const apiKey =
+  //         localStorage.getItem("apiKey") || "SrFeARsHHeiM2kaAABFGnnlk6Tgu4Wzt";
 
-        if (apiKey) {
-          config.params = { ...config.params, "api-key": apiKey };
-        }
+  //       if (apiKey) {
+  //         config.params = { ...config.params, "api-key": apiKey };
+  //       }
 
-        return config;
-      },
-      (error) => {
-        console.error("Request failed with error", error);
-        return Promise.reject(error);
-      }
-    );
+  //       return config;
+  //     },
+  //     (error) => {
+  //       console.error("Request failed with error", error);
+  //       return Promise.reject(error);
+  //     }
+  //   );
 
-    this.axiosInstance.interceptors.response.use(
-      (response) => response,
-      (error) => {
-        if (error.response && error.response.status === 401) {
-          console.error("Unauthorized request");
+  //   this.axiosInstance.interceptors.response.use(
+  //     (response) => response,
+  //     (error) => {
+  //       if (error.response && error.response.status === 401) {
+  //         console.error("Unauthorized request");
 
-          // 1. Redirect to login page
-          window.location.href = "/login?returnUrl=" + window.location.pathname;
+  //         // 1. Redirect to login page
+  //         window.location.href = "/login?returnUrl=" + window.location.pathname;
 
-          // 2. Refresh token logic could be added here
-        }
+  //         // 2. Refresh token logic could be added here
+  //       }
 
-        return Promise.reject(error);
-      }
-    );
-  }
+  //       return Promise.reject(error);
+  //     }
+  //   );
+  // }
 }

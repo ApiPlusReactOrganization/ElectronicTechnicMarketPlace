@@ -1,12 +1,12 @@
 import { ManufacturerService } from "../../../utils/services/ManufacturerService";
 import { addManufacturer, getAll } from "../reduserSlises/manufacturerSlice";
 
-const manufacturerService = new ManufacturerService();
+// const manufacturerService = new ManufacturerService();
 
 export const getManufacturers = () => async (dispatch) => {
     try {
         // debugger
-      const res = await manufacturerService.getManufacturers();
+      const res = await ManufacturerService.getManufacturers();
       console.log("res", res);
       dispatch(getAll(res));
     } catch (error) {
@@ -16,7 +16,7 @@ export const getManufacturers = () => async (dispatch) => {
 
   export const createManufacturer = (name) => async (dispatch) => {
     try {
-      const res = await manufacturerService.createManufacturer(name);
+      const res = await ManufacturerService.createManufacturer(name);
       console.log("res", res);
       dispatch(addManufacturer(res));
     } catch (error) {
