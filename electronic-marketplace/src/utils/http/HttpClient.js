@@ -1,7 +1,7 @@
 import axios from "axios";
 
-export class HttpClient {
-  constructor(configs, signal) {
+export default class HttpClient {
+  constructor(configs) {
     this.axiosInstance = axios.create({
       baseURL: configs.baseURL,
       timeout: configs.timeout || 3000,
@@ -13,9 +13,16 @@ export class HttpClient {
       ...configs,
     });
 
-    this.signal = signal;
-
     this.initInterceptors();
+    this.setAuthorizationToken(localStorage.getItem("token"));
+  }
+
+  setAuthorizationToken(token) {
+    if (token) {
+      this.axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    } else {
+      delete this.axiosInstance.defaults.headers.common["Authorization"];
+    }
   }
 
   async get(url, config = {}) {
@@ -36,11 +43,7 @@ export class HttpClient {
 
   async request(config) {
     try {
-      const response = await this.axiosInstance.request({
-        ...config,
-        signal: this.signal,
-      });
-
+      const response = await this.axiosInstance.request(config);
       return response.data;
     } catch (error) {
       if (axios.isCancel(error)) {
@@ -50,7 +53,6 @@ export class HttpClient {
       } else {
         console.error("Unexpected error occurred", error.message);
       }
-
       return Promise.reject(error);
     }
   }
