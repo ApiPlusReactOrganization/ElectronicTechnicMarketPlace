@@ -18,7 +18,7 @@ export const signInUser = () => async (dispatch) => {
 export const AuthByToken = (token) => (dispatch) => {
   if (token) {
     localStorage.setItem("token", token);
-     UserService.setAuthorizationToken(token);
+    UserService.setAuthorizationToken(token);
     const user = jwtDecode(token);
     dispatch(authUser(user));
   } else {
