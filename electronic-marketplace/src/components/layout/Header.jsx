@@ -37,6 +37,12 @@ const Header = () => {
               <li className="nav-item">
                 <Link to="/users">Users</Link>
               </li>
+              <li className="nav-item">
+                <Link to="/categories">Categories</Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/manufacturers">Manufacturers</Link>
+              </li>
             </ul>
           </div>
           <div className="d-flex align-items-center">

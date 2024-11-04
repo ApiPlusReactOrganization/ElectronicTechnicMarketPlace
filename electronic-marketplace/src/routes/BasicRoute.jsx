@@ -5,6 +5,8 @@ import HomePage from '../pages/home/HomePage';
 import ElectronicItemPage from '../pages/ElectronicItem/ElectronicItemPage';
 import UsersPage from '../pages/users/UsersPage';
 import NotFoundPage from '../components/NotFoundPage';
+import CategoriesPage from '../pages/categories/CategoriesPage';
+import ManufacturersPage from '../pages/manufacturers/ManufacturersPage';
 
 const BasicRoute = () => {
   return (
@@ -14,6 +16,8 @@ const BasicRoute = () => {
           <Route index element={<HomePage />} />
           <Route path="/electronicItem" element={<ElectronicItemPage />} />
           <Route path="/users" element={<UsersPage />} />
+          <Route path="/categories" element={<CategoriesPage />} />
+          <Route path="/manufacturers" element={<ManufacturersPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
