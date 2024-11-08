@@ -12,14 +12,17 @@ export default class HttpClient {
       },
       ...configs,
     });
-    // this.initInterceptors();
-    this.setAuthorizationToken(localStorage.getItem("token"));
   }
 
   setAuthorizationToken(token) {
     if (token) {
-      this.axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      this.axiosInstance.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${token}`;
+      console.log("token added");
+      console.log(this.axiosInstance.defaults.headers.common);
     } else {
+      console.log("token deleted");
       delete this.axiosInstance.defaults.headers.common["Authorization"];
     }
   }
@@ -42,6 +45,9 @@ export default class HttpClient {
 
   async request(config) {
     try {
+      console.log("request");
+      console.log(this.axiosInstance.defaults.headers.common);
+
       const response = await this.axiosInstance.request(config);
       return response.data;
     } catch (error) {
@@ -55,39 +61,4 @@ export default class HttpClient {
       return Promise.reject(error);
     }
   }
-
-  // initInterceptors() {
-  //   this.axiosInstance.interceptors.request.use(
-  //     (config) => {
-  //       const apiKey =
-  //         localStorage.getItem("apiKey") || "SrFeARsHHeiM2kaAABFGnnlk6Tgu4Wzt";
-
-  //       if (apiKey) {
-  //         config.params = { ...config.params, "api-key": apiKey };
-  //       }
-
-  //       return config;
-  //     },
-  //     (error) => {
-  //       console.error("Request failed with error", error);
-  //       return Promise.reject(error);
-  //     }
-  //   );
-
-  //   this.axiosInstance.interceptors.response.use(
-  //     (response) => response,
-  //     (error) => {
-  //       if (error.response && error.response.status === 401) {
-  //         console.error("Unauthorized request");
-
-  //         // 1. Redirect to login page
-  //         window.location.href = "/login?returnUrl=" + window.location.pathname;
-
-  //         // 2. Refresh token logic could be added here
-  //       }
-
-  //       return Promise.reject(error);
-  //     }
-  //   );
-  // }
 }

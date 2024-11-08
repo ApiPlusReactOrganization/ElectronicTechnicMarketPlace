@@ -26,7 +26,6 @@ export const AuthByToken = (token) => (dispatch) => {
   }
 };
 
-
 export const signUpUser = (model) => async (dispatch) => {
   try {
     const response = await UserService.signUp(model);

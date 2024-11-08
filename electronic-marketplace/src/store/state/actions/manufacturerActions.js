@@ -3,16 +3,16 @@ import {
   addManufacturer,
   getAll,
   deleteManufacturerReduser,
-  updateManufacturerReducer
+  updateManufacturerReducer,
 } from "../reduserSlises/manufacturerSlice";
-
-// const manufacturerService = new ManufacturerService();
 
 export const getManufacturers = () => async (dispatch) => {
   try {
-    // debugger
+    const token = localStorage.getItem("token");
+    ManufacturerService.setAuthorizationToken(token);
+
     const res = await ManufacturerService.getManufacturers();
-    // console.log("res", res);
+
     dispatch(getAll(res));
   } catch (error) {
     console.error("get Manufacturers failed", error);
@@ -53,4 +53,3 @@ export const updateManufacturer = (model) => async (dispatch) => {
     return { success: false, message: error.response.message };
   }
 };
-

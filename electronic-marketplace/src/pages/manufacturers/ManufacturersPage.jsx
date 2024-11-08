@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const ManufacturersPage = () => {
+  console.log("ManufacturersPage opened");
   const navigate = useNavigate();
   const { getManufacturers, createManufacturer, updateManufacturer, deleteManufacturer } = useActions();
   const { manufacturerList } = useSelector((state) => state.manufacturer);
@@ -17,11 +18,7 @@ const ManufacturersPage = () => {
   const [deleteId, setDeleteId] = useState(null);
 
   useEffect(() => {
-    debugger;
-    console.log("1", manufacturerList);
     getManufacturers();
-    console.log("2", manufacturerList);
-    debugger;
     if (!isAuth) {
       navigate("/");
     }

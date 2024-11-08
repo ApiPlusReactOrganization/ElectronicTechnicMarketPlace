@@ -5,6 +5,10 @@ export class ManufacturerService {
     baseURL: "http://localhost:5132/manufacturers",
   });
 
+  static setAuthorizationToken(token) {
+    this.httpClient.setAuthorizationToken(token);
+  }
+
   static async createManufacturer(name) {
     return await this.httpClient.post(
       "",

@@ -55,13 +55,19 @@ const Header = () => {
               </li>
               {role === "Administrator" &&
                 adminPages.map((page) => (
-                  <li className="nav-item">
+                  <li className="nav-item" key={page.path}>
                     <Link to={page.path}>{page.title}</Link>
                   </li>
                 ))}
-              
+
               {isAuth ? (
-                <a href="#" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" onClick={logoutHandler}>logout</a>
+                <a
+                  href="#"
+                  className="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                  onClick={logoutHandler}
+                >
+                  logout
+                </a>
               ) : (
                 <li className="nav-item">
                   <Link to="/login">Login</Link>
