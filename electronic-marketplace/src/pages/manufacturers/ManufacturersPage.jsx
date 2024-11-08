@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import useActions from "../../hooks/useActions";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Modal, Button, Table, Form } from "react-bootstrap";
 
 const ManufacturersPage = () => {
   const navigate = useNavigate();
@@ -18,11 +17,15 @@ const ManufacturersPage = () => {
   const [deleteId, setDeleteId] = useState(null);
 
   useEffect(() => {
+    debugger;
+    console.log("1", manufacturerList);
     getManufacturers();
+    console.log("2", manufacturerList);
+    debugger;
     if (!isAuth) {
       navigate("/");
     }
-  }, [isAuth, navigate]);
+  }, [isAuth]);
 
   const startAdd = () => {
     setFormValues({ name: "" });
@@ -81,10 +84,10 @@ const ManufacturersPage = () => {
   return (
     <div className="container my-3">
       <h1>Manufacturers</h1>
-      <Button variant="primary float-end mb-2" onClick={startAdd}>
+      <button className="btn btn-primary float-end mb-2" onClick={startAdd}>
         Add Manufacturer
-      </Button>
-      <Table striped bordered hover>
+      </button>
+      <table className="table table-striped table-bordered table-hover">
         <thead>
           <tr>
             <th>Id</th>
@@ -98,91 +101,109 @@ const ManufacturersPage = () => {
               <td>{manufacturer.id}</td>
               <td>{manufacturer.name}</td>
               <td>
-                <Button variant="warning" onClick={() => startEdit(manufacturer)}>
+                <button className="btn btn-warning me-2" onClick={() => startEdit(manufacturer)}>
                   Edit
-                </Button>{" "}
-                <Button variant="danger" onClick={() => confirmDelete(manufacturer.id)}>
+                </button>
+                <button className="btn btn-danger" onClick={() => confirmDelete(manufacturer.id)}>
                   Delete
-                </Button>
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
-      </Table>
+      </table>
 
       {/* Add Modal */}
-      <Modal show={showAddModal} onHide={cancelAdd}>
-        <Modal.Header closeButton>
-          <Modal.Title>Add Manufacturer</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="formAddManufacturerName">
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type="text"
-                name="name"
-                value={formValues.name}
-                onChange={handleChange}
-              />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={cancelAdd}>
-            Cancel
-          </Button>
-          <Button variant="primary" onClick={saveAdd}>
-            Add Manufacturer
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      {showAddModal && (
+        <div className="modal fade show d-block" tabIndex="-1" role="dialog">
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Add Manufacturer</h5>
+                <button type="button" className="btn-close" onClick={cancelAdd}>
+                </button>
+              </div>
+              <div className="modal-body">
+                <input
+                  type="text"
+                  name="name"
+                  value={formValues.name}
+                  onChange={handleChange}
+                  className="form-control"
+                  placeholder="Enter manufacturer name"
+                />
+              </div>
+              <div className="modal-footer">
+                <button className="btn btn-secondary" onClick={cancelAdd}>
+                  Cancel
+                </button>
+                <button className="btn btn-primary" onClick={saveAdd}>
+                  Add Manufacturer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Edit Modal */}
-      <Modal show={showEditModal} onHide={cancelEdit}>
-        <Modal.Header closeButton>
-          <Modal.Title>Edit Manufacturer</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="formEditManufacturerName">
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type="text"
-                name="name"
-                value={formValues.name}
-                onChange={handleChange}
-              />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={cancelEdit}>
-            Cancel
-          </Button>
-          <Button variant="primary" onClick={saveEdit}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      {showEditModal && (
+        <div className="modal fade show d-block" tabIndex="-1" role="dialog">
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Edit Manufacturer</h5>
+                <button type="button" className="btn-close" onClick={cancelEdit}>
+                </button>
+              </div>
+              <div className="modal-body">
+                <input
+                  type="text"
+                  name="name"
+                  value={formValues.name}
+                  onChange={handleChange}
+                  className="form-control"
+                />
+              </div>
+              <div className="modal-footer">
+                <button className="btn btn-secondary" onClick={cancelEdit}>
+                  Cancel
+                </button>
+                <button className="btn btn-primary" onClick={saveEdit}>
+                  Save Changes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Delete Confirmation Modal */}
-      <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Confirm Delete</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          Are you sure you want to delete this manufacturer?
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
-            Cancel
-          </Button>
-          <Button variant="danger" onClick={handleDelete}>
-            Delete
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      {showDeleteModal && (
+        <div className="modal fade show d-block" tabIndex="-1" role="dialog">
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Confirm Delete</h5>
+                <button type="button" className="btn-close" onClick={() => setShowDeleteModal(false)}>
+                  
+                </button>
+              </div>
+              <div className="modal-body">
+                Are you sure you want to delete this manufacturer?
+              </div>
+              <div className="modal-footer">
+                <button className="btn btn-secondary" onClick={() => setShowDeleteModal(false)}>
+                  Cancel
+                </button>
+                <button className="btn btn-danger" onClick={handleDelete}>
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
