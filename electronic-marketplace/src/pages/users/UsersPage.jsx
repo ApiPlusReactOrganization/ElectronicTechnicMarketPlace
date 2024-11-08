@@ -3,11 +3,11 @@ import useActions from "../../hooks/useActions";
 import { useSelector } from "react-redux";
 
 const UsersPage = () => {
-  const { signInUser } = useActions()
+  // const { signInUser } = useActions()
   const user = useSelector((state) => state.user.currentUser)
-  useEffect(() => {
-    signInUser();
-  }, []);
+  // useEffect(() => {
+  //   signInUser();
+  // }, []);
 
   return (
     <div>

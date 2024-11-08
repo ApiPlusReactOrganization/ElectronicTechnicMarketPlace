@@ -1,7 +1,23 @@
 import "./layout.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useActions from "../../hooks/useActions";
+import { useSelector } from "react-redux";
+
+const adminPages = [
+  { title: "Categories", path: "/categories" },
+  { title: "Manufacturers", path: "/manufacturers" },
+];
 
 const Header = () => {
+  const { isAuth, role } = useSelector((store) => store.user);
+  const { logoutUser } = useActions();
+  const navigate = useNavigate();
+
+  const logoutHandler = () => {
+    logoutUser();
+    navigate("/");
+  };
+
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-body-tertiary">
@@ -37,12 +53,26 @@ const Header = () => {
               <li className="nav-item">
                 <Link to="/users">Users</Link>
               </li>
-              <li className="nav-item">
-                <Link to="/categories">Categories</Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/manufacturers">Manufacturers</Link>
-              </li>
+              {role === "Administrator" &&
+                adminPages.map((page) => (
+                  <li className="nav-item" key={page.path}>
+                    <Link to={page.path}>{page.title}</Link>
+                  </li>
+                ))}
+
+              {isAuth ? (
+                <a
+                  href="#"
+                  className="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                  onClick={logoutHandler}
+                >
+                  logout
+                </a>
+              ) : (
+                <li className="nav-item">
+                  <Link to="/login">Login</Link>
+                </li>
+              )}
             </ul>
           </div>
           <div className="d-flex align-items-center">

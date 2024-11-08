@@ -1,17 +1,16 @@
-import { signIn, getAll, authUser } from "./../reduserSlises/userSlice";
+import { authUser, logout } from "./../reduserSlises/userSlice";
 import { UserService } from "../../../utils/services/UserService";
 import { jwtDecode } from "jwt-decode";
 
-// const userService = new UserService();
-
-export const signInUser = () => async (dispatch) => {
+export const signInUser = (model) => async (dispatch) => {
   try {
-    const res = await UserService.signIn();
-    console.log("res", res);
-    dispatch(signIn(res));
-    await AuthByToken(res.payload)(dispatch);
+    const response = await UserService.signIn(model);
+
+    await AuthByToken(response.payload)(dispatch);
+
+    return { success: true, message: response.message };
   } catch (error) {
-    console.error("Sign-in failed", error);
+    return { success: false, message: error.response.message };
   }
 };
 
@@ -25,4 +24,24 @@ export const AuthByToken = (token) => (dispatch) => {
     localStorage.removeItem("token");
     UserService.setAuthorizationToken(null);
   }
+};
+
+export const signUpUser = (model) => async (dispatch) => {
+  try {
+    const response = await UserService.signUp(model);
+
+    const token = response.payload;
+
+    await AuthByToken(token)(dispatch);
+
+    return { success: true, message: response.message };
+  } catch (error) {
+    return { success: false, message: error.response.message };
+  }
+};
+
+export const logoutUser = () => (dispatch) => {
+  localStorage.removeItem("token");
+  UserService.setAuthorizationToken(null);
+  dispatch(logout());
 };
