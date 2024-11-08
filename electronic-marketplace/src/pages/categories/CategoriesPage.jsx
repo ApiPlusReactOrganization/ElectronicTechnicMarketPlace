@@ -5,7 +5,7 @@ import { createSelector } from '@reduxjs/toolkit';
 
 
 const CategoriesPage = () => {
-  const { getCategories, createCategory } = useActions()
+  const { getCategories, createCategory } = useActions();
   // to hooks useSelector
   const categories = useSelector((state) => state.category.categoryList)
   useEffect(() => {

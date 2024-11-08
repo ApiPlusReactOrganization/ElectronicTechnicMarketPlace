@@ -12,7 +12,6 @@ export default class HttpClient {
       },
       ...configs,
     });
-
     // this.initInterceptors();
     this.setAuthorizationToken(localStorage.getItem("token"));
   }

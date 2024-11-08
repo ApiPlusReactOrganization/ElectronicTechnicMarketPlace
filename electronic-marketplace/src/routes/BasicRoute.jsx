@@ -7,6 +7,8 @@ import UsersPage from '../pages/users/UsersPage';
 import NotFoundPage from '../components/NotFoundPage';
 import CategoriesPage from '../pages/categories/CategoriesPage';
 import ManufacturersPage from '../pages/manufacturers/ManufacturersPage';
+import Register from '../pages/auth/register/Register';
+import Login from '../pages/auth/login/Login';
 
 const BasicRoute = () => {
   return (
@@ -18,6 +20,8 @@ const BasicRoute = () => {
           <Route path="/users" element={<UsersPage />} />
           <Route path="/categories" element={<CategoriesPage />} />
           <Route path="/manufacturers" element={<ManufacturersPage />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
