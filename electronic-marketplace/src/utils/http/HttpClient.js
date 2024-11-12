@@ -19,10 +19,7 @@ export default class HttpClient {
       this.axiosInstance.defaults.headers.common[
         "Authorization"
       ] = `Bearer ${token}`;
-      console.log("token added");
-      console.log(this.axiosInstance.defaults.headers.common);
     } else {
-      console.log("token deleted");
       delete this.axiosInstance.defaults.headers.common["Authorization"];
     }
   }
@@ -45,8 +42,6 @@ export default class HttpClient {
 
   async request(config) {
     try {
-      console.log("request");
-      console.log(this.axiosInstance.defaults.headers.common);
 
       const response = await this.axiosInstance.request(config);
       return response.data;

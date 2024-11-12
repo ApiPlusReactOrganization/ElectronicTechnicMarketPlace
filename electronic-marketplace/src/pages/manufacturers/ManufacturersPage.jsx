@@ -1,28 +1,21 @@
 import React, { useEffect, useState } from "react";
 import useActions from "../../hooks/useActions";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 
 const ManufacturersPage = () => {
-  console.log("ManufacturersPage opened");
-  const navigate = useNavigate();
   const { getManufacturers, createManufacturer, updateManufacturer, deleteManufacturer } = useActions();
   const { manufacturerList } = useSelector((state) => state.manufacturer);
-  const { isAuth } = useSelector((state) => state.user);
 
   const [editingId, setEditingId] = useState(null);
   const [formValues, setFormValues] = useState({ name: "" });
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
 
   useEffect(() => {
     getManufacturers();
-    if (!isAuth) {
-      navigate("/");
-    }
-  }, [isAuth]);
+  }, []);
 
   const startAdd = () => {
     setFormValues({ name: "" });
