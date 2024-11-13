@@ -43,7 +43,6 @@ export const deleteManufacturer = (id) => async (dispatch) => {
 
 export const updateManufacturer = (model) => async (dispatch) => {
   try {
-    console.log(model);
     const response = await ManufacturerService.updateManufacturer(model);
 
     dispatch(updateManufacturerReducer(response));

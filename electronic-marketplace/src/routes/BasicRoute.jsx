@@ -12,6 +12,8 @@ import Login from "../pages/auth/login/Login";
 import ProtectedRoute from "./ProtectedRoute";
 
 const BasicRoute = () => {
+  const { isAuth, role } = useSelector((state) => state.user);
+
   return (
     <BrowserRouter>
       <Routes>

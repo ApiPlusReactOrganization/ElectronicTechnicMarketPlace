@@ -2,27 +2,23 @@ import HttpClient from "../http/HttpClient";
 
 export class UserService {
   static httpClient = new HttpClient({
-    baseURL: "http://localhost:5132/Account",
+    baseURL: "http://localhost:5132/Users",
   });
 
   static setAuthorizationToken(token) {
     this.httpClient.setAuthorizationToken(token);
   }
 
-  static async signIn(model) {
-    const admin = {
-      email: "admin@example.com",
-      password: "123456",
-    };
-
-    return await this.httpClient.post("signin", model);
-  }
-
-  static async signUp(model) {
-    return await this.httpClient.post("signup", model);
-  }
-
   static async getUsers() {
-    return await this.httpClient.get("User", { withCredentials: true });
+    this.setAuthorizationToken(localStorage.getItem("token"));
+    return await this.httpClient.get("");
+  }
+
+  static async delete(userId) {
+    return await this.httpClient.delete(`${userId}`);
+  }
+
+  static async changeRoles(userId, roles) {
+    return await this.httpClient.post(`UpdateRoles/${userId}`, roles);
   }
 }
