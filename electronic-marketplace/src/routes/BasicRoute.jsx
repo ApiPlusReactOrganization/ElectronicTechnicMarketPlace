@@ -12,15 +12,20 @@ import Login from "../pages/auth/login/Login";
 import ProtectedRoute from "./ProtectedRoute";
 
 const BasicRoute = () => {
-  const { isAuth, role } = useSelector((state) => state.user);
-
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
           <Route path="/electronicItem" element={<ElectronicItemPage />} />
-          <Route path="/users" element={<UsersPage />} />
+          <Route
+            path="/users"
+            element={
+              <ProtectedRoute allowedRoles={["Administrator"]}>
+                <UsersPage />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/categories"
             element={

@@ -14,13 +14,12 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
     }
   }, [user, navigate]);
 
+  const userRoles = user ? (Array.isArray(user.role) ? user.role : [user.role]) : [];
+  const isAuthorized = allowedRoles.some(role => userRoles.includes(role));
+
   return (
     <>
-      {allowedRoles?.includes(user?.role ?? "") ? (
-        children
-      ) : (
-        <ErrorMessage error="Unauthorized user" />
-      )}
+      {isAuthorized ? children : <ErrorMessage error="Unauthorized user" />}
     </>
   );
 };

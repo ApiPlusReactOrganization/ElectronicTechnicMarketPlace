@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 const adminPages = [
   { title: "Categories", path: "/categories" },
   { title: "Manufacturers", path: "/manufacturers" },
+  { title: "Users", path: "/users" },
 ];
 
 const Header = () => {
@@ -49,29 +50,6 @@ const Header = () => {
               <li className="nav-item">
                 <Link to="/electronicItem">Electronic Item</Link>
               </li>
-              <li className="nav-item">
-                <Link to="/users">Users</Link>
-              </li>
-              {/* {role === "Administrator" &&
-                adminPages.map((page) => (
-                  <li className="nav-item" key={page.path}>
-                    <Link to={page.path}>{page.title}</Link>
-                  </li>
-                ))}
-
-              {isAuth ? (
-                <a
-                  href="#"
-                  className="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                  onClick={logoutHandler}
-                >
-                  logout
-                </a>
-              ) : (
-                <li className="nav-item">
-                  <Link to="/login">Login</Link>
-                </li>
-              )} */}
             </ul>
           </div>
           <div className="d-flex align-items-center">
@@ -79,7 +57,7 @@ const Header = () => {
               <i className="fas fa-shopping-cart"></i>
             </a>
 
-            {role === "Administrator" && (
+            {(Array.isArray(role) ? role.includes("Administrator") : role === "Administrator") && (
               <div className="dropdown">
                 <a
                   className="text-reset me-3 dropdown-toggle hidden-arrow"

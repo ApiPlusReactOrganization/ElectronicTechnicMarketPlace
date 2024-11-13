@@ -8,15 +8,14 @@ import { AuthService } from "../../../utils/services/AuthService";
 import { UserService } from "../../../utils/services/UserService";
 import { jwtDecode } from "jwt-decode";
 
+
 export const signInUser = (model) => async (dispatch) => {
   try {
     const response = await AuthService.signIn(model);
-
     await AuthByToken(response.payload)(dispatch);
-
     return { success: true, message: response.message };
-  } catch (error) {
-    return { success: false, message: error.response.message };
+  } catch (error) {    
+    return { success: false, message: error.response.data };
   }
 };
 
