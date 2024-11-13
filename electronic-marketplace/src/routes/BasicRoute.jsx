@@ -9,7 +9,7 @@ import CategoriesPage from "../pages/categories/CategoriesPage";
 import ManufacturersPage from "../pages/manufacturers/ManufacturersPage";
 import Register from "../pages/auth/register/Register";
 import Login from "../pages/auth/login/Login";
-import { useSelector } from "react-redux";
+import ProtectedRoute from "./ProtectedRoute";
 
 const BasicRoute = () => {
   const { isAuth, role } = useSelector((state) => state.user);
@@ -19,15 +19,24 @@ const BasicRoute = () => {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
-          {role == "Administrator" && isAuth && (
-            <>
-              <Route path="/electronicItem" element={<ElectronicItemPage />} />
-              <Route path="/users" element={<UsersPage />} />
-              <Route path="/categories" element={<CategoriesPage />} />
-              <Route path="/manufacturers" element={<ManufacturersPage />} />
-            </>
-          )}
-
+          <Route path="/electronicItem" element={<ElectronicItemPage />} />
+          <Route path="/users" element={<UsersPage />} />
+          <Route
+            path="/categories"
+            element={
+              <ProtectedRoute allowedRoles={["Administrator"]}>
+                <CategoriesPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/manufacturers"
+            element={
+              <ProtectedRoute allowedRoles={["Administrator"]}>
+                <ManufacturersPage />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="*" element={<NotFoundPage />} />
