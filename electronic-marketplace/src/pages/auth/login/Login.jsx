@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import useActions from "../../../hooks/useActions";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -42,9 +43,9 @@ const Login = () => {
     if (validate()) {
       const response = await signInUser(formValues);
       if (!response.success) {
-        alert(response.message);
+        toast.error(response.message);
       } else {
-        alert(response.message);
+        toast.success(response.message);
         navigate("/");
       }
     }
