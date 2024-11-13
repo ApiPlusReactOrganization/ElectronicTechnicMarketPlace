@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import useActions from "../../hooks/useActions";
 import { useSelector } from "react-redux";
 import { TextField, Autocomplete } from "@mui/material";
+import { toast } from "react-toastify";
 
 const UsersPage = () => {
   const { userList, roleList } = useSelector((state) => state.user);
@@ -9,17 +10,21 @@ const UsersPage = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
 
-  useEffect(() =>  {
+  useEffect(() => {
     getUsers();
     getRoles();
   }, []);
 
   const handleRoleChange = async (userId, newRoles) => {
     const roles = newRoles.map((role) => ({ name: role.name }));
-    await changeRoles(userId, roles);
+    const result = await changeRoles(userId, roles);
 
-    getUsers();
-    getRoles();
+    if (result.success) {
+      getUsers();
+      getRoles();
+    } else {
+      toast.error(result.message);
+    }
   };
 
   const confirmDelete = (id) => {
@@ -57,7 +62,9 @@ const UsersPage = () => {
                   size="small"
                   options={roleList}
                   value={user?.roles}
-                  onChange={(event, newRoles) => handleRoleChange(user.id, newRoles)}
+                  onChange={(event, newRoles) =>
+                    handleRoleChange(user.id, newRoles)
+                  }
                   getOptionLabel={(option) => option.name}
                   renderInput={(params) => (
                     <TextField {...params} label="Roles" placeholder="Choose" />

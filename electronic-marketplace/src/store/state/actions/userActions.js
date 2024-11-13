@@ -79,9 +79,14 @@ export const deleteUser = (userId) => async (dispatch) => {
 export const changeRoles = (userId, roles) => async (dispatch) => {
   try {
     const response = await UserService.changeRoles(userId, roles);
+    console.log(response);
 
-    return { success: true, message: "change users roles success" };
+    return { success: true, message: "User roles updated successfully" };
   } catch (error) {
-    return { success: false, message: "change users roles error" };
+    console.log(error);
+    const errorMessage = error.response?.data?.errors || "An error occurred during role change";
+    return { success: false, message: errorMessage };
   }
 };
+
+
