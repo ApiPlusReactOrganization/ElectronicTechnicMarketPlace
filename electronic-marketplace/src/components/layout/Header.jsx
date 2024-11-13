@@ -12,7 +12,6 @@ const Header = () => {
   const { isAuth, role } = useSelector((store) => store.user);
   const { logoutUser } = useActions();
   const navigate = useNavigate();
-
   const logoutHandler = () => {
     logoutUser();
     navigate("/");
@@ -53,7 +52,7 @@ const Header = () => {
               <li className="nav-item">
                 <Link to="/users">Users</Link>
               </li>
-              {role === "Administrator" &&
+              {/* {role === "Administrator" &&
                 adminPages.map((page) => (
                   <li className="nav-item" key={page.path}>
                     <Link to={page.path}>{page.title}</Link>
@@ -72,7 +71,7 @@ const Header = () => {
                 <li className="nav-item">
                   <Link to="/login">Login</Link>
                 </li>
-              )}
+              )} */}
             </ul>
           </div>
           <div className="d-flex align-items-center">
@@ -80,79 +79,85 @@ const Header = () => {
               <i className="fas fa-shopping-cart"></i>
             </a>
 
-            <div className="dropdown">
-              <a
-                data-mdb-dropdown-init
-                className="text-reset me-3 dropdown-toggle hidden-arrow"
-                href="#"
-                id="navbarDropdownMenuLink"
-                role="button"
-                aria-expanded="false"
-              >
-                <i className="fas fa-bell"></i>
-                <span className="badge rounded-pill badge-notification bg-danger">
-                  1
-                </span>
-              </a>
-              <ul
-                className="dropdown-menu dropdown-menu-end"
-                aria-labelledby="navbarDropdownMenuLink"
-              >
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Some news
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Another news
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Something else here
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div className="dropdown">
-              <a
-                data-mdb-dropdown-init
-                className="dropdown-toggle d-flex align-items-center hidden-arrow"
-                href="#"
-                id="navbarDropdownMenuAvatar"
-                role="button"
-                aria-expanded="false"
-              >
-                <img
-                  src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
-                  className="rounded-circle"
-                  height="25"
-                  alt="Black and White Portrait of a Man"
-                  loading="lazy"
-                />
-              </a>
-              <ul
-                className="dropdown-menu dropdown-menu-end"
-                aria-labelledby="navbarDropdownMenuAvatar"
-              >
-                <li>
-                  <a className="dropdown-item" href="#">
-                    My profile
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Settings
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Logout
-                  </a>
-                </li>
-              </ul>
-            </div>
+            {role === "Administrator" && (
+              <div className="dropdown">
+                <a
+                  className="text-reset me-3 dropdown-toggle hidden-arrow"
+                  href="#"
+                  id="navbarDropdownMenuLink"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <i className="fas fa-bell"></i>
+                  <span className="badge rounded-pill badge-notification bg-danger">
+                    Admin
+                  </span>
+                </a>
+                <ul
+                  className="dropdown-menu dropdown-menu-end"
+                  aria-labelledby="navbarDropdownMenuLink"
+                >
+                  {adminPages.map((page) => (
+                    <li key={page.path}>
+                      <Link className="dropdown-item" to={page.path}>
+                        {page.title}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {isAuth ? (
+              <div className="dropdown">
+                <a
+                  className="dropdown-toggle d-flex align-items-center hidden-arrow"
+                  href="#"
+                  id="navbarDropdownMenuAvatar"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <img
+                    src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
+                    className="rounded-circle"
+                    height="25"
+                    alt="User Avatar"
+                    loading="lazy"
+                  />
+                </a>
+                <ul
+                  className="dropdown-menu dropdown-menu-end"
+                  aria-labelledby="navbarDropdownMenuAvatar"
+                >
+                  <li>
+                    <Link className="dropdown-item" to="/profile">
+                      My Profile
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to="/settings">
+                      Settings
+                    </Link>
+                  </li>
+                  <li>
+                    <button className="dropdown-item" onClick={logoutHandler}>
+                      Logout
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            ) : (
+              <div className="d-flex gap-3">
+                <Link to="/login" className="btn btn-outline-primary">
+                  Login
+                </Link>
+                <Link to="/register" className="btn btn-primary">
+                  Register
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </nav>
