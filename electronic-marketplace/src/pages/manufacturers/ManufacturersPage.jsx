@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
 import useActions from "../../hooks/useActions";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const ManufacturersPage = () => {
-  const { getManufacturers, createManufacturer, updateManufacturer, deleteManufacturer } = useActions();
+  const {
+    getManufacturers,
+    createManufacturer,
+    updateManufacturer,
+    deleteManufacturer,
+  } = useActions();
   const { manufacturerList } = useSelector((state) => state.manufacturer);
 
   const [editingId, setEditingId] = useState(null);
@@ -58,9 +64,16 @@ const ManufacturersPage = () => {
   };
 
   const handleDelete = async () => {
-    await deleteManufacturer(deleteId);
-    setShowDeleteModal(false);
-    setDeleteId(null);
+    const result = await deleteManufacturer(deleteId);
+
+    console.log(result);
+
+    if (result.success) {
+      setShowDeleteModal(false);
+      setDeleteId(null);
+    } else {
+      toast.error(result.message);
+    }
   };
 
   const handleChange = (e) => {
@@ -91,10 +104,16 @@ const ManufacturersPage = () => {
               <td>{manufacturer.id}</td>
               <td>{manufacturer.name}</td>
               <td>
-                <button className="btn btn-warning me-2" onClick={() => startEdit(manufacturer)}>
+                <button
+                  className="btn btn-warning me-2"
+                  onClick={() => startEdit(manufacturer)}
+                >
                   Edit
                 </button>
-                <button className="btn btn-danger" onClick={() => confirmDelete(manufacturer.id)}>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => confirmDelete(manufacturer.id)}
+                >
                   Delete
                 </button>
               </td>
@@ -110,8 +129,11 @@ const ManufacturersPage = () => {
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">Add Manufacturer</h5>
-                <button type="button" className="btn-close" onClick={cancelAdd}>
-                </button>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={cancelAdd}
+                ></button>
               </div>
               <div className="modal-body">
                 <input
@@ -143,8 +165,11 @@ const ManufacturersPage = () => {
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">Edit Manufacturer</h5>
-                <button type="button" className="btn-close" onClick={cancelEdit}>
-                </button>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={cancelEdit}
+                ></button>
               </div>
               <div className="modal-body">
                 <input
@@ -175,15 +200,20 @@ const ManufacturersPage = () => {
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">Confirm Delete</h5>
-                <button type="button" className="btn-close" onClick={() => setShowDeleteModal(false)}>
-                  
-                </button>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={() => setShowDeleteModal(false)}
+                ></button>
               </div>
               <div className="modal-body">
                 Are you sure you want to delete this manufacturer?
               </div>
               <div className="modal-footer">
-                <button className="btn btn-secondary" onClick={() => setShowDeleteModal(false)}>
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => setShowDeleteModal(false)}
+                >
                   Cancel
                 </button>
                 <button className="btn btn-danger" onClick={handleDelete}>

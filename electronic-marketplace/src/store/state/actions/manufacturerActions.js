@@ -6,6 +6,7 @@ import {
   updateManufacturerReducer,
 } from "../reduserSlises/manufacturerSlice";
 
+
 export const getManufacturers = () => async (dispatch) => {
   try {
     const token = localStorage.getItem("token");
@@ -35,9 +36,10 @@ export const deleteManufacturer = (id) => async (dispatch) => {
 
     dispatch(deleteManufacturerReduser(response));
 
-    return { success: true, message: response.message };
+    return { success: true, message: response };
   } catch (error) {
-    return { success: false, message: error.response.message };
+    console.log(error.response.data)
+    return { success: false, message: error.response.data };
   }
 };
 
