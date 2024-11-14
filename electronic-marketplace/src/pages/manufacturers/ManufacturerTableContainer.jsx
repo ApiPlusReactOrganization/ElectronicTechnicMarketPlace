@@ -1,55 +1,61 @@
-import React, { useEffect, useState } from 'react';
-import useActions from '../../hooks/useActions';
-import { useSelector } from 'react-redux';
-import ManufacturersTable from './ManufacturersTable';
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import React, { useEffect, useState, useCallback } from 'react'
+import useActions from '../../hooks/useActions'
+import { useSelector } from 'react-redux'
+import ManufacturersTable from './ManufacturersTable'
+import Modal from 'react-bootstrap/Modal'
+import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
+import { useRenderCount } from '../../hooks/useRenderCount'
 
 const ManufacturerTableContainer = () => {
-  const { getManufacturers, createManufacturer, updateManufacturer, deleteManufacturer } = useActions();
-  const { manufacturerList } = useSelector((state) => state.manufacturer);
+  const {
+    getManufacturers,
+    createManufacturer,
+    updateManufacturer,
+    deleteManufacturer,
+  } = useActions()
+  const { manufacturerList } = useSelector((state) => state.manufacturer)
 
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [newManufacturerName, setNewManufacturerName] = useState('');
-  const [selectedManufacturerId, setSelectedManufacturerId] = useState(null);
+  const [showAddModal, setShowAddModal] = useState(false)
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [newManufacturerName, setNewManufacturerName] = useState('')
+  const [selectedManufacturerId, setSelectedManufacturerId] = useState(null)
+  const renderCount = useRenderCount()
 
+  // Використовуємо useEffect для ініціалізації списку виробників
   useEffect(() => {
-    getManufacturers();
-  }, [getManufacturers]);
+    getManufacturers()
+  }, [getManufacturers])
 
-  // Логіка додавання
-  const handleAddManufacturer = async () => {
+  const handleAddManufacturer = useCallback(async () => {
     if (newManufacturerName.trim() !== '') {
-      await createManufacturer(newManufacturerName);
-      setNewManufacturerName('');
-      setShowAddModal(false);
+      await createManufacturer(newManufacturerName)
+      setNewManufacturerName('')
+      setShowAddModal(false)
     }
-  };
+  }, [newManufacturerName, createManufacturer])
 
-  // Логіка видалення
-  const handleDeleteManufacturer = async () => {
+  const handleDeleteManufacturer = useCallback(async () => {
     if (selectedManufacturerId) {
-      await deleteManufacturer(selectedManufacturerId);
-      setSelectedManufacturerId(null);
-      setShowDeleteModal(false);
+      await deleteManufacturer(selectedManufacturerId)
+      setSelectedManufacturerId(null)
+      setShowDeleteModal(false)
     }
-  };
+  }, [selectedManufacturerId, deleteManufacturer])
 
-  // Відкриття модального вікна додавання
-  const openAddModal = () => {
-    setShowAddModal(true);
-  };
+  const openAddModal = useCallback(() => {
+    setShowAddModal(true)
+  }, [])
 
-  // Відкриття модального вікна видалення
-  const openDeleteModal = (id) => {
-    setSelectedManufacturerId(id);
-    setShowDeleteModal(true);
-  };
+  const openDeleteModal = useCallback((id) => {
+    setSelectedManufacturerId(id)
+    setShowDeleteModal(true)
+  }, [])
 
   return (
     <>
+      {/* <h5>TodoTableContainer render count: {renderCount}</h5> */}
+
       <Button variant="primary" onClick={openAddModal} className="mb-3">
         Add Manufacturer
       </Button>
@@ -60,7 +66,6 @@ const ManufacturerTableContainer = () => {
         onDelete={openDeleteModal}
       />
 
-      {/* Модальне вікно додавання виробника */}
       <Modal show={showAddModal} onHide={() => setShowAddModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Add New Manufacturer</Modal.Title>
@@ -86,7 +91,6 @@ const ManufacturerTableContainer = () => {
         </Modal.Footer>
       </Modal>
 
-      {/* Модальне вікно підтвердження видалення */}
       <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Confirm Deletion</Modal.Title>
@@ -104,7 +108,7 @@ const ManufacturerTableContainer = () => {
         </Modal.Footer>
       </Modal>
     </>
-  );
-};
+  )
+}
 
-export default ManufacturerTableContainer;
+export default ManufacturerTableContainer
