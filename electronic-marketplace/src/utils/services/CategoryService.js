@@ -18,6 +18,14 @@ export class CategoryService {
   }
 
   static async getCategories() {
-    return await this.httpClient.get("", { withCredentials: true });
+    return await this.httpClient.get("");
+  }
+
+  static async deleteCategory(id) {  // Змінили тут
+    return await this.httpClient.delete(`${id}`);
+  }
+
+  static async updateCategory(model) {  // Змінили тут
+    return await this.httpClient.put("", model);
   }
 }
