@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useCallback } from 'react'
-import useActions from '../../hooks/useActions'
-import { useSelector } from 'react-redux'
-import ManufacturersTable from './ManufacturersTable'
-import Modal from 'react-bootstrap/Modal'
-import Button from 'react-bootstrap/Button'
-import Form from 'react-bootstrap/Form'
-import { useRenderCount } from '../../hooks/useRenderCount'
+import React, { useEffect, useState, useCallback } from "react";
+import useActions from "../../hooks/useActions";
+import { useSelector } from "react-redux";
+import ManufacturersTable from "./ManufacturersTable";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import { toast } from "react-toastify";
 
 const ManufacturerTableContainer = () => {
   const {
@@ -13,44 +13,49 @@ const ManufacturerTableContainer = () => {
     createManufacturer,
     updateManufacturer,
     deleteManufacturer,
-  } = useActions()
-  const { manufacturerList } = useSelector((state) => state.manufacturer)
+  } = useActions();
+  const { manufacturerList } = useSelector((state) => state.manufacturer);
 
-  const [showAddModal, setShowAddModal] = useState(false)
-  const [showDeleteModal, setShowDeleteModal] = useState(false)
-  const [newManufacturerName, setNewManufacturerName] = useState('')
-  const [selectedManufacturerId, setSelectedManufacturerId] = useState(null)
-  const renderCount = useRenderCount()
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [newManufacturerName, setNewManufacturerName] = useState("");
+  const [selectedManufacturerId, setSelectedManufacturerId] = useState(null);
 
   // Використовуємо useEffect для ініціалізації списку виробників
   useEffect(() => {
-    getManufacturers()
-  }, [getManufacturers])
+    getManufacturers();
+  }, []);
 
   const handleAddManufacturer = useCallback(async () => {
-    if (newManufacturerName.trim() !== '') {
-      await createManufacturer(newManufacturerName)
-      setNewManufacturerName('')
-      setShowAddModal(false)
+    const result = await createManufacturer(newManufacturerName);
+
+    if (result.success) {
+      setNewManufacturerName("");
+      setShowAddModal(false);
+    } else {
+      toast.error(result.message);
     }
-  }, [newManufacturerName, createManufacturer])
+  }, [newManufacturerName, createManufacturer]);
 
   const handleDeleteManufacturer = useCallback(async () => {
-    if (selectedManufacturerId) {
-      await deleteManufacturer(selectedManufacturerId)
-      setSelectedManufacturerId(null)
-      setShowDeleteModal(false)
+    const result = await deleteManufacturer(selectedManufacturerId);
+
+    if (result.success) {
+      setSelectedManufacturerId(null);
+      setShowDeleteModal(false);
+    } else {
+      toast.error(result.message);
     }
-  }, [selectedManufacturerId, deleteManufacturer])
+  }, [selectedManufacturerId, deleteManufacturer]);
 
   const openAddModal = useCallback(() => {
-    setShowAddModal(true)
-  }, [])
+    setShowAddModal(true);
+  }, []);
 
   const openDeleteModal = useCallback((id) => {
-    setSelectedManufacturerId(id)
-    setShowDeleteModal(true)
-  }, [])
+    setSelectedManufacturerId(id);
+    setShowDeleteModal(true);
+  }, []);
 
   return (
     <>
@@ -108,7 +113,7 @@ const ManufacturerTableContainer = () => {
         </Modal.Footer>
       </Modal>
     </>
-  )
-}
+  );
+};
 
-export default ManufacturerTableContainer
+export default ManufacturerTableContainer;

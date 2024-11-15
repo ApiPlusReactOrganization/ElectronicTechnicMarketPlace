@@ -1,17 +1,23 @@
-import React, { useCallback } from 'react'
-import ManufacturerTableRow from './ManufacturerTableRow'
-import { isEqual } from 'lodash'
-import { useRenderCount } from '../../hooks/useRenderCount'
+import React, { useCallback } from "react";
+import ManufacturerTableRow from "./ManufacturerTableRow";
+import { isEqual } from "lodash";
+import { useRenderCount } from "../../hooks/useRenderCount";
+import { toast } from "react-toastify";
 
 const ManufacturersTable = ({ manufacturerList, onEdit, onDelete }) => {
   const memoizedOnEdit = useCallback(
-    (manufacturer) => onEdit(manufacturer),
+    async (manufacturer) =>  {
+      const result = await onEdit(manufacturer);
+      if (!result.success) {
+        toast.error(result.message);
+      }
+    },
     [onEdit]
-  )
+  );
 
-  const memoizedOnDelete = useCallback((id) => onDelete(id), [onDelete])
+  const memoizedOnDelete = useCallback((id) => onDelete(id), [onDelete]);
 
-  const renderCount = useRenderCount()
+  const renderCount = useRenderCount();
 
   return (
     <>
@@ -36,9 +42,9 @@ const ManufacturersTable = ({ manufacturerList, onEdit, onDelete }) => {
       </table>
       <h5>TodoTable render count: {renderCount}</h5>
     </>
-  )
-}
+  );
+};
 
 export default React.memo(ManufacturersTable, (prevProps, nextProps) => {
-  return isEqual(prevProps.manufacturerList, nextProps.manufacturerList)
-})
+  return isEqual(prevProps.manufacturerList, nextProps.manufacturerList);
+});
