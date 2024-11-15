@@ -46,6 +46,7 @@ const UsersPage = () => {
           <tr>
             <th>Id</th>
             <th>Name</th>
+            <th>Email</th>
             <th>Roles</th>
             <th>Actions</th>
           </tr>
@@ -55,6 +56,7 @@ const UsersPage = () => {
             <tr key={user.id}>
               <td>{user.id}</td>
               <td>{user.name}</td>
+              <td>{user.email}</td>
               <td>
                 <Autocomplete
                   multiple

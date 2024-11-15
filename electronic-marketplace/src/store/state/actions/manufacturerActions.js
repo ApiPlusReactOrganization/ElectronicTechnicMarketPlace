@@ -6,6 +6,7 @@ import {
   updateManufacturerReducer,
 } from "../reduserSlises/manufacturerSlice";
 
+
 export const getManufacturers = () => async (dispatch) => {
   try {
     const token = localStorage.getItem("token");
@@ -24,8 +25,10 @@ export const createManufacturer = (name) => async (dispatch) => {
     const res = await ManufacturerService.createManufacturer(name);
 
     dispatch(addManufacturer(res));
+    return { success: true, message: "User roles updated successfully" };
   } catch (error) {
-    console.error("get Manufacturers failed", error);
+    const errorMessage = error.response?.data?.errors.Name[0] || "An error occurred during role change";
+    return { success: false, message: errorMessage };
   }
 };
 
@@ -35,9 +38,10 @@ export const deleteManufacturer = (id) => async (dispatch) => {
 
     dispatch(deleteManufacturerReduser(response));
 
-    return { success: true, message: response.message };
+    return { success: true, message: response };
   } catch (error) {
-    return { success: false, message: error.response.message };
+    console.log(error.response.data)
+    return { success: false, message: error.response.data };
   }
 };
 
@@ -47,8 +51,9 @@ export const updateManufacturer = (model) => async (dispatch) => {
 
     dispatch(updateManufacturerReducer(response));
 
-    return { success: true, message: response.message };
+    return { success: true, message: "User roles updated successfully" };
   } catch (error) {
-    return { success: false, message: error.response.message };
+    const errorMessage = error.response?.data?.errors.Name[0] || "An error occurred during role change";
+    return { success: false, message: errorMessage };
   }
 };
