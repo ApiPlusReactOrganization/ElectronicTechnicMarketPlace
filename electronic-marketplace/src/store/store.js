@@ -1,4 +1,4 @@
-import {  combineReducers, configureStore } from '@reduxjs/toolkit'
+import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import userReducer from '../store/state/reduserSlises/userSlice'
 import categoryReducer from '../store/state/reduserSlises/categorySlice'
 import { thunk } from 'redux-thunk';
