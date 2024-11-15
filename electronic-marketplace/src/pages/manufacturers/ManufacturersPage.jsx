@@ -34,9 +34,14 @@ const ManufacturersPage = () => {
   };
 
   const saveAdd = async () => {
-    await createManufacturer(formValues.name);
-    setFormValues({ name: "" });
-    setShowAddModal(false);
+    const result = await createManufacturer(formValues.name);
+
+    if (result.success) {
+      setFormValues({ name: "" });
+      setShowAddModal(false);
+    } else {
+      toast.error(result.message);
+    }
   };
 
   const startEdit = (manufacturer) => {
@@ -52,10 +57,18 @@ const ManufacturersPage = () => {
   };
 
   const saveEdit = async () => {
-    await updateManufacturer({ id: editingId, name: formValues.name });
-    setEditingId(null);
-    setFormValues({ name: "" });
-    setShowEditModal(false);
+    const result = await updateManufacturer({
+      id: editingId,
+      name: formValues.name,
+    });
+
+    if (result.success) {
+      setEditingId(null);
+      setFormValues({ name: "" });
+      setShowEditModal(false);
+    } else {
+      toast.error(result.message);
+    }
   };
 
   const confirmDelete = (id) => {
