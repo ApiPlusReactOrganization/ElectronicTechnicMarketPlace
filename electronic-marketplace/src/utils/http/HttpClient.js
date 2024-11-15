@@ -42,7 +42,6 @@ export default class HttpClient {
 
   async request(config) {
     try {
-      
       const response = await this.axiosInstance.request(config);
       return response.data;
     } catch (error) {

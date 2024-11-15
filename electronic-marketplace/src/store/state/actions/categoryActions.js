@@ -12,7 +12,6 @@ export const getCategories = () => async (dispatch) => {
     CategoryService.setAuthorizationToken(token);
 
     const res = await CategoryService.getCategories();
-
     dispatch(getAll(res));
   } catch (error) {
     console.error("Get Categories failed", error);
@@ -22,7 +21,6 @@ export const getCategories = () => async (dispatch) => {
 export const createCategory = (name) => async (dispatch) => {
   try {
     const res = await CategoryService.createCategory(name);
-
     dispatch(addCategory(res));
   } catch (error) {
     console.error("Create Category failed", error);
