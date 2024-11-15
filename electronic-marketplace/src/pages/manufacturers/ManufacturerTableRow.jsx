@@ -43,16 +43,16 @@ const ManufacturerTableRow = React.memo(
         </td>
         <td>
           {isEditing ? (
-            <>
+            <div className='d-flex gap-3 justify-content-center'>
               <button className="btn btn-secondary" onClick={handleCancel}>
                 Cancel
               </button>
               <button className="btn btn-primary" onClick={handleSave}>
                 Save
               </button>
-            </>
+            </div>
           ) : (
-            <>
+            <div className='d-flex gap-3 justify-content-center'>
               <button className="btn btn-warning" onClick={handleEditClick}>
                 Edit
               </button>
@@ -62,7 +62,7 @@ const ManufacturerTableRow = React.memo(
               >
                 Delete
               </button>
-            </>
+            </div>
           )}
         </td>
         <td>
