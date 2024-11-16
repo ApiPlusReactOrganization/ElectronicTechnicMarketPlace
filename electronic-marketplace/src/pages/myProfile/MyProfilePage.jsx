@@ -1,4 +1,3 @@
-import { TextField, Box, Button } from "@mui/material";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import useActions from "../../hooks/useActions";
@@ -61,7 +60,7 @@ const MyProfilePage = () => {
 
   return (
     <div className="d-flex gap-3 my-3 justify-content-between align-items-center">
-      <div className="d-flex gap-3 flex-column align-items-center">
+      <div className="d-flex flex-column align-items-center">
         <img
           src={userImage(currentUser?.image)}
           className="rounded-circle"
@@ -70,10 +69,10 @@ const MyProfilePage = () => {
           alt="User Avatar"
           loading="lazy"
         />
-        <div className="d-flex gap-3 align-items-center">
+        <div className="d-flex gap-3 align-items-center mt-3">
           <input
-            className="form-control"
             type="file"
+            className="form-control"
             id="formFile"
             onChange={handleFileChange}
             accept="image/png, image/jpeg, image/gif"
@@ -88,30 +87,33 @@ const MyProfilePage = () => {
           </button>
         </div>
       </div>
-      <div>
-        <Box
-          component="form"
-          sx={{ "& .MuiTextField-root": { m: 1, width: "25ch" } }}
-          noValidate
-          autoComplete="off"
-        >
-          <TextField
-            id="name"
-            name="name"
-            label="Name"
-            variant="filled"
-            value={formData.name}
-            onChange={handleInputChange}
-          />
-          <TextField
-            id="email"
-            name="email"
-            label="Email"
-            variant="filled"
-            value={formData.email}
-            onChange={handleInputChange}
-          />
-        </Box>
+
+      <div className="w-50">
+        <form>
+          <div className="input-group mb-3">
+            <span className="input-group-text">Username</span>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              className="form-control"
+              value={formData.name}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="input-group mb-3">
+          <span className="input-group-text">Email</span>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              className="form-control"
+              value={formData.email}
+              onChange={handleInputChange}
+            />
+          <span class="input-group-text" id="basic-addon2">@example.com</span>
+          </div>
+        </form>
         <button
           type="button"
           className="btn btn-primary float-end"
@@ -125,4 +127,3 @@ const MyProfilePage = () => {
 };
 
 export default MyProfilePage;
-
