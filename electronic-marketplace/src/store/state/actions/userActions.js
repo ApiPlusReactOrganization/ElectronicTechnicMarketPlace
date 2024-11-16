@@ -88,3 +88,16 @@ export const changeRoles = (userId, roles) => async (dispatch) => {
     return { success: false, message: errorMessage };
   }
 };
+
+export const uploadImage = (userId, file) => async (dispatch) => {
+  try {
+    const response = await UserService.uploadImage(userId, file);
+
+    await AuthByToken(response.payload)(dispatch);
+
+    return { success: true, message: response.message };
+  } catch (error) {
+    const errorMessage = error.response?.data;
+    return { success: false, message: errorMessage };
+  }
+};

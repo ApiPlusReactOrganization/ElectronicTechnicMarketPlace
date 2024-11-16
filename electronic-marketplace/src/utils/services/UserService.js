@@ -21,4 +21,12 @@ export class UserService {
   static async changeRoles(userId, roles) {
     return await this.httpClient.put(`UpdateRoles/${userId}`, roles);
   }
+
+  static async uploadImage(userId, file) {
+    return await this.httpClient.put(`Image/${userId}`, file, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  }
 }

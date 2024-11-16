@@ -113,11 +113,16 @@ const Header = () => {
                   className="dropdown-menu dropdown-menu-end"
                   aria-labelledby="navbarDropdownMenuAvatar"
                 >
-                  <li>
-                    <Link className="dropdown-item" to="/profile">
-                      My Profile
-                    </Link>
-                  </li>
+                  {(Array.isArray(role)
+                    ? role.includes("User")
+                    : role === "User") && (
+                    <li>
+                      <Link className="dropdown-item" to="/profile">
+                        My Profile
+                      </Link>
+                    </li>
+                  )}
+
                   <li>
                     <Link className="dropdown-item" to="/settings">
                       Settings
