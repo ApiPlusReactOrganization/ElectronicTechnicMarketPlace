@@ -7,14 +7,16 @@ import userImage from "../../hooks/userImage";
 
 const MyProfilePage = () => {
   const { currentUser } = useSelector((store) => store.user);
-  const { uploadImage } = useActions();
-  console.log(currentUser);
+  const { uploadImage, updateUser } = useActions();
 
   const [selectedFile, setSelectedFile] = useState(null);
+  const [formData, setFormData] = useState({
+    name: currentUser?.name || "",
+    email: currentUser?.email || "",
+  });
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
-    console.log(event.target.files[0]);
   };
 
   const handleSaveImage = async () => {
@@ -22,10 +24,34 @@ const MyProfilePage = () => {
       toast.error("Please select an image to upload.");
       return;
     }
+
     const formData = new FormData();
     formData.append("imageFile", selectedFile);
 
     const result = await uploadImage(currentUser.id, formData);
+    if (result.success) {
+      toast.success(result.message);
+    } else {
+      toast.error(`Error: ${result.message}`);
+    }
+  };
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleUpdateUser = async () => {
+    if (!formData.name || !formData.email) {
+      toast.error("Please fill in all fields.");
+      return;
+    }
+
+    const result = await updateUser(currentUser.id, {
+      userName: formData.name,
+      email: formData.email,
+    });
+
     if (result.success) {
       toast.success(result.message);
     } else {
@@ -70,20 +96,27 @@ const MyProfilePage = () => {
           autoComplete="off"
         >
           <TextField
-            id="filled-basic"
+            id="name"
+            name="name"
             label="Name"
             variant="filled"
-            value={currentUser.name}
+            value={formData.name}
+            onChange={handleInputChange}
           />
           <TextField
-            id="filled-basic"
+            id="email"
+            name="email"
             label="Email"
             variant="filled"
-            disabled
-            defaultValue={currentUser.email}
+            value={formData.email}
+            onChange={handleInputChange}
           />
         </Box>
-        <button type="button" className="btn btn-primary float-end">
+        <button
+          type="button"
+          className="btn btn-primary float-end"
+          onClick={handleUpdateUser}
+        >
           Оновити
         </button>
       </div>
@@ -92,3 +125,4 @@ const MyProfilePage = () => {
 };
 
 export default MyProfilePage;
+

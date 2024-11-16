@@ -101,3 +101,16 @@ export const uploadImage = (userId, file) => async (dispatch) => {
     return { success: false, message: errorMessage };
   }
 };
+
+export const updateUser = (userId, model) => async (dispatch) => {
+  try {
+    const response = await UserService.updateUser(userId, model);
+
+    await AuthByToken(response.payload)(dispatch);
+
+    return { success: true, message: response.message };
+  } catch (error) {
+    const errorMessage = error.response?.data;
+    return { success: false, message: errorMessage };
+  }
+};
