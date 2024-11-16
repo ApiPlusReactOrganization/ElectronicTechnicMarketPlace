@@ -29,4 +29,8 @@ export class UserService {
       },
     });
   }
+
+  static async updateUser(userId, model) {
+    return await this.httpClient.put(`${userId}`, model);
+  }
 }

@@ -140,7 +140,7 @@ const Header = () => {
                 <Link to="/login" className="btn btn-outline-primary">
                   Login
                 </Link>
-                <Link to="/register" className="btn btn-primary">
+                <Link to="/register" className="btn btn-primary text-white">
                   Register
                 </Link>
               </div>
