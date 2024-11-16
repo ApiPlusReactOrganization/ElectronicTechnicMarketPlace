@@ -7,6 +7,7 @@ import UsersPage from "../pages/users/UsersPage";
 import NotFoundPage from "../components/NotFoundPage";
 import CategoriesPage from "../pages/categories/CategoriesPage";
 import ManufacturersPage from "../pages/manufacturers/ManufacturersPage";
+import MyProfilePage from "../pages/myProfile/MyProfilePage";
 import Register from "../pages/auth/register/Register";
 import Login from "../pages/auth/login/Login";
 import ProtectedRoute from "./ProtectedRoute";
@@ -39,6 +40,14 @@ const BasicRoute = () => {
             element={
               <ProtectedRoute allowedRoles={["Administrator"]}>
                 <ManufacturersPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute allowedRoles={["User"]}>
+                <MyProfilePage />
               </ProtectedRoute>
             }
           />
