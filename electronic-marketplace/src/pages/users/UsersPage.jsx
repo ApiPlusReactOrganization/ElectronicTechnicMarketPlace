@@ -3,6 +3,7 @@ import useActions from "../../hooks/useActions";
 import { useSelector } from "react-redux";
 import { TextField, Autocomplete } from "@mui/material";
 import { toast } from "react-toastify";
+import userImage from "../../hooks/userImage";
 
 const UsersPage = () => {
   const { userList, roleList } = useSelector((state) => state.user);
@@ -53,6 +54,7 @@ const UsersPage = () => {
             <th>Name</th>
             <th>Email</th>
             <th>Roles</th>
+            <th>Image</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -76,6 +78,15 @@ const UsersPage = () => {
                   renderInput={(params) => (
                     <TextField {...params} label="Roles" placeholder="Choose" />
                   )}
+                />
+              </td>
+              <td>
+                <img
+                  height="50"
+                  width="50"
+                  alt="User Avatar"
+                  loading="lazy"
+                  src={userImage(user.image?.filePath)}
                 />
               </td>
               <td>

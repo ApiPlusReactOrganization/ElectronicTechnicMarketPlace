@@ -2,6 +2,7 @@ import "./layout.css";
 import { Link, useNavigate } from "react-router-dom";
 import useActions from "../../hooks/useActions";
 import { useSelector } from "react-redux";
+import userImage from "../../hooks/userImage";
 
 const adminPages = [
   { title: "Categories", path: "/categories" },
@@ -10,7 +11,7 @@ const adminPages = [
 ];
 
 const Header = () => {
-  const { isAuth, role } = useSelector((store) => store.user);
+  const { isAuth, role, currentUser } = useSelector((store) => store.user);
   const { logoutUser } = useActions();
   const navigate = useNavigate();
   const logoutHandler = () => {
@@ -57,7 +58,9 @@ const Header = () => {
               <i className="fas fa-shopping-cart"></i>
             </a>
 
-            {(Array.isArray(role) ? role.includes("Administrator") : role === "Administrator") && (
+            {(Array.isArray(role)
+              ? role.includes("Administrator")
+              : role === "Administrator") && (
               <div className="dropdown">
                 <a
                   className="text-reset me-3 dropdown-toggle hidden-arrow"
@@ -98,9 +101,10 @@ const Header = () => {
                   aria-expanded="false"
                 >
                   <img
-                    src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
+                    src={userImage(currentUser?.image)}
                     className="rounded-circle"
                     height="25"
+                    width="25"
                     alt="User Avatar"
                     loading="lazy"
                   />
