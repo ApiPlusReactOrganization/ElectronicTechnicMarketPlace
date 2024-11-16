@@ -8,14 +8,14 @@ import { AuthService } from "../../../utils/services/AuthService";
 import { UserService } from "../../../utils/services/UserService";
 import { jwtDecode } from "jwt-decode";
 
-
 export const signInUser = (model) => async (dispatch) => {
   try {
     const response = await AuthService.signIn(model);
     await AuthByToken(response.payload)(dispatch);
     return { success: true, message: response.message };
-  } catch (error) {    
-    return { success: false, message: error.response.data };
+  } catch (error) {
+    const errorMessage = error.response?.data;
+    return { success: false, message: errorMessage };
   }
 };
 
@@ -41,7 +41,8 @@ export const signUpUser = (model) => async (dispatch) => {
 
     return { success: true, message: response.message };
   } catch (error) {
-    return { success: false, message: error.response.message };
+    const errorMessage = error.response?.data;
+    return { success: false, message: errorMessage };
   }
 };
 
@@ -59,7 +60,8 @@ export const getUsers = () => async (dispatch) => {
 
     return { success: true, message: "get users success" };
   } catch (error) {
-    return { success: false, message: "get users error" };
+    const errorMessage = error.response?.data;
+    return { success: false, message: errorMessage };
   }
 };
 
@@ -71,7 +73,8 @@ export const deleteUser = (userId) => async (dispatch) => {
 
     return { success: true, message: "delete users success" };
   } catch (error) {
-    return { success: false, message: "delete users error" };
+    const errorMessage = error.response?.data;
+    return { success: false, message: errorMessage };
   }
 };
 
@@ -81,10 +84,7 @@ export const changeRoles = (userId, roles) => async (dispatch) => {
 
     return { success: true, message: "User roles updated successfully" };
   } catch (error) {
-    console.log(error);
-    const errorMessage = error.response?.data?.errors || "An error occurred during role change";
+    const errorMessage = error.response?.data;
     return { success: false, message: errorMessage };
   }
 };
-
-

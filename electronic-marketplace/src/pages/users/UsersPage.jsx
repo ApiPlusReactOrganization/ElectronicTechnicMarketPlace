@@ -33,9 +33,14 @@ const UsersPage = () => {
   };
 
   const handleDelete = async () => {
-    await deleteUser(deleteId);
-    setShowDeleteModal(false);
-    setDeleteId(null);
+    const result = await deleteUser(deleteId);
+
+    if (result.success) {
+      setShowDeleteModal(false);
+      setDeleteId(null);
+    } else {
+      toast.error(result.message);
+    }
   };
 
   return (

@@ -2,16 +2,10 @@ import React, { useCallback } from "react";
 import ManufacturerTableRow from "./ManufacturerTableRow";
 import { isEqual } from "lodash";
 import { useRenderCount } from "../../hooks/useRenderCount";
-import { toast } from "react-toastify";
 
 const ManufacturersTable = ({ manufacturerList, onEdit, onDelete }) => {
   const memoizedOnEdit = useCallback(
-    async (manufacturer) =>  {
-      const result = await onEdit(manufacturer);
-      if (!result.success) {
-        toast.error(result.message);
-      }
-    },
+    (manufacturer) => onEdit(manufacturer),
     [onEdit]
   );
 
