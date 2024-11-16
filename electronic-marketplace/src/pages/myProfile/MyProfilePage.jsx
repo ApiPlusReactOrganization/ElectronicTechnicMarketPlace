@@ -1,9 +1,9 @@
+import { TextField, Box, Button } from "@mui/material";
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import useActions from "../../hooks/useActions";
 import { toast } from "react-toastify";
-
+import userImage from "../../hooks/userImage";
 
 const MyProfilePage = () => {
   const { currentUser } = useSelector((store) => store.user);
@@ -22,11 +22,10 @@ const MyProfilePage = () => {
       toast.error("Please select an image to upload.");
       return;
     }
-    const user = currentUser;
     const formData = new FormData();
     formData.append("imageFile", selectedFile);
 
-    const result = await uploadImage(user.id, formData);
+    const result = await uploadImage(currentUser.id, formData);
     if (result.success) {
       toast.success(result.message);
     } else {
@@ -35,25 +34,58 @@ const MyProfilePage = () => {
   };
 
   return (
-    <div>
-      <div className="d-flex gap-3 my-3">
-        <label htmlFor="formFile" className="form-label">
-          Change image
-        </label>
-        <div>
+    <div className="d-flex gap-3 my-3 justify-content-between align-items-center">
+      <div className="d-flex gap-3 flex-column align-items-center">
+        <img
+          src={userImage(currentUser?.image)}
+          className="rounded-circle"
+          height="200"
+          width="200"
+          alt="User Avatar"
+          loading="lazy"
+        />
+        <div className="d-flex gap-3 align-items-center">
           <input
             className="form-control"
             type="file"
             id="formFile"
             onChange={handleFileChange}
-            accept="image/*"
+            accept="image/png, image/jpeg, image/gif"
           />
-        </div>
-        <div>
-          <button type="button" className="btn btn-primary" onClick={handleSaveImage}>
-            Save Image
+          <button
+            type="button"
+            className="btn btn-primary"
+            style={{ whiteSpace: "nowrap" }}
+            onClick={handleSaveImage}
+          >
+            Change Image
           </button>
         </div>
+      </div>
+      <div>
+        <Box
+          component="form"
+          sx={{ "& .MuiTextField-root": { m: 1, width: "25ch" } }}
+          noValidate
+          autoComplete="off"
+        >
+          <TextField
+            id="filled-basic"
+            label="Name"
+            variant="filled"
+            value={currentUser.name}
+          />
+          <TextField
+            id="filled-basic"
+            label="Email"
+            variant="filled"
+            disabled
+            defaultValue={currentUser.email}
+          />
+        </Box>
+        <button type="button" className="btn btn-primary float-end">
+          Оновити
+        </button>
       </div>
     </div>
   );
