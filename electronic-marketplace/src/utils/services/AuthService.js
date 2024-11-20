@@ -2,7 +2,7 @@ import HttpClient from "../http/HttpClient";
 
 export class AuthService {
   static httpClient = new HttpClient({
-    baseURL: "http://localhost:5132/Account",
+    baseURL: "http://localhost:5132/account",
   });
 
   static setAuthorizationToken(token) {
