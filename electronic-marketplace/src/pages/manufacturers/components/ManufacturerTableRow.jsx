@@ -7,7 +7,7 @@ import DeleteManufacturerModal from './manufacturersModals/DeleteManufacturerMod
 
 const ManufacturerTableRow = React.memo(
   ({ manufacturer }) => {
-    const { updateManufacturer } = useActions() // Отримання дій
+    const { updateManufacturer } = useActions()
     const [isEditing, setIsEditing] = useState(false)
     const [name, setName] = useState(manufacturer.name)
     const renderCount = useRenderCount()
@@ -31,7 +31,7 @@ const ManufacturerTableRow = React.memo(
     }, [])
 
     const handleSave = useCallback(async () => {
-      const result = await updateManufacturer({ ...manufacturer, name }) // Виклик дії
+      const result = await updateManufacturer({ ...manufacturer, name })
       if (result.success) {
         setIsEditing(false)
       } else {
@@ -43,8 +43,6 @@ const ManufacturerTableRow = React.memo(
       setName(manufacturer.name)
       setIsEditing(false)
     }, [manufacturer.name])
-
-
 
     return (
       <>
