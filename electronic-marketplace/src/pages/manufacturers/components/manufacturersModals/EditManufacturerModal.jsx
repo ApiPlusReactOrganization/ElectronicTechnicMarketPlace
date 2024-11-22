@@ -1,24 +1,32 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { Modal, Box, Typography, TextField, Button } from '@mui/material'
 import { toast } from 'react-toastify'
 import useActions from '../../../../hooks/useActions'
 
-const AddManufacturerModal = ({ showModal, closeModal }) => {
-  const { createManufacturer } = useActions()
-  const [manufacturerName, setManufacturerName] = useState('')
+const EditManufacturerModal = ({ showModal, closeModal, manufacturer }) => {
+  const { updateManufacturer } = useActions()
+  const [name, setName] = useState(manufacturer.name)
 
-  const handleAddManufacturer = useCallback(async () => {
-    const result = await createManufacturer(manufacturerName)
+  useEffect(() => {
+    setName(manufacturer.name)
+  }, [manufacturer])
+
+  const handleSave = useCallback(async () => {
+    const result = await updateManufacturer({ ...manufacturer, name })
     if (result.success) {
-      setManufacturerName('')
       closeModal()
     } else {
       toast.error(result.message)
     }
-  }, [manufacturerName, createManufacturer, closeModal])
+  }, [name, manufacturer, updateManufacturer, closeModal])
+
+  const handleCancel = () => {
+    setName(manufacturer.name)
+    closeModal()
+  }
 
   return (
-    <Modal open={showModal} onClose={closeModal}>
+    <Modal open={showModal} onClose={handleCancel}>
       <Box
         sx={{
           position: 'absolute',
@@ -33,22 +41,22 @@ const AddManufacturerModal = ({ showModal, closeModal }) => {
         }}
       >
         <Typography variant="h6" component="h2">
-          Add New Manufacturer
+          Edit Manufacturer
         </Typography>
         <TextField
           fullWidth
           label="Name"
           variant="outlined"
           margin="normal"
-          value={manufacturerName}
-          onChange={(e) => setManufacturerName(e.target.value)}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-          <Button variant="contained" color="inherit" onClick={closeModal}>
+          <Button variant="contained" color="inherit" onClick={handleCancel}>
             Cancel
           </Button>
-          <Button variant="contained" color="primary" onClick={handleAddManufacturer}>
-            Add
+          <Button variant="contained" color="primary" onClick={handleSave}>
+            Save
           </Button>
         </Box>
       </Box>
@@ -56,4 +64,4 @@ const AddManufacturerModal = ({ showModal, closeModal }) => {
   )
 }
 
-export default AddManufacturerModal
+export default EditManufacturerModal

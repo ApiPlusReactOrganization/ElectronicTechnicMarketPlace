@@ -1,43 +1,53 @@
-import React, { useCallback } from 'react';
-import useActions from '../../../../hooks/useActions';
-import { toast } from 'react-toastify';
+import React, { useCallback } from 'react'
+import { Modal, Box, Typography, Button } from '@mui/material'
+import { toast } from 'react-toastify'
+import useActions from '../../../../hooks/useActions'
 
 const DeleteManufacturerModal = ({ showModal, closeModal, manufacturerId }) => {
-  const { deleteManufacturer } = useActions();
+  const { deleteManufacturer } = useActions()
 
   const handleDeleteManufacturer = useCallback(async () => {
-    debugger
-    const result = await deleteManufacturer(manufacturerId);
+    const result = await deleteManufacturer(manufacturerId)
     if (result.success) {
-      closeModal();
+      closeModal()
     } else {
-      toast.error(result.message);
+      toast.error(result.message)
     }
-  }, [deleteManufacturer, manufacturerId, closeModal]);
+  }, [deleteManufacturer, manufacturerId, closeModal])
 
   return (
-    <div className={`modal ${showModal ? 'd-block' : ''}`} tabIndex="-1" role="dialog">
-      <div className="modal-dialog" role="document">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h5 className="modal-title">Confirm Deletion</h5>
-            <button type="button" className="close" onClick={closeModal}>&times;</button>
-          </div>
-          <div className="modal-body">
-            Are you sure you want to delete this manufacturer?
-          </div>
-          <div className="modal-footer">
-            <button type="button" className="btn btn-secondary" onClick={closeModal}>
-              Cancel
-            </button>
-            <button type="button" className="btn btn-danger" onClick={handleDeleteManufacturer}>
-              Delete
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
+    <Modal open={showModal} onClose={closeModal}>
+      <Box
+        sx={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: 400,
+          bgcolor: 'background.paper',
+          boxShadow: 24,
+          p: 4,
+          borderRadius: 2,
+          textAlign: 'center',
+        }}
+      >
+        <Typography variant="h6" component="h2">
+          Confirm Deletion
+        </Typography>
+        <Typography variant="body1" sx={{ mt: 2 }}>
+          Are you sure you want to delete this manufacturer?
+        </Typography>
+        <Box sx={{ display: 'flex', justifyContent: 'space-around', mt: 3 }}>
+          <Button variant="contained" color="inherit" onClick={closeModal}>
+            Cancel
+          </Button>
+          <Button variant="contained" color="error" onClick={handleDeleteManufacturer}>
+            Delete
+          </Button>
+        </Box>
+      </Box>
+    </Modal>
+  )
+}
 
-export default DeleteManufacturerModal;
+export default DeleteManufacturerModal

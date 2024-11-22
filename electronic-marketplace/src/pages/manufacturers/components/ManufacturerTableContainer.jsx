@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import useActions from '../../../hooks/useActions'
 import ManufacturersTable from './ManufacturersTable'
 import AddManufacturerModal from './manufacturersModals/AddManufacturerModal'
@@ -11,8 +11,8 @@ const ManufacturerTableContainer = () => {
     getManufacturers()
   }, [])
 
-  const openAddModal = () => setShowAddModal(true)
-  const closeAddModal = () => setShowAddModal(false)
+  const openAddModal = useCallback(() => setShowAddModal(true), [])
+  const closeAddModal = useCallback(() => setShowAddModal(false), [])
 
   return (
     <>
