@@ -102,7 +102,7 @@ const MyProfilePage = () => {
             />
           </div>
           <div className="input-group mb-3">
-          <span className="input-group-text">Email</span>
+            <span className="input-group-text">Email</span>
             <input
               type="email"
               id="email"
@@ -111,7 +111,9 @@ const MyProfilePage = () => {
               value={formData.email}
               onChange={handleInputChange}
             />
-          <span class="input-group-text" id="basic-addon2">@example.com</span>
+            <span class="input-group-text" id="basic-addon2">
+              @example.com
+            </span>
           </div>
         </form>
         <button

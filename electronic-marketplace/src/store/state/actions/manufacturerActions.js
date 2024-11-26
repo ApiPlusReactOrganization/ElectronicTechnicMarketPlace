@@ -6,7 +6,6 @@ import {
   updateManufacturerReducer,
 } from "../reduserSlises/manufacturerSlice";
 
-
 export const getManufacturers = () => async (dispatch) => {
   try {
     const token = localStorage.getItem("token");
@@ -27,7 +26,9 @@ export const createManufacturer = (name) => async (dispatch) => {
     dispatch(addManufacturer(res));
     return { success: true, message: "User roles updated successfully" };
   } catch (error) {
-    const errorMessage = error.response?.data?.errors.Name[0] || "An error occurred during role change";
+    const errorMessage =
+      error.response?.data?.errors.Name[0] ||
+      "An error occurred during role change";
     return { success: false, message: errorMessage };
   }
 };
@@ -40,7 +41,7 @@ export const deleteManufacturer = (id) => async (dispatch) => {
 
     return { success: true, message: response };
   } catch (error) {
-    console.log(error.response.data)
+    console.log(error.response.data);
     return { success: false, message: error.response.data };
   }
 };
@@ -53,7 +54,9 @@ export const updateManufacturer = (model) => async (dispatch) => {
 
     return { success: true, message: "User roles updated successfully" };
   } catch (error) {
-    const errorMessage = error.response?.data?.errors.Name[0] || "An error occurred during role change";
+    const errorMessage =
+      error.response?.data?.errors.Name[0] ||
+      "An error occurred during role change";
     return { success: false, message: errorMessage };
   }
 };

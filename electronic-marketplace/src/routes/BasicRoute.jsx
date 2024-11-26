@@ -11,6 +11,8 @@ import MyProfilePage from "../pages/myProfile/MyProfilePage";
 import Register from "../pages/auth/register/Register";
 import Login from "../pages/auth/login/Login";
 import ProtectedRoute from "./ProtectedRoute";
+import ProductPage from "../pages/products/productsPage";
+import ProductEdit from "../pages/products/productEdit/ProductEdit";
 
 const BasicRoute = () => {
   return (
@@ -18,6 +20,10 @@ const BasicRoute = () => {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
+          <Route path="/products">
+            <Route index element={<ProductPage />} />
+            <Route path="edit/:productId" element={<ProductEdit />} />
+          </Route>
           <Route path="/electronicItem" element={<ElectronicItemPage />} />
           <Route
             path="/users"
