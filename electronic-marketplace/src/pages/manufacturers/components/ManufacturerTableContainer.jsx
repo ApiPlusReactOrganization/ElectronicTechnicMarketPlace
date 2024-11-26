@@ -18,8 +18,9 @@ const ManufacturerTableContainer = () => {
       .then(() => {
         setIsLoading(false)
       })
-      .catch(() => {
+      .catch((error) => {
         setIsLoading(false)
+        toast.error('Failed to load data.}')
       })
   }, [])
 

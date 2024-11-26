@@ -1,5 +1,5 @@
 import React from 'react'
-import ManufacturerTableContainer from './components/ManufacturerTableContainer'
+import ManufacturerTableContainer from './ManufacturerTableContainer'
 
 const ManufacturersPage = () => {
   return (
