@@ -28,6 +28,9 @@ export class ProductsService {
   static async getProductById(productId) {
     return await this.httpClient.get(`get-by-id/${productId}`);
   }
+  static async getProductsByCategoryId(categoryId) {
+    return await this.httpClient.get(`under-category/${categoryId}`);
+  }
 
   static async deleteProductImageById(productId, productImageId) {
     return await this.httpClient.put(

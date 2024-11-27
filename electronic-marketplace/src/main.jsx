@@ -8,6 +8,7 @@ import { store } from './store/store'
 import { Provider } from 'react-redux'
 import { AuthByToken } from "./store/state/actions/userActions";
 import { ToastContainer } from "react-toastify";
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 if (localStorage.token) {
   AuthByToken(localStorage.token)(store.dispatch);

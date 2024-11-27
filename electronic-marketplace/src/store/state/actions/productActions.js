@@ -4,7 +4,8 @@ import {
   deleteProductReduser,
   addProduct,
   updateProductReducer,
-  getProduct,
+  getProductsByCategory,
+  getProduct
 } from "../reduserSlises/productSlice";
 
 export const getProducts = () => async (dispatch) => {
@@ -67,6 +68,19 @@ export const getProductById = (productId) => async (dispatch) => {
     const response = await ProductsService.getProductById(productId);
 
     dispatch(getProduct(response));
+
+    return { success: true, payload: response };
+  } catch (error) {
+    const errorMessage = error.response;
+    return { success: false, message: errorMessage };
+  }
+};
+export const getProductsByCategoryId = (categoryId) => async (dispatch) => {
+  try {
+
+    const response = await ProductsService.getProductsByCategoryId(categoryId);
+
+    dispatch(getProductsByCategory(response));
 
     return { success: true, payload: response };
   } catch (error) {

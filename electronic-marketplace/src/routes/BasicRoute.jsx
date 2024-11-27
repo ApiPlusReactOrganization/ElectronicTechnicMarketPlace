@@ -13,6 +13,7 @@ import Login from "../pages/auth/login/Login";
 import ProtectedRoute from "./ProtectedRoute";
 import ProductPage from "../pages/products/productsPage";
 import ProductEdit from "../pages/products/productEdit/ProductEdit";
+import ProductDetailsPage from "../pages/electronicItem/components/productDetailsPage/ProductDetailsPage";
 
 const BasicRoute = () => {
   return (
@@ -24,7 +25,11 @@ const BasicRoute = () => {
             <Route index element={<ProductPage />} />
             <Route path="edit/:productId" element={<ProductEdit />} />
           </Route>
-          <Route path="/electronicItem" element={<ElectronicItemPage />} />
+          <Route path="/electronicItem">
+            <Route index element={<ElectronicItemPage />} />
+            <Route path=":categoryId" element={<ElectronicItemPage />} />
+            <Route path="product/:productId" element={<ProductDetailsPage />} />
+          </Route>
           <Route
             path="/users"
             element={
