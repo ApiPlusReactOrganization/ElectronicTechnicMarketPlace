@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import useActions from '../../hooks/useActions';
 import ProductCard from './components/productCard/ProductCard';
 import SideBarCategory from "../electronicItem/components/sideBarCategory/SideBarCategory";
-import UserMessage from '../../components/userMessage/UserMessage';
+import UserMessage from '../../components/common/userMessage/UserMessage';
 
 const ElectronicItemPage = () => {
   const { categoryId } = useParams();
@@ -29,7 +29,7 @@ const ElectronicItemPage = () => {
         <div className="col-md-3">
           <SideBarCategory />
         </div>
-        <div className="col-md-9">
+        <div className="col-md-6">
           <p>Electronic Item Page</p>
           <div>
             {selectedProducts.length > 0 ? (
@@ -44,6 +44,10 @@ const ElectronicItemPage = () => {
               <UserMessage message="No products available" />
             )}
           </div>
+          
+        </div>
+        <div className="col-md-3">
+          <SideBarCategory />
         </div>
       </div>
     </div>

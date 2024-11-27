@@ -4,13 +4,13 @@ import Header from './Header';
 import Footer from './Footer';
 import "./layout.css";
 
-const Layout = () => {
+const Layout = ({errorElement}) => {
   return (
     <>
       <div className="wrapper">
       <Header />
       <div className="container">
-        <Outlet />
+      {errorElement ? errorElement : <Outlet />}
       </div>
       <Footer />
       </div>

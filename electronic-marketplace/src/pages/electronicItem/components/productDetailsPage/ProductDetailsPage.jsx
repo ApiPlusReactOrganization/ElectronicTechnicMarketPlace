@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import useActions from '../../../../hooks/useActions';
-import UserMessage from '../../../../components/userMessage/UserMessage';
+import UserMessage from '../../../../components/common/userMessage/UserMessage';
 
 const ProductDetailsPage = () => {
   const { productId } = useParams();

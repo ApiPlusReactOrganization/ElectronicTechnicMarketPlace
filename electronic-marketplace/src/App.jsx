@@ -1,8 +1,13 @@
-import './App.css'
-import BasicRoute from './routes/BasicRoute'
+import { BrowserRouter } from "react-router-dom";
+import "./App.css";
+import BasicRoute from "./routes/BasicRoute";
 
 function App() {
-  return <BasicRoute />
+  return (
+    <BrowserRouter>
+      <BasicRoute />
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
