@@ -1,18 +1,16 @@
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from "../components/layout/Layout";
-import HomePage from "../pages/home/HomePage";
-import ElectronicItemPage from "../pages/ElectronicItem/ElectronicItemPage";
-import UsersPage from "../pages/users/UsersPage";
-import NotFoundPage from "../components/NotFoundPage";
-import CategoriesPage from "../pages/categories/CategoriesPage";
-import ManufacturersPage from "../pages/manufacturers/ManufacturersPage";
-import MyProfilePage from "../pages/myProfile/MyProfilePage";
-import Register from "../pages/auth/register/Register";
-import Login from "../pages/auth/login/Login";
-import ProtectedRoute from "./ProtectedRoute";
-import ProductPage from "../pages/products/productsPage";
-import ProductEdit from "../pages/products/productEdit/ProductEdit";
+import React from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Layout from '../components/layout/Layout'
+import HomePage from '../pages/home/HomePage'
+import ElectronicItemPage from '../pages/electronicItem/ElectronicItemPage'
+import UsersPage from '../pages/users/components/UsersPage'
+import NotFoundPage from '../components/NotFoundPage'
+import CategoriesPage from '../pages/categories/CategoriesPage'
+import ManufacturersPage from '../pages/manufacturers/components/ManufacturersPage'
+import MyProfilePage from '../pages/myProfile/components/MyProfilePage'
+import Register from '../pages/auth/register/Register'
+import Login from '../pages/auth/login/Login'
+import ProtectedRoute from './ProtectedRoute'
 
 const BasicRoute = () => {
   return (
@@ -28,7 +26,7 @@ const BasicRoute = () => {
           <Route
             path="/users"
             element={
-              <ProtectedRoute allowedRoles={["Administrator"]}>
+              <ProtectedRoute allowedRoles={['Administrator']}>
                 <UsersPage />
               </ProtectedRoute>
             }
@@ -36,7 +34,7 @@ const BasicRoute = () => {
           <Route
             path="/categories"
             element={
-              <ProtectedRoute allowedRoles={["Administrator"]}>
+              <ProtectedRoute allowedRoles={['Administrator']}>
                 <CategoriesPage />
               </ProtectedRoute>
             }
@@ -44,7 +42,7 @@ const BasicRoute = () => {
           <Route
             path="/manufacturers"
             element={
-              <ProtectedRoute allowedRoles={["Administrator"]}>
+              <ProtectedRoute allowedRoles={['Administrator']}>
                 <ManufacturersPage />
               </ProtectedRoute>
             }
@@ -52,7 +50,7 @@ const BasicRoute = () => {
           <Route
             path="/profile"
             element={
-              <ProtectedRoute allowedRoles={["User"]}>
+              <ProtectedRoute allowedRoles={['User']}>
                 <MyProfilePage />
               </ProtectedRoute>
             }
@@ -63,7 +61,7 @@ const BasicRoute = () => {
         </Route>
       </Routes>
     </BrowserRouter>
-  );
-};
+  )
+}
 
-export default BasicRoute;
+export default BasicRoute

@@ -1,5 +1,5 @@
-import React from 'react';
-import ManufacturerTableContainer from './ManufacturerTableContainer';
+import React from 'react'
+import ManufacturerTableContainer from './ManufacturerTableContainer'
 
 const ManufacturersPage = () => {
   return (
@@ -7,7 +7,7 @@ const ManufacturersPage = () => {
       <h1>Manufacturers</h1>
       <ManufacturerTableContainer />
     </div>
-  );
-};
+  )
+}
 
-export default ManufacturersPage;
+export default ManufacturersPage
