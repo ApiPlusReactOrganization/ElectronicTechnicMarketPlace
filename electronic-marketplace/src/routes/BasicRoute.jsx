@@ -18,6 +18,10 @@ const BasicRoute = () => {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
+          <Route path="/products">
+            <Route index element={<ProductPage />} />
+            <Route path="edit/:productId" element={<ProductEdit />} />
+          </Route>
           <Route path="/electronicItem" element={<ElectronicItemPage />} />
           <Route
             path="/users"
