@@ -1,11 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import defaultImage from '../../../../assets/images/noImageProduct.png';
+import productImage from '../../../../hooks/productImage';
 
 const ProductCard = ({ product }) => {
   const navigate = useNavigate();
   const imageUrl = product.images && product.images.length > 0 
-    ? product.images[0] 
+    ? productImage(product.images[0].filePath)
     : defaultImage;
 
   const handleViewDetails = () => {
