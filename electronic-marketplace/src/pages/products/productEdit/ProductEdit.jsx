@@ -5,13 +5,11 @@ import useActions from "../../../hooks/useActions";
 import NotFoundProductImage from "../../../assets/images/productNotFound.png";
 import productImage from "../../../hooks/productImage";
 import { useSelector } from "react-redux";
-import { Backdrop, CircularProgress } from "@mui/material";
 
 const ProductEdit = () => {
   const { getProductById, deleteProductImageById, addProductImages } =
     useActions();
   const { productId } = useParams();
-  const [loading, setLoading] = useState(true);
   const [selectedFiles, setSelectedFiles] = useState([]);
   const product = useSelector((state) => state.product.productForEdit);
 
@@ -25,8 +23,6 @@ const ProductEdit = () => {
         }
       } catch (error) {
         toast.error("An error occurred while loading the product");
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -74,18 +70,6 @@ const ProductEdit = () => {
     }
   }; 
   
-
-  if (loading)
-    return (
-      <div>
-        <Backdrop
-          sx={(theme) => ({ color: "#fff", zIndex: theme.zIndex.drawer + 1 })}
-          open={loading}
-        >
-          <CircularProgress color="inherit" />
-        </Backdrop>
-      </div>
-    );
 
   if (!product)
     return <img width="400" src={NotFoundProductImage} alt="Not Found" />;
@@ -151,3 +135,4 @@ const ProductEdit = () => {
 };
 
 export default ProductEdit;
+

@@ -12,6 +12,9 @@ export const productSlice = createSlice({
     getAll: (state, action) => {
       state.productList = action.payload;
     },
+    getProductsByCategory: (state, action) => {
+      state.productList = action.payload;
+    },
     getProduct: (state, action) => {
       state.productForEdit = action.payload;
     },
@@ -39,6 +42,7 @@ export const {
   addProduct,
   deleteProductReduser,
   updateProductReducer,
+  getProductsByCategory,
   getProduct
 } = productSlice.actions;
 export default productSlice.reducer;
