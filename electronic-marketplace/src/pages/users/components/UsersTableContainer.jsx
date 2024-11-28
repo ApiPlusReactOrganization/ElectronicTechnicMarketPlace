@@ -1,26 +1,18 @@
 import React, { useEffect } from "react";
-import useActions from "../../../hooks/useActions";
-import useLoader from "../../../hooks/useLoader";
-import Loader from "../../../components/Loader";
 import { toast } from "react-toastify";
+import useActions from "../../../hooks/useActions";
 import UsersTable from "./UsersTable";
 
 const UsersTableContainer = () => {
   const { getUsers, getRoles } = useActions();
-  const { isLoading, setIsLoading } = useLoader();
 
   useEffect(() => {
-    setIsLoading(true);
     getUsers()
-      .then(() => getRoles())
-      .catch(() => toast.error("Failed to load data."))
-      .finally(() => setIsLoading(false));
+    getRoles()
   }, []);
 
   return (
-    <Loader isLoading={isLoading}>
       <UsersTable />
-    </Loader>
   );
 };
 

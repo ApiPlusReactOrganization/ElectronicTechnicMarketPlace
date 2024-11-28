@@ -1,7 +1,7 @@
-import { ThreeDots} from "react-loader-spinner";
+import React from "react";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 import { useSelector } from "react-redux";
-import "./loader.css";
-
 
 const Loader = () => {
   const { apiRequestIsLoading: pageIsLoading } = useSelector(
@@ -10,15 +10,19 @@ const Loader = () => {
 
   return (
     <>
-      {pageIsLoading && (
-        <div className="eclipse">
-          <div className="progress">
-            <div>
-              <ThreeDots height={100} width={100} color="#0025af" />
-            </div>
-          </div>
-        </div>
-      )} 
+      <div>
+        {pageIsLoading && (
+          <Backdrop
+            sx={(theme) => ({
+              color: "#fff",
+              zIndex: theme.zIndex.drawer + 1,
+            })}
+            open={pageIsLoading}
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
+        )} 
+      </div>
     </>
   );
 };
