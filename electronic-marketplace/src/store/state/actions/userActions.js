@@ -20,7 +20,7 @@ export const signInUser = (model) => async (dispatch) => {
 };
 
 export const AuthByToken = (tokens) => async (dispatch) => {
-  if (tokens) {
+  if (tokens) {    
     localStorage.setItem("accessToken", tokens.accessToken);
     localStorage.setItem("refreshToken", tokens.refreshToken);
     await AuthService.setAuthorizationToken(tokens.accessToken);
@@ -98,7 +98,7 @@ export const uploadImage = (userId, file) => async (dispatch) => {
 
     await AuthByToken(response)(dispatch);
 
-    return { success: true, message: "All good" };
+    return { success: true, message: "Image saved!" };
   } catch (error) {
     const errorMessage = error.response?.data;
     return { success: false, message: errorMessage };

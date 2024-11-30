@@ -10,8 +10,11 @@ import { AuthByToken } from "./store/state/actions/userActions";
 import { ToastContainer } from "react-toastify";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
-if (localStorage.accessToken) {
-  AuthByToken(localStorage.accessToken)(store.dispatch);
+if (localStorage.accessToken && localStorage.refreshToken) {
+  AuthByToken({
+    accessToken: localStorage.accessToken,
+    refreshToken: localStorage.refreshToken,
+  })(store.dispatch);
 }
 
 createRoot(document.getElementById("root")).render(
