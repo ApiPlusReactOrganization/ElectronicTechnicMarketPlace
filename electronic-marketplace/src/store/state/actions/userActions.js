@@ -11,7 +11,7 @@ import { jwtDecode } from "jwt-decode";
 export const signInUser = (model) => async (dispatch) => {
   try {
     const response = await AuthService.signIn(model);
-    await AuthByToken(response.payload)(dispatch);
+    await AuthByToken(response)(dispatch);
     return { success: true, message: response.message };
   } catch (error) {
     const errorMessage = error.response?.data;
@@ -19,14 +19,16 @@ export const signInUser = (model) => async (dispatch) => {
   }
 };
 
-export const AuthByToken = (token) => async (dispatch) => {
-  if (token) {
-    localStorage.setItem("token", token);
-    await AuthService.setAuthorizationToken(token);
-    const user = jwtDecode(token);
+export const AuthByToken = (tokens) => async (dispatch) => {
+  if (tokens) {
+    localStorage.setItem("accessToken", tokens.accessToken);
+    localStorage.setItem("refreshToken", tokens.refreshToken);
+    await AuthService.setAuthorizationToken(tokens.accessToken);
+    const user = jwtDecode(tokens.accessToken);
     dispatch(authUser(user));
   } else {
-    localStorage.removeItem("token");
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
     await AuthService.setAuthorizationToken(null);
   }
 };
@@ -35,9 +37,9 @@ export const signUpUser = (model) => async (dispatch) => {
   try {
     const response = await AuthService.signUp(model);
 
-    const token = response.payload;
+    const tokens = response;
 
-    await AuthByToken(token)(dispatch);
+    await AuthByToken(tokens)(dispatch);
 
     return { success: true, message: response.message };
   } catch (error) {
@@ -47,7 +49,8 @@ export const signUpUser = (model) => async (dispatch) => {
 };
 
 export const logoutUser = () => async (dispatch) => {
-  localStorage.removeItem("token");
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("refreshToken");
   await AuthService.setAuthorizationToken(null);
   dispatch(logout());
 };
@@ -93,9 +96,9 @@ export const uploadImage = (userId, file) => async (dispatch) => {
   try {
     const response = await UserService.uploadImage(userId, file);
 
-    await AuthByToken(response.payload)(dispatch);
+    await AuthByToken(response)(dispatch);
 
-    return { success: true, message: response.message };
+    return { success: true, message: "All good" };
   } catch (error) {
     const errorMessage = error.response?.data;
     return { success: false, message: errorMessage };
@@ -106,7 +109,7 @@ export const updateUser = (userId, model) => async (dispatch) => {
   try {
     const response = await UserService.updateUser(userId, model);
 
-    await AuthByToken(response.payload)(dispatch);
+    await AuthByToken(response)(dispatch);
 
     return { success: true, message: response.message };
   } catch (error) {
