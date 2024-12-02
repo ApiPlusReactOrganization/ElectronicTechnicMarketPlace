@@ -12,7 +12,7 @@ export const signInUser = (model) => async (dispatch) => {
   try {
     const response = await AuthService.signIn(model);
     await AuthByToken(response)(dispatch);
-    return { success: true, message: response.message };
+    return { success: true, message: "You login successfuly!" };
   } catch (error) {
     const errorMessage = error.response?.data;
     return { success: false, message: errorMessage };
