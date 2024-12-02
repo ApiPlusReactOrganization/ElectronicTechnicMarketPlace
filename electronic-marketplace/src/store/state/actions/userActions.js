@@ -125,9 +125,10 @@ export const updateUser = (userId, model) => async (dispatch) => {
 export const loadFavoriteProducts = (userId) => async (dispatch) => {
   try {
     const response = await UserService.getFavoriteProducts(userId);
-    dispatch(setFavoriteProducts(response.payload));
+    dispatch(setFavoriteProducts(response));
   } catch (error) {
     const errorMessage = error.response?.data;
+    console.error("Error loading favorite products:", errorMessage);
     return { success: false, message: errorMessage };
   }
 };
