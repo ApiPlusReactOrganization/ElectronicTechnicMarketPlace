@@ -9,7 +9,7 @@ const Layout = ({errorElement}) => {
     <>
       <div className="wrapper">
       <Header />
-      <div className="container">
+      <div className="containerLayout">
       {errorElement ? errorElement : <Outlet />}
       </div>
       <Footer />
