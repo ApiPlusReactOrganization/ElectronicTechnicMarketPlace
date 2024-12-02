@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import UsersTableRow from './UsersTableRow';
 import { useRenderCount } from '../../../hooks/useRenderCount';
@@ -8,8 +8,6 @@ const UsersTable = () => {
   const roleList = useSelector((state) => state.role.roleList);
 
   const renderCount = useRenderCount();
-
-  const memoizedUserList = useMemo(() => userList, [userList]);
 
   return (
     <>
@@ -26,7 +24,7 @@ const UsersTable = () => {
           </tr>
         </thead>
         <tbody>
-          {memoizedUserList.map((user) => (
+          {userList.map((user) => (
             <UsersTableRow key={user.id} user={user} roleList={roleList} />
           ))}
         </tbody>

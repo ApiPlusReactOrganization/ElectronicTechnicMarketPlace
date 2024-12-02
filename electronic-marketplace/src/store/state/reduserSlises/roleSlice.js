@@ -1,4 +1,3 @@
-// roleSlice.js або аналогічний файл
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -15,5 +14,5 @@ const roleSlice = createSlice({
   },
 });
 
-export const { getRoles } = roleSlice.actions; // Експорт функції getRoles
+export const { getRoles } = roleSlice.actions;
 export default roleSlice.reducer;
