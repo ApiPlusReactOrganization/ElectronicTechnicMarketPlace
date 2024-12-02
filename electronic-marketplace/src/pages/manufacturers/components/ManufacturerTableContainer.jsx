@@ -4,13 +4,14 @@ import ManufacturersTable from './ManufacturersTable'
 import AddManufacturerModal from './manufacturersModals/AddManufacturerModal'
 
 const ManufacturerTableContainer = () => {
-  const { getManufacturers } = useActions()
+  const { getManufacturers, getCategories } = useActions()
 
   const [showAddModal, setShowAddModal] = useState(false)
 
 
   useEffect(() => {
     getManufacturers()
+    getCategories()
   }, [])
 
   const openAddModal = useCallback(() => setShowAddModal(true), [])
