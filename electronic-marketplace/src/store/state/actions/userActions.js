@@ -3,6 +3,9 @@ import {
   logout,
   deleteUserS,
   getAll,
+  setFavoriteProducts,
+  addFavoriteProduct,
+  removeFavoriteProduct
 } from "./../reduserSlises/userSlice";
 import { AuthService } from "../../../utils/services/AuthService";
 import { UserService } from "../../../utils/services/UserService";
@@ -26,6 +29,7 @@ export const AuthByToken = (tokens) => async (dispatch) => {
     await AuthService.setAuthorizationToken(tokens.accessToken);
     const user = jwtDecode(tokens.accessToken);
     dispatch(authUser(user));
+    await loadFavoriteProducts(user.id)(dispatch);
   } else {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
@@ -112,6 +116,38 @@ export const updateUser = (userId, model) => async (dispatch) => {
     await AuthByToken(response)(dispatch);
 
     return { success: true, message: response.message };
+  } catch (error) {
+    const errorMessage = error.response?.data;
+    return { success: false, message: errorMessage };
+  }
+};
+
+export const loadFavoriteProducts = (userId) => async (dispatch) => {
+  try {
+    const response = await UserService.getFavoriteProducts(userId);
+    dispatch(setFavoriteProducts(response.payload));
+  } catch (error) {
+    const errorMessage = error.response?.data;
+    return { success: false, message: errorMessage };
+  }
+};
+
+export const addProductToFavorites = (userId, productId) => async (dispatch) => {
+  try {
+    await UserService.addFavoriteProduct(userId, productId);
+    dispatch(addFavoriteProduct(productId));
+    return { success: true, message: "Product added to favorites" };
+  } catch (error) {
+    const errorMessage = error.response?.data;
+    return { success: false, message: errorMessage };
+  }
+};
+
+export const removeProductFromFavorites = (userId, productId) => async (dispatch) => {
+  try {
+    await UserService.removeFavoriteProduct(userId, productId);
+    dispatch(removeFavoriteProduct(productId));
+    return { success: true, message: "Product removed from favorites" };
   } catch (error) {
     const errorMessage = error.response?.data;
     return { success: false, message: errorMessage };

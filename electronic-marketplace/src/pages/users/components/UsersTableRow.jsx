@@ -10,7 +10,7 @@ import isEqual from 'lodash/isEqual'
 const UsersTableRow = React.memo(
   ({ user, roleList }) => {
     const [showDeleteModal, setShowDeleteModal] = useState(false)
-    const { changeRoles, getUsers, getRoles } = useActions()
+    const { changeRoles, getUsers, getRolesData } = useActions()
     const renderCount = useRenderCount()
 
     const closeModal = useCallback(() => {
@@ -27,7 +27,7 @@ const UsersTableRow = React.memo(
 
           if (result.success) {
             await getUsers()
-            await getRoles()
+            await getRolesData()
           } else {
             toast.error(result.message)
           }
@@ -35,7 +35,7 @@ const UsersTableRow = React.memo(
           toast.error('Failed to change roles.')
         }
       },
-      [user.id, changeRoles, getUsers, getRoles]
+      [user.id, changeRoles, getUsers, getRolesData]
     )
 
     return (

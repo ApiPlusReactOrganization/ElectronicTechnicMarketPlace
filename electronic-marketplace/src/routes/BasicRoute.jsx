@@ -1,25 +1,23 @@
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { Route, Routes, useLocation } from "react-router-dom";
-import Loader from "../components/common/loader/Loader";
-import Layout from "../components/layout/Layout";
-import NotFoundPage from "../components/NotFoundPage";
-import Login from "../pages/auth/login/Login";
-import Register from "../pages/auth/register/Register";
-import CategoriesPage from "../pages/categories/CategoriesPage";
+import React, {useEffect} from 'react'
+import { Routes, Route } from 'react-router-dom'
+import Layout from '../components/layout/Layout'
+import HomePage from '../pages/home/HomePage'
+import ElectronicItemPage from '../pages/electronicItem/ElectronicItemPage'
+import UsersPage from '../pages/users/components/UsersPage'
+import NotFoundPage from '../components/NotFoundPage'
+import CategoriesPage from '../pages/categories/CategoriesPage'
+import ManufacturersPage from '../pages/manufacturers/components/ManufacturersPage'
+import MyProfilePage from '../pages/myProfile/components/MyProfilePage'
+import Register from '../pages/auth/register/Register'
+import Login from '../pages/auth/login/Login'
+import ProtectedRoute from './ProtectedRoute'
+import ProductPage from '../pages/products/ProductsPage'
+import ProductEdit from '../pages/products/productEdit/ProductEdit'
+import { useLocation } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { PageStatuses } from '../store/state/reduserSlises/appSettingSlice'
 import ProductDetailsPage from "../pages/electronicItem/components/productDetailsPage/ProductDetailsPage";
-import ElectronicItemPage from "../pages/electronicItem/ElectronicItemPage";
-import HomePage from "../pages/home/HomePage";
-import ManufacturersPage from "../pages/manufacturers/components/ManufacturersPage";
-import MyProfilePage from "../pages/myProfile/components/MyProfilePage";
-import ProductEdit from "../pages/products/productEdit/ProductEdit";
-import ProductPage from "../pages/products/productsPage";
-import UsersPage from "../pages/users/components/UsersPage";
-import { setStatus } from "../store/state/actions/appSettingActions";
-import { PageStatuses } from "../store/state/reduserSlises/appSettingSlice";
-import { store } from "../store/store";
-import ProtectedRoute from "./ProtectedRoute";
-
+import Loader from '../components/common/loader/Loader'
 
 const BasicRoute = () => {
   const location = useLocation();
@@ -46,7 +44,6 @@ const BasicRoute = () => {
         return null;
     }
   };
-  
 
   return (
     <>
