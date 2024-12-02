@@ -4,7 +4,7 @@ import useActions from "../../../hooks/useActions";
 import { toast } from "react-toastify";
 
 const UserProfileForm = () => {
-  const { currentUser } = useSelector((store) => store.user);
+  const currentUser = useSelector((store) => store.user.currentUser);
   const { updateUser } = useActions();
 
   const [formData, setFormData] = useState({

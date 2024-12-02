@@ -17,6 +17,7 @@ const ManufacturersTable = () => {
           <tr>
             <th>Id</th>
             <th>Name</th>
+            <th>Categories</th>
             <th>Actions</th>
           </tr>
         </thead>
