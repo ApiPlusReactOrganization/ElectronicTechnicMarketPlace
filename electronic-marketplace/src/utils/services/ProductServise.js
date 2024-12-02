@@ -45,4 +45,11 @@ export class ProductsService {
       },
     });
   }
+
+  static async getFilteredProducts(filters) {   
+    console.log("filters", filters);
+     
+    const queryParams = new URLSearchParams(filters).toString();
+    return await this.httpClient.get(`filter?${queryParams}`);
+  }
 }

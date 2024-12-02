@@ -12,6 +12,9 @@ export const productSlice = createSlice({
     getAll: (state, action) => {
       state.productList = action.payload;
     },
+    getFilterProducts: (state, action) => {
+      state.productList = action.payload;
+    },
     getProductsByCategory: (state, action) => {
       state.productList = action.payload;
     },
@@ -39,6 +42,7 @@ export const productSlice = createSlice({
 
 export const {
   getAll,
+  getFilterProducts,
   addProduct,
   deleteProductReduser,
   updateProductReducer,

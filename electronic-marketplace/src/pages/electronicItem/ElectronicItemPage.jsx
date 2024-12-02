@@ -5,23 +5,12 @@ import useActions from '../../hooks/useActions';
 import ProductCard from './components/productCard/ProductCard';
 import SideBarCategory from "../electronicItem/components/sideBarCategory/SideBarCategory";
 import UserMessage from '../../components/common/userMessage/UserMessage';
+import FilterSideBarElectronicItem from './components/filterSideBarElectronicItem/FilterSideBarElectronicItem';
 
 const ElectronicItemPage = () => {
-  const { categoryId } = useParams();
-  const [selectedProducts, setSelectedProducts] = useState([]);
-  const { getProductsByCategoryId } = useActions();
+
   const products = useSelector((state) => state.product.productList);
 
-  useEffect(() => {
-    if (categoryId) {
-      getProductsByCategoryId(categoryId);
-      setSelectedProducts([]);
-    }
-  }, [categoryId]);
-
-  useEffect(() => {
-    setSelectedProducts(products);
-  }, [products]);
 
   return (
     <div className="container-fluid">
@@ -32,9 +21,9 @@ const ElectronicItemPage = () => {
         <div className="col-md-6">
           <p>Electronic Item Page</p>
           <div>
-            {selectedProducts.length > 0 ? (
+            {products.length > 0 ? (
               <div className="row">
-                {selectedProducts.map((product) => (
+                {products.map((product) => (
                   <div key={product.id} className="col-md-4">
                     <ProductCard product={product} />
                   </div>
@@ -44,10 +33,9 @@ const ElectronicItemPage = () => {
               <UserMessage message="No products available" />
             )}
           </div>
-          
         </div>
         <div className="col-md-3">
-          <SideBarCategory />
+          <FilterSideBarElectronicItem />
         </div>
       </div>
     </div>
@@ -55,4 +43,3 @@ const ElectronicItemPage = () => {
 };
 
 export default ElectronicItemPage;
-
