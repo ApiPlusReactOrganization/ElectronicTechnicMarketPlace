@@ -8,7 +8,7 @@ const MAX_PRICE_VAL = 50000;
 const MAX_STOCK_QUANTITY = 100;
 
 const FilterSideBarElectronicItem = () => {
-  const { filterProducts, getManufacturers } = useActions();
+  const { filterProducts, getManufacturers, getManufacturersByCategoryId } = useActions();
   const { categoryId } = useParams();
   const [filters, setFilters] = useState({
     categoryId: "",
@@ -27,17 +27,18 @@ const FilterSideBarElectronicItem = () => {
     (state) => state.manufacturer.manufacturerList
   );
 
-  useEffect(() => {
-    getManufacturers();
-  }, []);
+
 
   useEffect(() => {
     if (categoryId) {
+      getManufacturersByCategoryId(categoryId);
       setFilters((prev) => ({
         ...prev,
         categoryId,
       }));
     } else {
+      getManufacturers();
+
       setFilters((prev) => ({
         ...prev,
         categoryId: "",
@@ -142,9 +143,7 @@ const FilterSideBarElectronicItem = () => {
                     }))
                   }
                 />
-                <label className="form-check-label">
-                  {manufacturer.name}
-                </label>
+                <label className="form-check-label">{manufacturer.name}</label>
               </div>
             ))}
           </div>

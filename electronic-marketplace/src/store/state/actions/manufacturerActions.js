@@ -18,6 +18,16 @@ export const getManufacturers = () => async (dispatch) => {
     console.error("get Manufacturers failed", error);
   }
 };
+export const getManufacturersByCategoryId = (categoryId) => async (dispatch) => {
+  try {
+    const res = await ManufacturerService.getManufacturersByCategoryId(categoryId);
+    dispatch(getAll(res));
+  } catch (error) {
+    console.error("get Manufacturers failed", error);
+  }
+};
+
+
 
 export const createManufacturer = (name) => async (dispatch) => {
   try {

@@ -16,6 +16,9 @@ export class ManufacturerService {
   static async getManufacturers() {
     return await this.httpClient.get("get-all");
   }
+  static async getManufacturersByCategoryId(categoryId) {
+    return await this.httpClient.get(`get-by-category-id/${categoryId}`);
+  }
 
   static async deleteManufacturer(id) {
     return await this.httpClient.delete(`delete/${id}`);
