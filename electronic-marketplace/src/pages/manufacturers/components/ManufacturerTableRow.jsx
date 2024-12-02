@@ -1,33 +1,54 @@
-import React, { useState, useCallback } from 'react'
-import { useRenderCount } from '../../../hooks/useRenderCount'
-import isEqual from 'lodash/isEqual'
-import DeleteManufacturerModal from './manufacturersModals/DeleteManufacturerModal'
-import EditManufacturerModal from './manufacturersModals/EditManufacturerModal'
+import React, { useState, useCallback } from "react";
+import { useRenderCount } from "../../../hooks/useRenderCount";
+import isEqual from "lodash/isEqual";
+import DeleteManufacturerModal from "./manufacturersModals/DeleteManufacturerModal";
+import EditManufacturerModal from "./manufacturersModals/EditManufacturerModal";
+import { TextField, Autocomplete } from "@mui/material";
+import { useSelector } from "react-redux";
 
 const ManufacturerTableRow = React.memo(
   ({ manufacturer }) => {
-    const renderCount = useRenderCount()
+    const renderCount = useRenderCount();
 
-    const [showDeleteModal, setShowDeleteModal] = useState(false)
-    const [selectedManufacturerId, setSelectedManufacturerId] = useState(null)
-    const [showEditModal, setShowEditModal] = useState(false)
+    const categoryList = useSelector((store) => store.category.categoryList);
+
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [selectedManufacturerId, setSelectedManufacturerId] = useState(null);
+    const [showEditModal, setShowEditModal] = useState(false);
 
     const openDeleteModal = useCallback((id) => {
-      setSelectedManufacturerId(id)
-      setShowDeleteModal(true)
-    }, [])
+      setSelectedManufacturerId(id);
+      setShowDeleteModal(true);
+    }, []);
 
-    const closeDeleteModal = useCallback(() => setShowDeleteModal(false), [])
+    const closeDeleteModal = useCallback(() => setShowDeleteModal(false), []);
 
-    const openEditModal = useCallback(() => setShowEditModal(true), [])
+    const openEditModal = useCallback(() => setShowEditModal(true), []);
 
-    const closeEditModal = useCallback(() => setShowEditModal(false), [])
+    const closeEditModal = useCallback(() => setShowEditModal(false), []);
 
     return (
       <>
         <tr>
           <td>{manufacturer.id}</td>
           <td>{manufacturer.name}</td>
+          <td>
+            <Autocomplete
+              readOnly
+              multiple
+              size="small"
+              options={categoryList}
+              value={manufacturer.categories}
+              getOptionLabel={(option) => option.name}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Categories"
+                  placeholder="Choose"
+                />
+              )}
+            />
+          </td>
           <td>
             <div className="d-flex gap-3 justify-content-center">
               <button className="btn btn-warning" onClick={openEditModal}>
@@ -41,9 +62,9 @@ const ManufacturerTableRow = React.memo(
               </button>
             </div>
           </td>
-          <td>
+          {/* <td>
             <h5>ManufacturerTableRow render count: {renderCount}</h5>
-          </td>
+          </td> */}
         </tr>
 
         <EditManufacturerModal
@@ -57,9 +78,10 @@ const ManufacturerTableRow = React.memo(
           manufacturerId={selectedManufacturerId}
         />
       </>
-    )
+    );
   },
-  (prevProps, nextProps) => isEqual(prevProps.manufacturer, nextProps.manufacturer)
-)
+  (prevProps, nextProps) =>
+    isEqual(prevProps.manufacturer, nextProps.manufacturer)
+);
 
-export default ManufacturerTableRow
+export default ManufacturerTableRow;
