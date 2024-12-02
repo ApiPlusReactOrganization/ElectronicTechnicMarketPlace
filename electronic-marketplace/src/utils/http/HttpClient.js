@@ -1,10 +1,23 @@
 import axios from "axios";
-import {
-  setIsLoading,
-  setStatus,
-} from "../../store/state/actions/appSettingActions";
-import { PageStatuses } from "../../store/state/reduserSlises/appSettingSlice";
+import { jwtDecode } from "jwt-decode";
 import { store } from "../../store/store";
+import { authUser } from "./../../store/state/reduserSlises/userSlice";
+import { logoutUser } from "../../store/state/actions/userActions";
+
+let isRefreshing = false;
+let failedQueue = [];
+
+const processQueue = (error, token = null) => {
+  failedQueue.forEach((prom) => {
+    if (token) {
+      prom.resolve(token);
+    } else {
+      prom.reject(error);
+    }
+  });
+  failedQueue = [];
+};
+
 export default class HttpClient {
   constructor(configs) {
     this.axiosInstance = axios.create({
@@ -17,6 +30,64 @@ export default class HttpClient {
       },
       ...configs,
     });
+
+    this.axiosInstance.interceptors.response.use(
+      (response) => response,
+      async (error) => {
+        const originalRequest = error.config;
+
+        if (error.response?.status === 401 && !originalRequest._retry) {
+          originalRequest._retry = true;
+
+          if (isRefreshing) {
+            return new Promise((resolve, reject) => {
+              failedQueue.push({ resolve, reject });
+            })
+              .then((token) => {
+                originalRequest.headers["Authorization"] = `Bearer ${token}`;
+                return this.axiosInstance(originalRequest);
+              })
+              .catch((err) => Promise.reject(err));
+          }
+
+          isRefreshing = true;
+
+          try {
+            const refreshToken = localStorage.getItem("refreshToken");
+            const accessToken = localStorage.getItem("accessToken");
+
+            const { data } = await axios.post(
+              "http://localhost:5132/account/refresh-token",
+              { refreshToken, accessToken }
+            );
+
+            if (data) {
+              localStorage.setItem("accessToken", data.accessToken);
+              localStorage.setItem("refreshToken", data.refreshToken);
+
+              this.setAuthorizationToken(data.accessToken);
+
+              const user = jwtDecode(data.accessToken);
+              store.dispatch(authUser(user));
+
+              processQueue(null, data.accessToken);
+            } else {
+              throw new Error("Failed to refresh tokens");
+            }
+
+            return this.axiosInstance(originalRequest);
+          } catch (refreshError) {
+            processQueue(refreshError, null);
+            await logoutUser()(store.dispatch);
+            return Promise.reject(refreshError);
+          } finally {
+            isRefreshing = false;
+          }
+        }
+
+        return Promise.reject(error);
+      }
+    );
   }
 
   setAuthorizationToken(token) {
@@ -46,28 +117,11 @@ export default class HttpClient {
   }
 
   async request(config) {
-    setIsLoading(true)(store.dispatch);
-
     try {
       const response = await this.axiosInstance.request(config);
-
-      setStatus(PageStatuses.GOOD)(store.dispatch);
-
       return response.data;
     } catch (error) {
-      const status = error.response ? error.response.status : 500;
-
-      if (status === 404) {
-        setStatus(PageStatuses.NOT_FOUND)(store.dispatch);
-      } else if (status === 400) {
-        setStatus(PageStatuses.BAD_REQUEST)(store.dispatch);
-      } else {
-        setStatus(PageStatuses.TOO_MANY_REQUESTS)(store.dispatch);
-      }
-
       return Promise.reject(error);
-    } finally {
-      setIsLoading(false)(store.dispatch);
     }
   }
 }

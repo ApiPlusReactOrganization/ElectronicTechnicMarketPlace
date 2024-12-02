@@ -8,7 +8,7 @@ import {
 
 export const getManufacturers = () => async (dispatch) => {
   try {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("accessToken");
     ManufacturerService.setAuthorizationToken(token);
 
     const res = await ManufacturerService.getManufacturers();

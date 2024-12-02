@@ -10,7 +10,7 @@ export class UserService {
   }
 
   static async getUsers() {
-    this.setAuthorizationToken(localStorage.getItem("token"));
+    this.setAuthorizationToken(localStorage.getItem("accessToken"));
     return await this.httpClient.get("get-all");
   }
 

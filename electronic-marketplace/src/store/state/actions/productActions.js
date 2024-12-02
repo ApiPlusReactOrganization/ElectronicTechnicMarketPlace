@@ -5,12 +5,12 @@ import {
   addProduct,
   updateProductReducer,
   getProductsByCategory,
-  getProduct
+  getProduct,
 } from "../reduserSlises/productSlice";
 
 export const getProducts = () => async (dispatch) => {
   try {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("accessToken");
     await ProductsService.setAuthorizationToken(token);
 
     const res = await ProductsService.getProducts();
@@ -77,7 +77,6 @@ export const getProductById = (productId) => async (dispatch) => {
 };
 export const getProductsByCategoryId = (categoryId) => async (dispatch) => {
   try {
-
     const response = await ProductsService.getProductsByCategoryId(categoryId);
 
     dispatch(getProductsByCategory(response));

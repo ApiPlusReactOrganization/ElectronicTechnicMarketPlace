@@ -10,7 +10,7 @@ export class RoleService {
   }
 
   static async getRoles() {
-    this.setAuthorizationToken(localStorage.getItem("token"));
+    this.setAuthorizationToken(localStorage.getItem("accessToken"));
     return await this.httpClient.get("get-all");
   }
 }
