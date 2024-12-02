@@ -46,10 +46,20 @@ export class ProductsService {
     });
   }
 
-  static async getFilteredProducts(filters) {   
+  static async getFilteredProducts(filters) {
     console.log("filters", filters);
-     
-    const queryParams = new URLSearchParams(filters).toString();
-    return await this.httpClient.get(`filter?${queryParams}`);
+  
+    const queryParams = new URLSearchParams();
+  
+    Object.entries(filters).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        value.forEach((v) => queryParams.append(key, v));
+      } else {
+        queryParams.append(key, value);
+      }
+    });
+  
+    return await this.httpClient.get(`filter?${queryParams.toString()}`);
   }
+  
 }
