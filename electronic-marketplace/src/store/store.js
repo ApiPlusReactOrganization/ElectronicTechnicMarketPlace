@@ -5,9 +5,11 @@ import categoryReducer from '../store/state/reduserSlises/categorySlice'
 import manufacturerReducer from '../store/state/reduserSlises/manufacturerSlice';
 import productReducer from '../store/state/reduserSlises/productSlice';
 import appSettingSlice from '../store/state/reduserSlises/appSettingSlice';
+import roleReducer from '../store/state/reduserSlises/roleSlice'
 
 export const rootReducer = combineReducers({
     user: userReducer,
+    role: roleReducer,
     category: categoryReducer,
     manufacturer: manufacturerReducer,
     product: productReducer,
