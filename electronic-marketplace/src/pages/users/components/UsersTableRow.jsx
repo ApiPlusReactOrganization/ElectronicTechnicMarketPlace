@@ -8,7 +8,8 @@ import { toast } from 'react-toastify'
 import isEqual from 'lodash/isEqual'
 
 const UsersTableRow = React.memo(
-  ({ user, roleList }) => {
+({ user, roleList }) => {
+
     const [showDeleteModal, setShowDeleteModal] = useState(false)
     const { changeRoles, getUsers, getRolesData } = useActions()
     const renderCount = useRenderCount()

@@ -14,6 +14,7 @@ const Header = () => {
   const { isAuth, role, currentUser } = useSelector((store) => store.user);
   const { logoutUser } = useActions();
   const navigate = useNavigate();
+
   const logoutHandler = () => {
     logoutUser();
     navigate("/");
@@ -46,7 +47,7 @@ const Header = () => {
             </a>
             <ul className="navbar-nav me-auto mb-2 mb-lg-0 gap-3">
               <li className="nav-item">
-                <Link to="/"> Home</Link>
+                <Link to="/">Home</Link>
               </li>
               <li className="nav-item">
                 <Link to="/electronicItem">Electronic Item</Link>
@@ -54,6 +55,10 @@ const Header = () => {
             </ul>
           </div>
           <div className="d-flex align-items-center">
+            <Link to="/favoriteProducts" className="text-reset me-3">
+              <i className="fas fa-heart"></i>
+            </Link>
+
             <a className="text-reset me-3" href="#">
               <i className="fas fa-shopping-cart"></i>
             </a>
