@@ -25,7 +25,7 @@ export const userSlice = createSlice({
       state.isAuth = false;
       state.role = null;
     },
-    deleteUserS: (state, action) => {
+    deleteUserSlice: (state, action) => {
       state.userList = state.userList.filter((u) => u.id != action.payload);
     },
 
@@ -52,7 +52,7 @@ export const {
   getAll,
   authUser,
   logout,
-  deleteUserS,
+  deleteUserSlice,
   addFavoriteProduct,
   removeFavoriteProduct,
   setFavoriteProducts,

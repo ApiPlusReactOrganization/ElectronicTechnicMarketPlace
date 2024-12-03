@@ -8,6 +8,7 @@ const adminPages = [
   { title: "Categories", path: "/categories" },
   { title: "Manufacturers", path: "/manufacturers" },
   { title: "Users", path: "/users" },
+  { title: "Products", path: "/products" },
 ];
 
 const Header = () => {
@@ -63,19 +64,22 @@ const Header = () => {
               <i className="fas fa-shopping-cart"></i>
             </a>
 
+            <a className="text-reset me-2" href="#">
+              <i className="fas fa-bell"></i>
+            </a>
+
             {(Array.isArray(role)
               ? role.includes("Administrator")
               : role === "Administrator") && (
-              <div className="dropdown">
+              <div className="dropdown mx-2">
                 <a
-                  className="text-reset me-3 dropdown-toggle hidden-arrow"
+                  className="text-reset dropdown-toggle hidden-arrow"
                   href="#"
                   id="navbarDropdownMenuLink"
                   role="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  <i className="fas fa-bell"></i>
                   <span className="badge rounded-pill badge-notification bg-danger">
                     Admin
                   </span>
