@@ -1,5 +1,5 @@
 import React from "react";
-import UsersTableContainer from "./UsersTableContainer";
+import UsersTableContainer from "./components/UsersTableContainer";
 
 const UsersPage = () => {
   return (

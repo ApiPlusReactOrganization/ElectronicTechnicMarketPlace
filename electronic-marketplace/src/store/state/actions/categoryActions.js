@@ -45,7 +45,6 @@ export const deleteCategoryAction = (id) => async (dispatch) => {
 
 export const updateCategoryAction = (model) => async (dispatch) => {
   try {
-    console.log(model);
     const response = await CategoryService.updateCategory(model);
 
     dispatch(updateCategory(response));

@@ -7,7 +7,7 @@ const CategoriesPage = () => {
   const navigate = useNavigate()
   const { getCategories, createCategory, deleteCategoryAction, updateCategoryAction } = useActions()
   const { categoryList } = useSelector((state) => state.category)
-  const { isAuth } = useSelector((state) => state.user)
+  const { isAuthenticated } = useSelector((state) => state.user)
 
   const [editingId, setEditingId] = useState(null)
   const [formValues, setFormValues] = useState({ name: ''})
@@ -18,10 +18,10 @@ const CategoriesPage = () => {
 
   useEffect(() => {
     getCategories()
-    if (!isAuth) {
+    if (!isAuthenticated) {
       navigate('/')
     }
-  }, [isAuth])
+  }, [isAuthenticated])
 
   const startAdd = () => {
     setFormValues({ name: '' })

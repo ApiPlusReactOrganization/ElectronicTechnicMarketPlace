@@ -39,16 +39,18 @@ export class ProductsService {
   }
 
   static async uploadProductImages(productId, imagesFiles) {
-    return await this.httpClient.put(`upload-images/${productId}`, imagesFiles, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    return await this.httpClient.put(
+      `upload-images/${productId}`,
+      imagesFiles,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
   }
 
-  static async getFilteredProducts(filters) {   
-    console.log("filters", filters);
-     
+  static async getFilteredProducts(filters) {
     const queryParams = new URLSearchParams(filters).toString();
     return await this.httpClient.get(`filter?${queryParams}`);
   }

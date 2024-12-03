@@ -12,8 +12,9 @@ const adminPages = [
 ];
 
 const Header = () => {
-  const { isAuth, role, currentUser } = useSelector((store) => store.user);
-  const { logoutUser } = useActions();
+  const currentUser = useSelector((store) => store.user.currentUser);
+  const isAuthenticated = useSelector((store) => store.user.isAuthenticated);
+  const logoutUser = useActions().logoutUser;
   const navigate = useNavigate();
 
   const logoutHandler = () => {
@@ -68,9 +69,9 @@ const Header = () => {
               <i className="fas fa-bell"></i>
             </a>
 
-            {(Array.isArray(role)
-              ? role.includes("Administrator")
-              : role === "Administrator") && (
+            {(Array.isArray(currentUser?.role)
+              ? currentUser?.role.includes("Administrator")
+              : currentUser?.role === "Administrator") && (
               <div className="dropdown mx-2">
                 <a
                   className="text-reset dropdown-toggle hidden-arrow"
@@ -99,7 +100,7 @@ const Header = () => {
               </div>
             )}
 
-            {isAuth ? (
+            {isAuthenticated ? (
               <div className="dropdown">
                 <a
                   className="dropdown-toggle d-flex align-items-center hidden-arrow"
@@ -122,9 +123,9 @@ const Header = () => {
                   className="dropdown-menu dropdown-menu-end"
                   aria-labelledby="navbarDropdownMenuAvatar"
                 >
-                  {(Array.isArray(role)
-                    ? role.includes("User")
-                    : role === "User") && (
+                  {(Array.isArray(currentUser?.role)
+                    ? currentUser?.role.includes("User")
+                    : currentUser?.role === "User") && (
                     <li>
                       <Link className="dropdown-item" to="/profile">
                         My Profile

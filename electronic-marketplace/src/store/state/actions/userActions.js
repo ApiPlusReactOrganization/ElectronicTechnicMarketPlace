@@ -1,12 +1,14 @@
 import {
   authUser,
   logout,
-  deleteUserSlice,
-  getAll,
   setFavoriteProducts,
   addFavoriteProduct,
   removeFavoriteProduct,
 } from "./../reduserSlises/userSlice";
+import {
+  deleteUserSlice,
+  getAll
+} from "./../reduserSlises/usersSlice";
 import { AuthService } from "../../../utils/services/AuthService";
 import { UserService } from "../../../utils/services/UserService";
 import { jwtDecode } from "jwt-decode";

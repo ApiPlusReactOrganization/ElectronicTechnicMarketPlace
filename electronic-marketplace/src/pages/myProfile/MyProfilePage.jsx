@@ -1,6 +1,6 @@
 import React from "react";
-import UserImage from "./UserImage"
-import UserProfileForm from "./UserProfileForm";
+import UserImage from "./components/UserImage"
+import UserProfileForm from "./components/UserProfileForm";
 
 const MyProfilePage = () => {
   return (
