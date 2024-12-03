@@ -63,7 +63,7 @@ const BasicRoute = () => {
           <Route
             path="/favoriteProducts"
             element={
-              <ProtectedRoute allowedRoles={['User', 'Administrator']}>
+              <ProtectedRoute allowedRoles={['User']}>
                 <FavoriteProductPage />
               </ProtectedRoute>
             }

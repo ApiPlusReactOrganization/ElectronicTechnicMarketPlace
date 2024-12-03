@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import useActions from '../../hooks/useActions';
 import ProductCard from './components/productCard/ProductCard';
-import SideBarCategory from "../electronicItem/components/sideBarCategory/SideBarCategory";
+import SideBarCategory from '../electronicItem/components/sideBarCategory/SideBarCategory';
 import UserMessage from '../../components/common/userMessage/UserMessage';
 
 const ElectronicItemPage = () => {
@@ -11,6 +11,7 @@ const ElectronicItemPage = () => {
   const [selectedProducts, setSelectedProducts] = useState([]);
   const { getProductsByCategoryId } = useActions();
   const products = useSelector((state) => state.product.productList);
+  const favoriteProducts = useSelector((state) => state.user.favoriteProducts);
 
   useEffect(() => {
     if (categoryId) {
@@ -36,7 +37,12 @@ const ElectronicItemPage = () => {
               <div className="row">
                 {selectedProducts.map((product) => (
                   <div key={product.id} className="col-md-4">
-                    <ProductCard product={product} />
+                    <ProductCard
+                      product={product}
+                      isFavorite={favoriteProducts.some(
+                        (fav) => fav.id === product.id
+                      )}
+                    />
                   </div>
                 ))}
               </div>
@@ -44,7 +50,6 @@ const ElectronicItemPage = () => {
               <UserMessage message="No products available" />
             )}
           </div>
-          
         </div>
         <div className="col-md-3">
           <SideBarCategory />
@@ -55,4 +60,3 @@ const ElectronicItemPage = () => {
 };
 
 export default ElectronicItemPage;
-
