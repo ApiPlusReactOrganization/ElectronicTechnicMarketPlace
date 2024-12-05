@@ -137,6 +137,7 @@ export const addProductToFavorites = (userId, productId) => async (dispatch) => 
   try {
     await UserService.addFavoriteProduct(userId, productId);
     dispatch(addFavoriteProduct(productId));
+    await loadFavoriteProducts(userId)(dispatch);
     return { success: true, message: "Product added to favorites" };
   } catch (error) {
     const errorMessage = error.response?.data;
