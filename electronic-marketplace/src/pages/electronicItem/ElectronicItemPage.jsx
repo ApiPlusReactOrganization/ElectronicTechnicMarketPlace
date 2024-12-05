@@ -11,7 +11,6 @@ const ElectronicItemPage = () => {
   const [selectedProducts, setSelectedProducts] = useState([]);
   const { getProductsByCategoryId } = useActions();
   const products = useSelector((state) => state.product.productList);
-  const favoriteProducts = useSelector((state) => state.user.favoriteProducts);
 
   useEffect(() => {
     if (categoryId) {
@@ -37,12 +36,7 @@ const ElectronicItemPage = () => {
               <div className="row">
                 {selectedProducts.map((product) => (
                   <div key={product.id} className="col-md-4">
-                    <ProductCard
-                      product={product}
-                      isFavorite={favoriteProducts.some(
-                        (fav) => fav.id === product.id
-                      )}
-                    />
+                    <ProductCard product={product} />
                   </div>
                 ))}
               </div>

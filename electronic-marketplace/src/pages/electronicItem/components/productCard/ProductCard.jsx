@@ -1,39 +1,17 @@
-import React from 'react';
-import { Favorite, FavoriteBorder } from '@mui/icons-material';
-import { IconButton } from '@mui/material';
-import { toast } from 'react-toastify';
-import useActions from '../../../../hooks/useActions';
-import defaultImage from '../../../../assets/images/noImageProduct.png';
-import productImage from '../../../../hooks/productImage';
-import { useSelector } from 'react-redux';
+import React from 'react'
+import FavoriteIcon from '../../../favoriteProducts/components/FavoriteIcon'
+import defaultImage from '../../../../assets/images/noImageProduct.png'
+import productImage from '../../../../hooks/productImage'
+import { styled } from '@mui/system'
 
 const ProductCard = ({ product }) => {
-  const { addProductToFavorites, removeProductFromFavorites } = useActions();
-  const userId = useSelector((state) => state.user.userId);
-  const favoriteProducts = useSelector((state) => state.user.favoriteProducts);
-
-  const isFavorite = favoriteProducts.includes(product.id); // перевірка, чи продукт улюблений
-
   const imageUrl =
     product.images && product.images.length > 0
       ? productImage(product.images[0].filePath)
-      : defaultImage;
-
-  // Обробник зміни стану іконки (додавання/видалення з улюблених)
-  const handleFavoriteToggle = async () => {
-    if (isFavorite) {
-      // Якщо продукт уже улюблений, то його видалити
-      await removeProductFromFavorites(userId, product.id);
-      toast.info('Product removed from favorites!');
-    } else {
-      // Якщо продукт не улюблений, то додати
-      await addProductToFavorites(userId, product.id);
-      toast.success('Product added to favorites!');
-    }
-  };
+      : defaultImage
 
   return (
-    <div className="card mb-3" style={{ maxWidth: '18rem' }}>
+    <CardWrapper className="card mb-3" style={{ maxWidth: '18rem' }}>
       <div className="card-body text-center">
         <img
           src={imageUrl}
@@ -45,14 +23,9 @@ const ProductCard = ({ product }) => {
         <p className="card-text text-truncate">{product.description}</p>
         <p className="card-text">Price: ${product.price}</p>
 
-        {/* Обмеження зміни іконки */}
-        <IconButton onClick={handleFavoriteToggle} disabled={isFavorite && false}>
-          {isFavorite ? (
-            <Favorite color="error" /> // Заповнена іконка - для видалення з улюблених
-          ) : (
-            <FavoriteBorder /> // Порожня іконка - для додавання в улюблені
-          )}
-        </IconButton>
+        <FavoriteIconWrapper>
+          <FavoriteIcon productId={product.id} />
+        </FavoriteIconWrapper>
 
         <button
           className="btn btn-primary"
@@ -61,8 +34,21 @@ const ProductCard = ({ product }) => {
           View Details
         </button>
       </div>
-    </div>
-  );
-};
+    </CardWrapper>
+  )
+}
 
-export default ProductCard;
+export default ProductCard
+
+const CardWrapper = styled('div')({
+  position: 'relative',
+  maxWidth: '18rem',
+  marginBottom: '1rem',
+})
+
+const FavoriteIconWrapper = styled('div')({
+  position: 'absolute',
+  top: 10,
+  right: 10,
+  zIndex: 1,
+})
