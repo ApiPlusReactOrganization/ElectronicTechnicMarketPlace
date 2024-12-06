@@ -13,7 +13,10 @@ export const productSlice = createSlice({
       state.productList = action.payload;
     },
     getFilterProducts: (state, action) => {
-      state.productList = action.payload;
+      const isEqual = JSON.stringify(state.productList) === JSON.stringify(action.payload);
+      if (!isEqual) {
+        state.productList = action.payload;
+      }
     },
     getProductsByCategory: (state, action) => {
       state.productList = action.payload;

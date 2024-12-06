@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { memo, useEffect } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import Layout from '../components/layout/Layout'
@@ -20,35 +20,13 @@ import { setStatus } from '../store/state/actions/appSettingActions'
 import { store } from '../store/store'
 import FavoriteProductPage from '../pages/favoriteProducts/FavoriteProductPage'
 import { PageStatuses } from '../store/state/reduserSlises/appSettingSlice'
+import ErrorPage from '../pages/errorPages/ErrorPage'
 
-const BasicRoute = () => {
-  const location = useLocation()
-  const { pageStatus, apiRequestIsLoading } = useSelector(
-    (state) => state.appSettings
-  )
-
-  useEffect(() => {
-    if (pageStatus !== PageStatuses.GOOD) {
-      setStatus(PageStatuses.GOOD)(store.dispatch)
-    }
-  }, [location])
-
-  const GetErrorElement = () => {
-    switch (pageStatus) {
-      case PageStatuses.NOT_FOUND:
-      case PageStatuses.BAD_REQUEST:
-      case PageStatuses.TOO_MANY_REQUESTS:
-        return <NotFoundPage />
-      default:
-        return null
-    }
-  }
-
+const BasicRoute = memo(() => {
   return (
     <>
-      {apiRequestIsLoading && <Loader />}
       <Routes>
-        <Route path="/" element={<Layout errorElement={GetErrorElement()} />}>
+        <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
           <Route path="/products">
             <Route index element={<ProductPage />} />
@@ -102,11 +80,12 @@ const BasicRoute = () => {
           />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/error" element={<ErrorPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
     </>
   )
-}
+})
 
 export default BasicRoute

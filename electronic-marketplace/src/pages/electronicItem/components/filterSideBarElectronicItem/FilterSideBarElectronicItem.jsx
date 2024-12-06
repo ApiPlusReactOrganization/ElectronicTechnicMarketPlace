@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useCallback, useEffect, useState } from "react";
 import useActions from "../../../../hooks/useActions";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -7,11 +7,10 @@ import MinMaxInput from "../minMaxInput/MinMaxInput";
 const MAX_PRICE_VAL = 50000;
 const MAX_STOCK_QUANTITY = 100;
 
-const FilterSideBarElectronicItem = () => {
+const FilterSideBarElectronicItem = memo(() => {
   const { filterProducts, getManufacturers, getManufacturersByCategoryId } = useActions();
   const { categoryId } = useParams();
   const [filters, setFilters] = useState({
-    categoryId: "",
     manufacturerIds: [],
     name: "",
     minPrice: 0,
@@ -27,50 +26,77 @@ const FilterSideBarElectronicItem = () => {
     (state) => state.manufacturer.manufacturerList
   );
 
-
-
   useEffect(() => {
-    if (categoryId) {
-      getManufacturersByCategoryId(categoryId);
-      setFilters((prev) => ({
-        ...prev,
-        categoryId,
-      }));
-    } else {
-      getManufacturers();
-
-      setFilters((prev) => ({
-        ...prev,
-        categoryId: "",
-      }));
-    }
+    const updateManufacturers = async () => {
+      if (categoryId) {
+        await getManufacturersByCategoryId(categoryId);
+  
+        setFilters((prev) => {
+          if (prev.categoryId !== categoryId) {
+            return { ...prev, categoryId };
+          }
+          return prev;
+        });
+      } else {
+        await getManufacturers();
+  
+        setFilters((prev) => {
+          if (prev.categoryId !== "") {
+            return { ...prev, categoryId: "" };
+          }
+          return prev;
+        });
+      }
+    };
+  
+    updateManufacturers();
   }, [categoryId]);
 
-  useEffect(() => {
-    const cleanFilters = (filters) => {
-      return Object.fromEntries(
-        Object.entries(filters).filter(([_, value]) => {
-          if (Array.isArray(value)) return value.length > 0;
-          return value !== "" && value !== null && value !== undefined;
-        })
-      );
-    };
+  
+    const cleanFilters = useCallback(
+      (filters) =>
+        Object.fromEntries(
+          Object.entries(filters).filter(([_, value]) => {
+            if (Array.isArray(value)) return value.length > 0;
+            return value !== "" && value !== null && value !== undefined;
+          })
+        ),
+      []
+    );
+    useEffect(() => {
+      const handler = setTimeout(() => {
+        const finalFilters = cleanFilters(filters);
+        filterProducts(finalFilters);
+      }, 300); // Затримка 300 мс
+  
+      return () => clearTimeout(handler);
+    }, [filters]);
 
-    const finalFilters = cleanFilters(filters);
-    filterProducts(finalFilters);
-  }, [filters]);
+  // useEffect(() => {
+  //   const cleanFilters = (filters) => {
+  //     return Object.fromEntries(
+  //       Object.entries(filters).filter(([_, value]) => {
+  //         if (Array.isArray(value)) return value.length > 0;
+  //         return value !== "" && value !== null && value !== undefined;
+  //       })
+  //     );
+  //   };
 
-  const handleFilterChange = (key, value) => {
+  //   const finalFilters = cleanFilters(filters);
+  //   filterProducts(finalFilters);
+  // }, [filters]);
+
+  const handleFilterChange = useCallback((key, value) => {
     setFilters((prev) => ({
       ...prev,
       [key]: value,
     }));
-  };
+  }, []);
+  
 
   return (
     <div className="filter-sidebar p-3 border rounded bg-light">
       <h3 className="mb-4 text-center">Фільтри</h3>
-
       <div className="mb-3">
         <label className="form-label">Назва</label>
         <input
@@ -151,6 +177,6 @@ const FilterSideBarElectronicItem = () => {
       </div>
     </div>
   );
-};
+});
 
 export default FilterSideBarElectronicItem;

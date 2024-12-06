@@ -17,7 +17,7 @@ export const appSettingSlice = createSlice({
   initialState,
   reducers: {
     setPageStatus: (state, action) => {
-      state.pageStatus = action.payload;
+      state.pageStatus = action.payload;      
     },
     setApiRequestLoading: (state, action) => {
       state.apiRequestIsLoading = action.payload;
