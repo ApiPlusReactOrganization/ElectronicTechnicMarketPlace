@@ -13,6 +13,7 @@ const adminPages = [
 const Header = () => {
   const { isAuth, role, currentUser } = useSelector((store) => store.user)
   const favoriteProducts = useSelector((state) => state.user.favoriteProducts)
+  const cartItems = useSelector((state) => state.cartItem.cartItems)
   const { logoutUser } = useActions()
   const navigate = useNavigate()
 
@@ -55,6 +56,7 @@ const Header = () => {
               </li>
             </ul>
           </div>
+
           <div className="d-flex align-items-center">
             <Link to="/favoriteProducts" className="text-reset me-3">
               <i
@@ -72,9 +74,21 @@ const Header = () => {
               </i>
             </Link>
 
-            <a className="text-reset me-3" href="#">
-              <i className="fas fa-shopping-cart"></i>
-            </a>
+            <Link to="/cartItems" className="text-reset me-3">
+              <i
+                className={`fas fa-shopping-cart ${
+                  cartItems && cartItems.length > 0
+                    ? 'position-relative'
+                    : ''
+                }`}
+              >
+                {cartItems && cartItems.length > 0 && (
+                  <span className="badge bg-danger position-absolute top-0 start-100 translate-middle p-1">
+                    {cartItems.length}
+                  </span>
+                )}
+              </i>
+            </Link>
 
             {(Array.isArray(role)
               ? role.includes('Administrator')

@@ -15,7 +15,7 @@ export const getCartItems = () => async (dispatch) => {
 
     dispatch(getAllCartItems(res));
   } catch (error) {
-    console.error("Fetching cart items failed", error);
+    console.error("Getting cart items failed", error);
   }
 };
 
