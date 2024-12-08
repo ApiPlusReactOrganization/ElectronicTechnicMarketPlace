@@ -1,26 +1,22 @@
-import React, { memo, useEffect } from 'react'
-import { Routes, Route, useLocation } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import Layout from '../components/layout/Layout'
-import HomePage from '../pages/home/HomePage'
-import ElectronicItemPage from '../pages/electronicItem/ElectronicItemPage'
-import UsersPage from '../pages/users/components/UsersPage'
+import React, { memo } from 'react'
+import { Route, Routes } from 'react-router-dom'
 import NotFoundPage from '../components/NotFoundPage'
+import Layout from '../components/layout/Layout'
+import Login from '../pages/auth/login/Login'
+import Register from '../pages/auth/register/Register'
+import CartItemsPage from '../pages/cartItems/CartitemsPage'
 import CategoriesPage from '../pages/categories/CategoriesPage'
+import ElectronicItemPage from '../pages/electronicItem/ElectronicItemPage'
+import ProductDetailsPage from '../pages/electronicItem/components/productDetailsPage/ProductDetailsPage'
+import ErrorPage from '../pages/errorPages/ErrorPage'
+import FavoriteProductPage from '../pages/favoriteProducts/FavoriteProductPage'
+import HomePage from '../pages/home/HomePage'
 import ManufacturersPage from '../pages/manufacturers/components/ManufacturersPage'
 import MyProfilePage from '../pages/myProfile/components/MyProfilePage'
-import Register from '../pages/auth/register/Register'
-import Login from '../pages/auth/login/Login'
-import ProtectedRoute from './ProtectedRoute'
 import ProductPage from '../pages/products/ProductsPage'
 import ProductEdit from '../pages/products/productEdit/ProductEdit'
-import ProductDetailsPage from '../pages/electronicItem/components/productDetailsPage/ProductDetailsPage'
-import Loader from '../components/common/loader/Loader'
-import { setStatus } from '../store/state/actions/appSettingActions'
-import { store } from '../store/store'
-import FavoriteProductPage from '../pages/favoriteProducts/FavoriteProductPage'
-import { PageStatuses } from '../store/state/reduserSlises/appSettingSlice'
-import ErrorPage from '../pages/errorPages/ErrorPage'
+import UsersPage from '../pages/users/components/UsersPage'
+import ProtectedRoute from './ProtectedRoute'
 
 const BasicRoute = memo(() => {
   return (
@@ -39,9 +35,18 @@ const BasicRoute = memo(() => {
           </Route>
 
           <Route
+            path="/cartItems"
+            element={
+              <ProtectedRoute allowedRoles={['User']}>
+                <CartItemsPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
             path="/favoriteProducts"
             element={
-              <ProtectedRoute allowedRoles={['User', 'Administrator']}>
+              <ProtectedRoute allowedRoles={['User']}>
                 <FavoriteProductPage />
               </ProtectedRoute>
             }

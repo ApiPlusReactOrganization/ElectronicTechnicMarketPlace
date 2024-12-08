@@ -1,14 +1,7 @@
-import React, { memo, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
-import useActions from "../../hooks/useActions";
-import ProductCard from "./components/productCard/ProductCard";
-import SideBarCategory from "../electronicItem/components/sideBarCategory/SideBarCategory";
-import UserMessage from "../../components/common/userMessage/UserMessage";
+import React, { memo } from "react";
 import FilterSideBarElectronicItem from "./components/filterSideBarElectronicItem/FilterSideBarElectronicItem";
-import ProductList from "./components/productList/ProductList";
-import SideBarCategoryContainer from "./conteiners/SideBarCategoryContainer";
 import ProductListContainer from "./conteiners/ProductListContainer";
+import SideBarCategoryContainer from "./conteiners/SideBarCategoryContainer";
 
 const ElectronicItemPage = memo(() => {
   return (
