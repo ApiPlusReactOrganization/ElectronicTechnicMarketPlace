@@ -4,7 +4,7 @@ import UsersTableRow from './UsersTableRow';
 import { useRenderCount } from '../../../hooks/useRenderCount';
 
 const UsersTable = () => {
-  const userList = useSelector((state) => state.user.userList);
+  const userList = useSelector((state) => state.users.userList);
   const roleList = useSelector((state) => state.role.roleList);
 
   const renderCount = useRenderCount();

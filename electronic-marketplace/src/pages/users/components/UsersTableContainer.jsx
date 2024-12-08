@@ -1,16 +1,16 @@
-import React, { useEffect } from 'react'
-import useActions from '../../../hooks/useActions'
-import UsersTable from './UsersTable'
+import React, { useEffect } from "react";
+import useActions from "../../../hooks/useActions";
+import UsersTable from "./UsersTable";
 
 const UsersTableContainer = () => {
-  const { getUsers, getRolesData } = useActions()
+  const { getUsers, getRolesData } = useActions();
 
   useEffect(() => {
-    getUsers()
-    getRolesData()
-  }, [])
+    getUsers();
+    getRolesData();
+  }, []);
 
-  return <UsersTable />
-}
+  return <UsersTable />;
+};
 
-export default UsersTableContainer
+export default UsersTableContainer;

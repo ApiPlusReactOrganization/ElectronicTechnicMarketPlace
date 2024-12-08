@@ -35,7 +35,7 @@ const ProductPage = () => {
                 src={productImage(undefined)}
               />
             ) : (
-              <div className="d-flex gap-3">
+              <div className="d-flex gap-3 flex-wrap">
                 {product.images.map((image) => (
                   <img
                     height="100"

@@ -1,6 +1,7 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { thunk } from 'redux-thunk';
 import userReducer from '../store/state/reduserSlises/userSlice'
+import usersReducer from '../store/state/reduserSlises/usersSlice'
 import categoryReducer from '../store/state/reduserSlises/categorySlice'
 import manufacturerReducer from '../store/state/reduserSlises/manufacturerSlice';
 import productReducer from '../store/state/reduserSlises/productSlice';
@@ -15,6 +16,7 @@ export const rootReducer = combineReducers({
     manufacturer: manufacturerReducer,
     product: productReducer,
     appSettings: appSettingSlice,
+    users: usersReducer,
     cartItem : cartItemReducer
   });
 

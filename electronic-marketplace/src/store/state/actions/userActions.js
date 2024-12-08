@@ -1,12 +1,14 @@
 import {
   authUser,
   logout,
-  deleteUserS,
-  getAll,
   getAllFavoriteProducts,
   addFavoriteProduct,
-  removeFavoriteProduct
+  removeFavoriteProduct,
 } from "./../reduserSlises/userSlice";
+import {
+  deleteUserSlice,
+  getAll
+} from "./../reduserSlises/usersSlice";
 import { AuthService } from "../../../utils/services/AuthService";
 import { UserService } from "../../../utils/services/UserService";
 import { jwtDecode } from "jwt-decode";
@@ -76,7 +78,7 @@ export const deleteUser = (userId) => async (dispatch) => {
   try {
     await UserService.delete(userId);
 
-    dispatch(deleteUserS(userId));
+    dispatch(deleteUserSlice(userId));
 
     return { success: true, message: "delete users success" };
   } catch (error) {

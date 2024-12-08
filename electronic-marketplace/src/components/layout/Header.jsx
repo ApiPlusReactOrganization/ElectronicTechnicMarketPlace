@@ -6,14 +6,16 @@ import userImage from "../../hooks/userImage";
 import { memo } from "react";
 
 const adminPages = [
-  { title: 'Categories', path: '/categories' },
-  { title: 'Manufacturers', path: '/manufacturers' },
-  { title: 'Users', path: '/users' },
-]
+  { title: "Categories", path: "/categories" },
+  { title: "Manufacturers", path: "/manufacturers" },
+  { title: "Users", path: "/users" },
+  { title: "Products", path: "/products" },
+];
 
-const Header = memo( () => {
-  const { isAuth, role, currentUser } = useSelector((store) => store.user);
-  const { logoutUser } = useActions();
+const Header = memo(() => {
+  const currentUser = useSelector((store) => store.user.currentUser);
+  const isAuthenticated = useSelector((store) => store.user.isAuthenticated);
+  const logoutUser = useActions().logoutUser;
   const navigate = useNavigate();
   const favoriteProducts = useSelector((state) => state.user.favoriteProducts)
   const cartItems = useSelector((state) => state.cartItem.cartItems)
@@ -90,19 +92,22 @@ const Header = memo( () => {
               </i>
             </Link>
 
-            {(Array.isArray(role)
-              ? role.includes('Administrator')
-              : role === 'Administrator') && (
-              <div className="dropdown">
+            <a className="text-reset me-2" href="#">
+              <i className="fas fa-bell"></i>
+            </a>
+
+            {(Array.isArray(currentUser?.role)
+              ? currentUser?.role.includes("Administrator")
+              : currentUser?.role === "Administrator") && (
+              <div className="dropdown mx-2">
                 <a
-                  className="text-reset me-3 dropdown-toggle hidden-arrow"
+                  className="text-reset dropdown-toggle hidden-arrow"
                   href="#"
                   id="navbarDropdownMenuLink"
                   role="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  <i className="fas fa-bell"></i>
                   <span className="badge rounded-pill badge-notification bg-danger">
                     Admin
                   </span>
@@ -122,7 +127,7 @@ const Header = memo( () => {
               </div>
             )}
 
-            {isAuth ? (
+            {isAuthenticated ? (
               <div className="dropdown">
                 <a
                   className="dropdown-toggle d-flex align-items-center hidden-arrow"
@@ -145,9 +150,9 @@ const Header = memo( () => {
                   className="dropdown-menu dropdown-menu-end"
                   aria-labelledby="navbarDropdownMenuAvatar"
                 >
-                  {(Array.isArray(role)
-                    ? role.includes('User')
-                    : role === 'User') && (
+                  {(Array.isArray(currentUser?.role)
+                    ? currentUser?.role.includes("User")
+                    : currentUser?.role === "User") && (
                     <li>
                       <Link className="dropdown-item" to="/profile">
                         My Profile

@@ -1,43 +1,41 @@
-import React, { useCallback, useState } from 'react'
-import { TextField, Autocomplete } from '@mui/material'
-import userImage from '../../../hooks/userImage'
-import DeleteUserModal from './usersModals/DeleteUserModal'
-import { useRenderCount } from '../../../hooks/useRenderCount'
-import useActions from '../../../hooks/useActions'
-import { toast } from 'react-toastify'
-import isEqual from 'lodash/isEqual'
+import React, { useCallback, useState } from "react";
+import { TextField, Autocomplete } from "@mui/material";
+import userImage from "../../../hooks/userImage";
+import DeleteUserModal from "./usersModals/DeleteUserModal";
+import { useRenderCount } from "../../../hooks/useRenderCount";
+import useActions from "../../../hooks/useActions";
+import { toast } from "react-toastify";
+import isEqual from "lodash/isEqual";
 
 const UsersTableRow = React.memo(
-({ user, roleList }) => {
-
-    const [showDeleteModal, setShowDeleteModal] = useState(false)
-    const { changeRoles, getUsers, getRolesData } = useActions()
-    const renderCount = useRenderCount()
+  ({ user, roleList }) => {
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const { changeRoles, getUsers, getRolesData } = useActions();
+    const renderCount = useRenderCount();
 
     const closeModal = useCallback(() => {
-      setShowDeleteModal(false)
-    }, [])
+      setShowDeleteModal(false);
+    }, []);
 
     const handleRoleChange = useCallback(
       async (event, newRoles) => {
-        event.preventDefault()
-        const roles = newRoles.map((role) => ({ name: role.name }))
+        event.preventDefault();
+        const roles = newRoles.map((role) => ({ name: role.name }));
 
         try {
-          const result = await changeRoles(user.id, roles)
+          const result = await changeRoles(user.id, roles);
 
           if (result.success) {
-            await getUsers()
-            await getRolesData()
+            await getUsers();
           } else {
-            toast.error(result.message)
+            toast.error(result.message);
           }
         } catch (error) {
-          toast.error('Failed to change roles.')
+          toast.error("Failed to change roles.");
         }
       },
       [user.id, changeRoles, getUsers, getRolesData]
-    )
+    );
 
     return (
       <>
@@ -86,11 +84,11 @@ const UsersTableRow = React.memo(
           userId={user.id}
         />
       </>
-    )
+    );
   },
   (prevProps, nextProps) =>
     isEqual(prevProps.user, nextProps.user) &&
     isEqual(prevProps.roleList, nextProps.roleList)
-)
+);
 
-export default UsersTableRow
+export default UsersTableRow;

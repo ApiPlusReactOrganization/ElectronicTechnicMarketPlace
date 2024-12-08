@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import useActions from "../../../hooks/useActions";
-import NotFoundProductImage from "../../../assets/images/productNotFound.png";
-import productImage from "../../../hooks/productImage";
+import useActions from "../../../../hooks/useActions";
+import NotFoundProductImage from "../../../../assets/images/productNotFound.png";
+import productImage from "../../../../hooks/productImage";
 import { useSelector } from "react-redux";
 
 const ProductEdit = () => {
@@ -107,7 +107,7 @@ const ProductEdit = () => {
               src={productImage(undefined)}
             />
           ) : (
-            <div className="d-flex gap-3">
+            <div className="d-flex gap-3 flex-wrap">
               {product.images.map((image) => (
                 <div key={image.id} className="position-relative">
                   <button

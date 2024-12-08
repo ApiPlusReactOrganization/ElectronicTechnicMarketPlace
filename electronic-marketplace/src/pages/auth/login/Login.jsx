@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { isAuth } = useSelector((state) => state.user);
+  const { isAuthenticated } = useSelector((state) => state.user);
   const { signInUser } = useActions();
 
   const [formValues, setFormValues] = React.useState({
@@ -52,10 +52,10 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (isAuth) {
+    if (isAuthenticated) {
       navigate("/");
     }
-  }, [isAuth, navigate]);
+  }, [isAuthenticated, navigate]);
 
   return (
     <div className="container align-items-center d-flex flex-column my-4">

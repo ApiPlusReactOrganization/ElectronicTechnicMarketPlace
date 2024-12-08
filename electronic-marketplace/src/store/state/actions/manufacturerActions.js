@@ -51,7 +51,6 @@ export const deleteManufacturer = (id) => async (dispatch) => {
 
     return { success: true, message: response };
   } catch (error) {
-    console.log(error.response.data);
     return { success: false, message: error.response.data };
   }
 };
