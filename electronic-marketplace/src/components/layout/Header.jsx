@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import useActions from "../../hooks/useActions";
 import { useSelector } from "react-redux";
 import userImage from "../../hooks/userImage";
+import { memo } from "react";
 
 const adminPages = [
   { title: "Categories", path: "/categories" },
@@ -11,16 +12,17 @@ const adminPages = [
   { title: "Products", path: "/products" },
 ];
 
-const Header = () => {
+const Header = memo(() => {
   const currentUser = useSelector((store) => store.user.currentUser);
   const isAuthenticated = useSelector((store) => store.user.isAuthenticated);
   const logoutUser = useActions().logoutUser;
   const navigate = useNavigate();
-
+  const favoriteProducts = useSelector((state) => state.user.favoriteProducts)
+  const cartItems = useSelector((state) => state.cartItem.cartItems)
   const logoutHandler = () => {
-    logoutUser();
-    navigate("/");
-  };
+    logoutUser()
+    navigate('/')
+  }
 
   return (
     <>
@@ -56,14 +58,39 @@ const Header = () => {
               </li>
             </ul>
           </div>
+
           <div className="d-flex align-items-center">
             <Link to="/favoriteProducts" className="text-reset me-3">
-              <i className="fas fa-heart"></i>
+              <i
+                className={`fas fa-heart ${
+                  favoriteProducts && favoriteProducts.length > 0
+                    ? 'position-relative'
+                    : ''
+                }`}
+              >
+                {favoriteProducts && favoriteProducts.length > 0 && (
+                  <span className="badge bg-danger position-absolute top-0 start-100 translate-middle p-1">
+                    {favoriteProducts.length}
+                  </span>
+                )}
+              </i>
             </Link>
 
-            <a className="text-reset me-3" href="#">
-              <i className="fas fa-shopping-cart"></i>
-            </a>
+            <Link to="/cartItems" className="text-reset me-3">
+              <i
+                className={`fas fa-shopping-cart ${
+                  cartItems && cartItems.length > 0
+                    ? 'position-relative'
+                    : ''
+                }`}
+              >
+                {cartItems && cartItems.length > 0 && (
+                  <span className="badge bg-danger position-absolute top-0 start-100 translate-middle p-1">
+                    {cartItems.length}
+                  </span>
+                )}
+              </i>
+            </Link>
 
             <a className="text-reset me-2" href="#">
               <i className="fas fa-bell"></i>
@@ -160,6 +187,6 @@ const Header = () => {
       </nav>
     </>
   );
-};
+});
 
-export default Header;
+export default Header

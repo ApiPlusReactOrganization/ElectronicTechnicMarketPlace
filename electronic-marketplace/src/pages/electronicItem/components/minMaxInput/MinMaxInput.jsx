@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import { TextField, Typography, Box, Slider } from "@mui/material";
 
-const MinMaxInput = ({
+const MinMaxInput = memo(({
   label,
   minLimit,
   maxLimit,
@@ -71,6 +71,6 @@ const MinMaxInput = ({
       />
     </Box>
   );
-};
+});
 
 export default MinMaxInput;

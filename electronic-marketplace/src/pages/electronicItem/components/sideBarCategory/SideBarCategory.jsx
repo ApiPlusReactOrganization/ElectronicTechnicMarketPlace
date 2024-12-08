@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React, { memo, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useActions from "../../../../hooks/useActions";
 import { useSelector } from "react-redux";
 
-const SideBarCategory = () => {
+const SideBarCategory = memo(() => {
   const { getCategories } = useActions();
   const categoryList = useSelector((state) => state.category.categoryList);
   const navigate = useNavigate();
@@ -13,8 +13,10 @@ const SideBarCategory = () => {
     getCategories();
   }, []);
 
-  const handleCategoryClick = (categoryId) => {
-    navigate(`/electronicItem/${categoryId}`);
+  const handleCategoryClick = (categoryClickId) => {
+    if (categoryClickId != categoryId) {
+      navigate(`/electronicItem/${categoryClickId}`);
+    }
   };
 
   const handleShowAllProducts = () => {
@@ -29,7 +31,7 @@ const SideBarCategory = () => {
             <button
               className="btn btn-primary w-100"
               onClick={handleShowAllProducts}
-              disabled={!categoryId} // Вимикаємо, якщо вже на сторінці "Усі товари"
+              disabled={!categoryId}
             >
               Усі товари
             </button>
@@ -54,6 +56,6 @@ const SideBarCategory = () => {
       </div>
     </div>
   );
-};
+});
 
 export default SideBarCategory;

@@ -78,15 +78,13 @@ export default class HttpClient {
       return response.data;
     } catch (error) {
       const status = error.response ? error.response.status : 500;
-      // if (status === 404) {
-      //   setStatus(PageStatuses.NOT_FOUND)(store.dispatch);
-      // } 
-      // // else if (status === 400) {
-      // //   setStatus(PageStatuses.BAD_REQUEST)(store.dispatch);
-      // // } 
-      // else {
-      //   setStatus(PageStatuses.TOO_MANY_REQUESTS)(store.dispatch);
-      // }
+      if (status === 404) {
+        setStatus(PageStatuses.NOT_FOUND)(store.dispatch);
+      } else if (status === 400) {
+        setStatus(PageStatuses.BAD_REQUEST)(store.dispatch);
+      } else {
+        setStatus(PageStatuses.TOO_MANY_REQUESTS)(store.dispatch);
+      }
       return Promise.reject(error);
     } finally {
       setIsLoading(false)(store.dispatch);

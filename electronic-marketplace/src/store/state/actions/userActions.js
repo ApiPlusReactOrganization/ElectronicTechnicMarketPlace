@@ -1,7 +1,7 @@
 import {
   authUser,
   logout,
-  setFavoriteProducts,
+  getAllFavoriteProducts,
   addFavoriteProduct,
   removeFavoriteProduct,
 } from "./../reduserSlises/userSlice";
@@ -127,7 +127,7 @@ export const updateUser = (userId, model) => async (dispatch) => {
 export const loadFavoriteProducts = (userId) => async (dispatch) => {
   try {
     const response = await UserService.getFavoriteProducts(userId);
-    dispatch(setFavoriteProducts(response));
+    dispatch(getAllFavoriteProducts(response));
   } catch (error) {
     const errorMessage = error.response?.data;
     console.error("Error loading favorite products:", errorMessage);
@@ -135,26 +135,25 @@ export const loadFavoriteProducts = (userId) => async (dispatch) => {
   }
 };
 
-export const addProductToFavorites =
-  (userId, productId) => async (dispatch) => {
-    try {
-      await UserService.addFavoriteProduct(userId, productId);
-      dispatch(addFavoriteProduct(productId));
-      return { success: true, message: "Product added to favorites" };
-    } catch (error) {
-      const errorMessage = error.response?.data;
-      return { success: false, message: errorMessage };
-    }
-  };
+export const addProductToFavorites = (userId, productId) => async (dispatch) => {
+  try {
+    await UserService.addFavoriteProduct(userId, productId);
+    dispatch(addFavoriteProduct(productId));
+    await loadFavoriteProducts(userId)(dispatch);
+    return { success: true, message: "Product added to favorites" };
+  } catch (error) {
+    const errorMessage = error.response?.data;
+    return { success: false, message: errorMessage };
+  }
+};
 
-export const removeProductFromFavorites =
-  (userId, productId) => async (dispatch) => {
-    try {
-      await UserService.removeFavoriteProduct(userId, productId);
-      dispatch(removeFavoriteProduct(productId));
-      return { success: true, message: "Product removed from favorites" };
-    } catch (error) {
-      const errorMessage = error.response?.data;
-      return { success: false, message: errorMessage };
-    }
-  };
+export const removeProductFromFavorites = (userId, productId) => async (dispatch) => {
+  try {
+    await UserService.removeFavoriteProduct(userId, productId);
+    dispatch(removeFavoriteProduct(productId));
+    return { success: true, message: "Product removed from favorites" };
+  } catch (error) {
+    const errorMessage = error.response?.data;
+    return { success: false, message: errorMessage };
+  }
+};

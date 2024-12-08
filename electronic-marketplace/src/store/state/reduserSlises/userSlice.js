@@ -18,6 +18,9 @@ export const userSlice = createSlice({
       state.currentUser = null;
       state.isAuthenticated = false;
     },
+    getAllFavoriteProducts: (state, action) => {
+      state.favoriteProducts = action.payload;
+    },
     addFavoriteProduct: (state, action) => {
       const productId = action.payload;
       if (!state.favoriteProducts.includes(productId)) {
@@ -26,11 +29,8 @@ export const userSlice = createSlice({
     },
     removeFavoriteProduct: (state, action) => {
       state.favoriteProducts = state.favoriteProducts.filter(
-        (id) => id !== action.payload
+        (product) => product.id !== action.payload
       );
-    },
-    setFavoriteProducts: (state, action) => {
-      state.favoriteProducts = action.payload;
     },
   },
 });
@@ -40,7 +40,7 @@ export const {
   logout,
   addFavoriteProduct,
   removeFavoriteProduct,
-  setFavoriteProducts,
+  getAllFavoriteProducts,
 } = userSlice.actions;
 
 export default userSlice.reducer;
