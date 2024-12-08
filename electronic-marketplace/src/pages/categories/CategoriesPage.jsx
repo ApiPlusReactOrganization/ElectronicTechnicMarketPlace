@@ -80,15 +80,15 @@ const CategoriesPage = () => {
   return (
     <div className="container my-3">
       <h1>Categories</h1>
-      <button className="btn btn-primary float-end mb-2" onClick={startAdd}>
+      {/* <button className="btn btn-primary float-end mb-2" onClick={startAdd}>
         Add Category
-      </button>
+      </button> */}
       <table className="table table-striped table-bordered table-hover">
         <thead>
           <tr>
             <th>Id</th>
             <th>Name</th>
-            <th>Actions</th>
+            {/* <th>Actions</th> */}
           </tr>
         </thead>
         <tbody>
@@ -96,7 +96,7 @@ const CategoriesPage = () => {
             <tr key={category.id}>
               <td>{category.id}</td>
               <td>{category.name}</td>
-              <td>
+              {/* <td>
                 <button
                   className="btn btn-warning me-2"
                   onClick={() => startEdit(category)}
@@ -109,7 +109,7 @@ const CategoriesPage = () => {
                 >
                   Delete
                 </button>
-              </td>
+              </td> */}
             </tr>
           ))}
         </tbody>
