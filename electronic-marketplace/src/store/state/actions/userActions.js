@@ -31,7 +31,7 @@ export const AuthByToken = (tokens) => async (dispatch) => {
     await AuthService.setAuthorizationToken(tokens.accessToken);
     const user = jwtDecode(tokens.accessToken);
     dispatch(authUser(user));
-    // await loadFavoriteProducts(user.id)(dispatch);
+    await loadFavoriteProducts(user.id)(dispatch);
   } else {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");

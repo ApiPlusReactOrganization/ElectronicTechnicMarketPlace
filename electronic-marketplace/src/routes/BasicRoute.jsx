@@ -11,11 +11,11 @@ import ProductDetailsPage from '../pages/electronicItem/components/productDetail
 import ErrorPage from '../pages/errorPages/ErrorPage'
 import FavoriteProductPage from '../pages/favoriteProducts/FavoriteProductPage'
 import HomePage from '../pages/home/HomePage'
-import ManufacturersPage from '../pages/manufacturers/components/ManufacturersPage'
-import MyProfilePage from '../pages/myProfile/components/MyProfilePage'
+import ManufacturersPage from '../pages/manufacturers/ManufacturersPage'
+import MyProfilePage from '../pages/myProfile/MyProfilePage'
 import ProductPage from '../pages/products/ProductsPage'
-import ProductEdit from '../pages/products/productEdit/ProductEdit'
-import UsersPage from '../pages/users/components/UsersPage'
+import ProductEdit from '../pages/products/componets/productEdit/ProductEdit'
+import UsersPage from '../pages/users/UsersPage'
 import ProtectedRoute from './ProtectedRoute'
 
 const BasicRoute = memo(() => {

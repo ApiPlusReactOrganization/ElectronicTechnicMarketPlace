@@ -4,7 +4,7 @@ import useActions from "../../hooks/useActions";
 
 const CartItemsPage = () => {
   const cartItems = useSelector((state) => state.cartItem.cartItemList);
-  const userId = useSelector((state) => state.user.userId);
+  const userId = useSelector((state) => state.user.currentUser.id);
   const { getCartItems } = useActions();
 
   useEffect(() => {

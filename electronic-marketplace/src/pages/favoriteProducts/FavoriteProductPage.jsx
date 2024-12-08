@@ -4,12 +4,13 @@ import useActions from '../../hooks/useActions'
 import FavoriteProductsGrid from './components/FavoriteProductsGrid'
 
 const FavoriteProducts = () => {
-  const { loadFavoriteProducts } = useActions()
-  const userId = useSelector((state) => state.user.userId)
+  const { loadFavoriteProducts, getCartItems } = useActions()
+  const userId = useSelector((state) => state.user.currentUser.id)
 
   useEffect(() => {
     if (userId) {
       loadFavoriteProducts(userId)
+      getCartItems()
     }
   }, [])
 

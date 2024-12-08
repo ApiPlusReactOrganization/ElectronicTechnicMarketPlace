@@ -10,7 +10,7 @@ const ProductToCartButton = ({ productId }) => {
   const [isInCart, setIsInCart] = useState(false);
 
   const cartItems = useSelector((state) => state.cartItem.cartItemList);
-  const userId = useSelector((state) => state.user.userId);
+  const userId = useSelector((state) => state.user.currentUser.id);
   const { createCartItem } = useActions();
   const navigate = useNavigate();
 
