@@ -3,7 +3,7 @@ import {
   logout,
   deleteUserS,
   getAll,
-  setFavoriteProducts,
+  getAllFavoriteProducts,
   addFavoriteProduct,
   removeFavoriteProduct
 } from "./../reduserSlises/userSlice";
@@ -23,7 +23,7 @@ export const signInUser = (model) => async (dispatch) => {
 };
 
 export const AuthByToken = (tokens) => async (dispatch) => {
-  if (tokens) {    
+  if (tokens) {
     localStorage.setItem("accessToken", tokens.accessToken);
     localStorage.setItem("refreshToken", tokens.refreshToken);
     await AuthService.setAuthorizationToken(tokens.accessToken);
@@ -125,7 +125,7 @@ export const updateUser = (userId, model) => async (dispatch) => {
 export const loadFavoriteProducts = (userId) => async (dispatch) => {
   try {
     const response = await UserService.getFavoriteProducts(userId);
-    dispatch(setFavoriteProducts(response));
+    dispatch(getAllFavoriteProducts(response));
   } catch (error) {
     const errorMessage = error.response?.data;
     console.error("Error loading favorite products:", errorMessage);
@@ -137,6 +137,7 @@ export const addProductToFavorites = (userId, productId) => async (dispatch) => 
   try {
     await UserService.addFavoriteProduct(userId, productId);
     dispatch(addFavoriteProduct(productId));
+    await loadFavoriteProducts(userId)(dispatch);
     return { success: true, message: "Product added to favorites" };
   } catch (error) {
     const errorMessage = error.response?.data;

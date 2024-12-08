@@ -1,24 +1,26 @@
-import "./layout.css";
-import { Link, useNavigate } from "react-router-dom";
-import useActions from "../../hooks/useActions";
-import { useSelector } from "react-redux";
-import userImage from "../../hooks/userImage";
+import './layout.css'
+import { Link, useNavigate } from 'react-router-dom'
+import useActions from '../../hooks/useActions'
+import { useSelector } from 'react-redux'
+import userImage from '../../hooks/userImage'
 
 const adminPages = [
-  { title: "Categories", path: "/categories" },
-  { title: "Manufacturers", path: "/manufacturers" },
-  { title: "Users", path: "/users" },
-];
+  { title: 'Categories', path: '/categories' },
+  { title: 'Manufacturers', path: '/manufacturers' },
+  { title: 'Users', path: '/users' },
+]
 
 const Header = () => {
-  const { isAuth, role, currentUser } = useSelector((store) => store.user);
-  const { logoutUser } = useActions();
-  const navigate = useNavigate();
+  const { isAuth, role, currentUser } = useSelector((store) => store.user)
+  const favoriteProducts = useSelector((state) => state.user.favoriteProducts)
+  const cartItems = useSelector((state) => state.cartItem.cartItems)
+  const { logoutUser } = useActions()
+  const navigate = useNavigate()
 
   const logoutHandler = () => {
-    logoutUser();
-    navigate("/");
-  };
+    logoutUser()
+    navigate('/')
+  }
 
   return (
     <>
@@ -54,18 +56,43 @@ const Header = () => {
               </li>
             </ul>
           </div>
+
           <div className="d-flex align-items-center">
             <Link to="/favoriteProducts" className="text-reset me-3">
-              <i className="fas fa-heart"></i>
+              <i
+                className={`fas fa-heart ${
+                  favoriteProducts && favoriteProducts.length > 0
+                    ? 'position-relative'
+                    : ''
+                }`}
+              >
+                {favoriteProducts && favoriteProducts.length > 0 && (
+                  <span className="badge bg-danger position-absolute top-0 start-100 translate-middle p-1">
+                    {favoriteProducts.length}
+                  </span>
+                )}
+              </i>
             </Link>
 
-            <a className="text-reset me-3" href="#">
-              <i className="fas fa-shopping-cart"></i>
-            </a>
+            <Link to="/cartItems" className="text-reset me-3">
+              <i
+                className={`fas fa-shopping-cart ${
+                  cartItems && cartItems.length > 0
+                    ? 'position-relative'
+                    : ''
+                }`}
+              >
+                {cartItems && cartItems.length > 0 && (
+                  <span className="badge bg-danger position-absolute top-0 start-100 translate-middle p-1">
+                    {cartItems.length}
+                  </span>
+                )}
+              </i>
+            </Link>
 
             {(Array.isArray(role)
-              ? role.includes("Administrator")
-              : role === "Administrator") && (
+              ? role.includes('Administrator')
+              : role === 'Administrator') && (
               <div className="dropdown">
                 <a
                   className="text-reset me-3 dropdown-toggle hidden-arrow"
@@ -119,8 +146,8 @@ const Header = () => {
                   aria-labelledby="navbarDropdownMenuAvatar"
                 >
                   {(Array.isArray(role)
-                    ? role.includes("User")
-                    : role === "User") && (
+                    ? role.includes('User')
+                    : role === 'User') && (
                     <li>
                       <Link className="dropdown-item" to="/profile">
                         My Profile
@@ -154,7 +181,7 @@ const Header = () => {
         </div>
       </nav>
     </>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

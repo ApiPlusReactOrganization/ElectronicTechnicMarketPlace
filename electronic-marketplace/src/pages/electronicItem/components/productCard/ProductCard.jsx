@@ -1,21 +1,18 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import defaultImage from '../../../../assets/images/noImageProduct.png';
-import productImage from '../../../../hooks/productImage';
+import React from 'react'
+import FavoriteIcon from '../../../favoriteProducts/components/FavoriteIcon'
+import defaultImage from '../../../../assets/images/noImageProduct.png'
+import productImage from '../../../../hooks/productImage'
+import { styled } from '@mui/system'
 
 const ProductCard = ({ product }) => {
-  const navigate = useNavigate();
-  const imageUrl = product.images && product.images.length > 0 
-    ? productImage(product.images[0].filePath)
-    : defaultImage;
-
-  const handleViewDetails = () => {
-    navigate(`/electronicItem/product/${product.id}`);
-  };
+  const imageUrl =
+    product.images && product.images.length > 0
+      ? productImage(product.images[0].filePath)
+      : defaultImage
 
   return (
-    <div className="card mb-3" style={{ maxWidth: '18rem' }}>
-      <div className="card-body  text-center">
+    <CardWrapper className="card mb-3" style={{ maxWidth: '18rem' }}>
+      <div className="card-body text-center">
         <img
           src={imageUrl}
           alt={product.name}
@@ -25,12 +22,33 @@ const ProductCard = ({ product }) => {
         <h5 className="card-title">{product.name}</h5>
         <p className="card-text text-truncate">{product.description}</p>
         <p className="card-text">Price: ${product.price}</p>
-        <button className="btn btn-primary" onClick={handleViewDetails}>
+
+        <FavoriteIconWrapper>
+          <FavoriteIcon productId={product.id} />
+        </FavoriteIconWrapper>
+
+        <button
+          className="btn btn-primary"
+          onClick={() => navigate(`/electronicItem/product/${product.id}`)}
+        >
           View Details
         </button>
       </div>
-    </div>
-  );
-};
+    </CardWrapper>
+  )
+}
 
-export default ProductCard;
+export default ProductCard
+
+const CardWrapper = styled('div')({
+  position: 'relative',
+  maxWidth: '18rem',
+  marginBottom: '1rem',
+})
+
+const FavoriteIconWrapper = styled('div')({
+  position: 'absolute',
+  top: 10,
+  right: 10,
+  zIndex: 1,
+})

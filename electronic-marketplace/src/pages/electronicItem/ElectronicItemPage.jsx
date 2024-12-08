@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import useActions from '../../hooks/useActions';
 import ProductCard from './components/productCard/ProductCard';
-import SideBarCategory from "../electronicItem/components/sideBarCategory/SideBarCategory";
+import SideBarCategory from '../electronicItem/components/sideBarCategory/SideBarCategory';
 import UserMessage from '../../components/common/userMessage/UserMessage';
 import FilterSideBarElectronicItem from './components/filterSideBarElectronicItem/FilterSideBarElectronicItem';
 

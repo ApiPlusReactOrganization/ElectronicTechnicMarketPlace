@@ -39,10 +39,10 @@ export class UserService {
   }
 
   static async addFavoriteProduct(userId, productId) {
-    return await this.httpClient.put(`favorite-products-add/${userId}/${productId}`);
+    return await this.httpClient.put(`favorite-product-add/${userId}/${productId}`);
   }
 
   static async removeFavoriteProduct(userId, productId) {
-    return await this.httpClient.put(`favorite-products-remove/${userId}/${productId}`);
+    return await this.httpClient.put(`favorite-product-remove/${userId}/${productId}`);
   }
 }

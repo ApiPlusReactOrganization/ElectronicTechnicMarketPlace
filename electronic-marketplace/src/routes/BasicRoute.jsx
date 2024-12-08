@@ -20,6 +20,7 @@ import { setStatus } from '../store/state/actions/appSettingActions'
 import { store } from '../store/store'
 import FavoriteProductPage from '../pages/favoriteProducts/FavoriteProductPage'
 import { PageStatuses } from '../store/state/reduserSlises/appSettingSlice'
+import CartItemsPage from '../pages/cartItems/CartitemsPage'
 
 const BasicRoute = () => {
   const location = useLocation()
@@ -61,9 +62,18 @@ const BasicRoute = () => {
           </Route>
 
           <Route
+            path="/cartItems"
+            element={
+              <ProtectedRoute allowedRoles={['User']}>
+                <CartItemsPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
             path="/favoriteProducts"
             element={
-              <ProtectedRoute allowedRoles={['User', 'Administrator']}>
+              <ProtectedRoute allowedRoles={['User']}>
                 <FavoriteProductPage />
               </ProtectedRoute>
             }
