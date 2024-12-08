@@ -67,24 +67,10 @@ const FilterSideBarElectronicItem = memo(() => {
       const handler = setTimeout(() => {
         const finalFilters = cleanFilters(filters);
         filterProducts(finalFilters);
-      }, 300); // Затримка 300 мс
+      }, 300);
   
       return () => clearTimeout(handler);
     }, [filters]);
-
-  // useEffect(() => {
-  //   const cleanFilters = (filters) => {
-  //     return Object.fromEntries(
-  //       Object.entries(filters).filter(([_, value]) => {
-  //         if (Array.isArray(value)) return value.length > 0;
-  //         return value !== "" && value !== null && value !== undefined;
-  //       })
-  //     );
-  //   };
-
-  //   const finalFilters = cleanFilters(filters);
-  //   filterProducts(finalFilters);
-  // }, [filters]);
 
   const handleFilterChange = useCallback((key, value) => {
     setFilters((prev) => ({
