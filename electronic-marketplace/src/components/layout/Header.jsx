@@ -1,8 +1,9 @@
-import './layout.css'
-import { Link, useNavigate } from 'react-router-dom'
-import useActions from '../../hooks/useActions'
-import { useSelector } from 'react-redux'
-import userImage from '../../hooks/userImage'
+import "./layout.css";
+import { Link, useNavigate } from "react-router-dom";
+import useActions from "../../hooks/useActions";
+import { useSelector } from "react-redux";
+import userImage from "../../hooks/userImage";
+import { memo } from "react";
 
 const adminPages = [
   { title: 'Categories', path: '/categories' },
@@ -10,13 +11,12 @@ const adminPages = [
   { title: 'Users', path: '/users' },
 ]
 
-const Header = () => {
-  const { isAuth, role, currentUser } = useSelector((store) => store.user)
+const Header = memo( () => {
+  const { isAuth, role, currentUser } = useSelector((store) => store.user);
+  const { logoutUser } = useActions();
+  const navigate = useNavigate();
   const favoriteProducts = useSelector((state) => state.user.favoriteProducts)
   const cartItems = useSelector((state) => state.cartItem.cartItems)
-  const { logoutUser } = useActions()
-  const navigate = useNavigate()
-
   const logoutHandler = () => {
     logoutUser()
     navigate('/')
@@ -181,7 +181,7 @@ const Header = () => {
         </div>
       </nav>
     </>
-  )
-}
+  );
+});
 
 export default Header
