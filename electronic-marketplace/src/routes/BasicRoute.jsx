@@ -17,6 +17,7 @@ import ProductPage from '../pages/products/ProductsPage'
 import ProductEdit from '../pages/products/componets/productEdit/ProductEdit'
 import UsersPage from '../pages/users/UsersPage'
 import ProtectedRoute from './ProtectedRoute'
+import ProductCreate from '../pages/products/componets/productCreate/ProductCreate'
 
 const BasicRoute = memo(() => {
   return (
@@ -27,6 +28,7 @@ const BasicRoute = memo(() => {
           <Route path="/products">
             <Route index element={<ProductPage />} />
             <Route path="edit/:productId" element={<ProductEdit />} />
+            <Route path="create" element={<ProductCreate />} />
           </Route>
           <Route path="/electronicItem">
             <Route index element={<ElectronicItemPage />} />
