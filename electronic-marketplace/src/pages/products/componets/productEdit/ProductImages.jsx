@@ -3,8 +3,10 @@ import { toast } from "react-toastify";
 import useActions from "../../../../hooks/useActions";
 import productImage from "../../../../hooks/productImage";
 import ImageList from "./ImageList";
+import { useSelector } from "react-redux";
 
-const ProductImages = ({ product }) => {
+const ProductImages = () => {
+  const product = useSelector((state) => state.product.productForEdit);
   const { addProductImages } = useActions();
   const [selectedFiles, setSelectedFiles] = useState([]);
 
@@ -64,7 +66,7 @@ const ProductImages = ({ product }) => {
             src={productImage(undefined)}
           />
         ) : (
-          <ImageList images={product.images} />
+          <ImageList />
         )}
       </div>
     </div>

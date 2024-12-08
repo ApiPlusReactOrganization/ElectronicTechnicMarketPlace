@@ -21,8 +21,8 @@ export class ProductsService {
     return await this.httpClient.delete(`delete/${id}`);
   }
 
-  static async updateProduct(model) {
-    return await this.httpClient.put("update", model);
+  static async updateProduct(productId, model) {
+    return await this.httpClient.put(`update/${productId}`, model);
   }
 
   static async getProductById(productId) {
@@ -51,10 +51,8 @@ export class ProductsService {
   }
 
   static async getFilteredProducts(filters) {
-    // console.log("filters", filters);
-  
     const queryParams = new URLSearchParams();
-  
+
     Object.entries(filters).forEach(([key, value]) => {
       if (Array.isArray(value)) {
         value.forEach((v) => queryParams.append(key, v));
@@ -62,8 +60,7 @@ export class ProductsService {
         queryParams.append(key, value);
       }
     });
-  
+
     return await this.httpClient.get(`filter?${queryParams.toString()}`);
   }
-  
 }

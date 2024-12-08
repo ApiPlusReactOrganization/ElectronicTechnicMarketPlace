@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import useActions from "../../../../hooks/useActions";
 import ProductImages from "./ProductImages";
+import ProductEditForm from "./ProductEditForm";
 
 const ProductsEdit = () => {
   const { getProductById } = useActions();
@@ -25,14 +26,18 @@ const ProductsEdit = () => {
     fetchProduct();
   }, []);
 
+  if (!product)
+    return;
+
   return (
     <div className="container">
       <div className="d-flex flex-column align-items-center gap-3">
         <h1 className="m-0">Edit Product: {product.name}</h1>
-        <ProductImages product={product} />
+        <ProductImages />
+        <ProductEditForm />
       </div>
     </div>
   );
 };
 
-export default React.memo(ProductsEdit);
+export default memo(ProductsEdit);

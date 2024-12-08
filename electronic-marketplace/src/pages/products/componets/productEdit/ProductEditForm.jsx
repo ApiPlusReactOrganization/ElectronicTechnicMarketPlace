@@ -8,38 +8,57 @@ import {
   MenuItem,
   Select,
   TextField,
-  Typography,
 } from "@mui/material";
 import useActions from "../../../../hooks/useActions";
-import CategorySpecificForm from "./CategorySpecificForm";
-import { categoryListSwitch } from "./categoryListSwitch";
+import CategorySpecificFormForEdit from "./CategorySpecificFormForEdit";
+import { categoryListSwitch } from "../productCreate/categoryListSwitch";
 import { toast } from "react-toastify";
-import TextBox from "./TextBox";
+import TextBox from "../productCreate/TextBox";
 import { useNavigate } from "react-router-dom";
 
-const ProductForm = memo(() => {
-  const { getCategories, getManufacturers, createProduct } = useActions();
+const ProductEditForm = memo(() => {
+  const { getCategories, getManufacturers, updateProduct } = useActions();
+  const product = useSelector((state) => state.product.productForEdit);
+
   const navigate = useNavigate();
+
   useEffect(() => {
     getCategories();
     getManufacturers();
   }, []);
+
+  useEffect(() => {
+    if (product) {
+      setSelectedCategory(product.category.name || "");
+      setFormData({
+        name: product.name || "",
+        price: product.price || 0,
+        description: product.description || "",
+        stockQuantity: product.stockQuantity || 0,
+        manufacturerId: product.manufacturer?.id || "",
+        categoryId: product.category?.id || "",
+        componentCharacteristic: product.componentCharacteristic || {},
+      });
+    }
+  }, [product]);
 
   const categoryList = useSelector((state) => state.category.categoryList);
   const manufacturerList = useSelector(
     (state) => state.manufacturer.manufacturerList
   );
 
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(
+    product.categoryName || ""
+  );
 
   const [formData, setFormData] = useState({
-    name: "",
-    price: 0,
-    description: "",
-    stockQuantity: 0,
-    manufacturerId: "",
-    categoryId: "",
-    componentCharacteristic: {},
+    name: product.name || "",
+    price: product.price || 0,
+    description: product.description || "",
+    stockQuantity: product.stockQuantity || 0,
+    manufacturerId: product.manufacturer.id || "",
+    categoryId: product.category.id || "",
+    componentCharacteristic: product.componentCharacteristic || {},
   });
 
   const handleInputChange = useCallback((e) => {
@@ -68,7 +87,7 @@ const ProductForm = memo(() => {
         const updatedCharacteristics = { ...prev.componentCharacteristic };
         updatedCharacteristics[categoryListSwitch(selectedCategory)] = {
           ...(updatedCharacteristics[categoryListSwitch(selectedCategory)] ||
-            {}), // todo зробити шо по типу вибору зображення в юзера, типу від назви вертається правельніша назва
+            {}),
           [name]: value,
         };
         return { ...prev, componentCharacteristic: updatedCharacteristics };
@@ -80,14 +99,15 @@ const ProductForm = memo(() => {
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
-      const result = await createProduct(formData);
+      const result = await updateProduct(product.id, formData);
       if (result.success) {
         navigate("/products");
+        toast.success(result.message);
       } else {
         toast.error(result.message);
       }
     },
-    [createProduct]
+    [updateProduct, formData, navigate]
   );
 
   return (
@@ -108,7 +128,6 @@ const ProductForm = memo(() => {
         name="price"
         value={formData.price}
         onChange={handleInputChange}
-        fullWidth
       />
       <TextField
         label="Description"
@@ -117,7 +136,6 @@ const ProductForm = memo(() => {
         onChange={handleInputChange}
         multiline
         rows={4}
-        fullWidth
       />
       <TextField
         label="Stock Quantity"
@@ -125,9 +143,8 @@ const ProductForm = memo(() => {
         name="stockQuantity"
         value={formData.stockQuantity}
         onChange={handleInputChange}
-        fullWidth
       />
-      <FormControl fullWidth>
+      <FormControl>
         <InputLabel id="manufacturer-label">Manufacturer</InputLabel>
         <Select
           labelId="manufacturer-label"
@@ -144,7 +161,7 @@ const ProductForm = memo(() => {
           ))}
         </Select>
       </FormControl>
-      <FormControl fullWidth>
+      <FormControl>
         <InputLabel id="category-label">Category</InputLabel>
         <Select
           labelId="category-label"
@@ -161,16 +178,21 @@ const ProductForm = memo(() => {
         </Select>
       </FormControl>
       {selectedCategory && (
-        <CategorySpecificForm
+        <CategorySpecificFormForEdit
           category={selectedCategory}
           onChange={handleCharacteristicChange}
+          values={
+            formData.componentCharacteristic[
+              categoryListSwitch(selectedCategory)
+            ] || {}
+          }
         />
       )}
       <Button variant="contained" type="submit">
-        Create Product
+        Update Product
       </Button>
     </Box>
   );
 });
 
-export default ProductForm;
+export default ProductEditForm;

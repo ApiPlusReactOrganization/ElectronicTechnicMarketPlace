@@ -24,7 +24,8 @@ export const getProducts = () => async (dispatch) => {
 
 export const createProduct = (product) => async (dispatch) => {
   try {
-    console.log("Creating product:", product);
+    console.log(product)
+
     const res = await ProductsService.createProduct(product);
 
     dispatch(addProduct(res));
@@ -57,13 +58,13 @@ export const deleteProduct = (id) => async (dispatch) => {
   }
 };
 
-export const updateProduct = (model) => async (dispatch) => {
+export const updateProduct = (productId, model) => async (dispatch) => {
   try {
-    const response = await ProductsService.updateProduct(model);
+    const response = await ProductsService.updateProduct(productId, model);
 
     dispatch(updateProductReducer(response));
 
-    return { success: true, message: "User roles updated successfully" };
+    return { success: true, message: "Product updated successfully" };
   } catch (error) {
     const errorMessage =
       error.response?.data?.errors.Name[0] ||
