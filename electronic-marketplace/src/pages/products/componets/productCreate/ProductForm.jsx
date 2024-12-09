@@ -1,5 +1,3 @@
-import React, { useCallback, useEffect, useState, memo } from "react";
-import { useSelector } from "react-redux";
 import {
   Box,
   Button,
@@ -7,17 +5,18 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  TextField,
-  Typography,
+  TextField
 } from "@mui/material";
+import React, { useCallback, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import useActions from "../../../../hooks/useActions";
 import CategorySpecificForm from "./CategorySpecificForm";
-import { categoryListSwitch } from "./categoryListSwitch";
-import { toast } from "react-toastify";
 import TextBox from "./TextBox";
-import { useNavigate } from "react-router-dom";
+import { categoryListSwitch } from "./categoryListSwitch";
 
-const ProductForm = memo(() => {
+const ProductForm = () => {
   const { getCategories, getManufacturers, createProduct } = useActions();
   const navigate = useNavigate();
   useEffect(() => {
@@ -68,7 +67,7 @@ const ProductForm = memo(() => {
         const updatedCharacteristics = { ...prev.componentCharacteristic };
         updatedCharacteristics[categoryListSwitch(selectedCategory)] = {
           ...(updatedCharacteristics[categoryListSwitch(selectedCategory)] ||
-            {}), // todo зробити шо по типу вибору зображення в юзера, типу від назви вертається правельніша назва
+            {}),
           [name]: value,
         };
         return { ...prev, componentCharacteristic: updatedCharacteristics };
@@ -136,7 +135,6 @@ const ProductForm = memo(() => {
           value={formData.manufacturerId}
           onChange={handleInputChange}
         >
-          <MenuItem value="">Select Manufacturer</MenuItem>
           {manufacturerList.map((manufacturer) => (
             <MenuItem key={manufacturer.id} value={manufacturer.id}>
               {manufacturer.name}
@@ -152,7 +150,6 @@ const ProductForm = memo(() => {
           value={selectedCategory}
           onChange={handleCategoryChange}
         >
-          <MenuItem value="">Select Category</MenuItem>
           {categoryList.map((category) => (
             <MenuItem key={category.id} value={category.name}>
               {category.name}
@@ -171,6 +168,6 @@ const ProductForm = memo(() => {
       </Button>
     </Box>
   );
-});
+};
 
 export default ProductForm;

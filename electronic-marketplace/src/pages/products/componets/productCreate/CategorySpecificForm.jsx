@@ -1,5 +1,5 @@
 import { Box, TextField } from "@mui/material";
-import React from "react";
+import React, { memo } from "react";
 
 const CategorySpecificForm = ({ category, onChange }) => {
   const renderFields = (fields) => (
@@ -78,7 +78,7 @@ const CategorySpecificForm = ({ category, onChange }) => {
         { label: "Fan Amount", name: "fanAmount", type: "number" },
         { label: "Voltage", name: "voltage", type: "number" },
         { label: "Max TDP", name: "maxTDP", type: "number" },
-        { label: "Sockets", name: "sockets" },
+        // { label: "Sockets", name: "sockets" },
         { label: "Fan Supply", name: "fanSupply" },
       ]);
     case "HDD":
@@ -102,4 +102,4 @@ const CategorySpecificForm = ({ category, onChange }) => {
   }
 };
 
-export default CategorySpecificForm;
+export default memo(CategorySpecificForm);

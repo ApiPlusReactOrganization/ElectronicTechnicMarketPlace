@@ -1,15 +1,14 @@
-import React, { useEffect, useState, useCallback, memo } from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import useActions from "../../../../hooks/useActions";
-import ProductImages from "./ProductImages";
 import ProductEditForm from "./ProductEditForm";
+import ProductImages from "./ProductImages";
 
 const ProductsEdit = () => {
   const { getProductById } = useActions();
   const { productId } = useParams();
-  const product = useSelector((state) => state.product.productForEdit);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -26,18 +25,21 @@ const ProductsEdit = () => {
     fetchProduct();
   }, []);
 
-  if (!product)
-    return;
+  const product = useSelector((state) => state.product.productForEdit);
 
   return (
-    <div className="container">
-      <div className="d-flex flex-column align-items-center gap-3">
-        <h1 className="m-0">Edit Product: {product.name}</h1>
-        <ProductImages />
-        <ProductEditForm />
-      </div>
+    <div>
+      {product && (
+        <div className="container">
+          <div className="d-flex flex-column align-items-center gap-3">
+            <h1 className="m-0">Edit Product: {product.name}</h1>
+            <ProductImages />
+            <ProductEditForm />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-export default memo(ProductsEdit);
+export default ProductsEdit;

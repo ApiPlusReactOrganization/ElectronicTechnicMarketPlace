@@ -1,5 +1,3 @@
-import React, { useCallback, useEffect, useState, memo } from "react";
-import { useSelector } from "react-redux";
 import {
   Box,
   Button,
@@ -9,14 +7,16 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import useActions from "../../../../hooks/useActions";
-import CategorySpecificFormForEdit from "./CategorySpecificFormForEdit";
-import { categoryListSwitch } from "../productCreate/categoryListSwitch";
-import { toast } from "react-toastify";
-import TextBox from "../productCreate/TextBox";
+import React, { useCallback, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import useActions from "../../../../hooks/useActions";
+import { categoryListSwitch } from "../productCreate/categoryListSwitch";
+import TextBox from "../productCreate/TextBox";
+import CategorySpecificFormForEdit from "./CategorySpecificFormForEdit";
 
-const ProductEditForm = memo(() => {
+const ProductEditForm = () => {
   const { getCategories, getManufacturers, updateProduct } = useActions();
   const product = useSelector((state) => state.product.productForEdit);
 
@@ -153,9 +153,8 @@ const ProductEditForm = memo(() => {
           value={formData.manufacturerId}
           onChange={handleInputChange}
         >
-          <MenuItem value="">Select Manufacturer</MenuItem>
           {manufacturerList.map((manufacturer) => (
-            <MenuItem key={manufacturer.id} value={manufacturer.id}>
+            <MenuItem key={manufacturer.name} value={manufacturer.id}>
               {manufacturer.name}
             </MenuItem>
           ))}
@@ -169,7 +168,6 @@ const ProductEditForm = memo(() => {
           value={selectedCategory}
           onChange={handleCategoryChange}
         >
-          <MenuItem value="">Select Category</MenuItem>
           {categoryList.map((category) => (
             <MenuItem key={category.id} value={category.name}>
               {category.name}
@@ -193,6 +191,6 @@ const ProductEditForm = memo(() => {
       </Button>
     </Box>
   );
-});
+};
 
 export default ProductEditForm;

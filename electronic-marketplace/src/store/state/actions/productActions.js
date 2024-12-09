@@ -66,9 +66,17 @@ export const updateProduct = (productId, model) => async (dispatch) => {
 
     return { success: true, message: "Product updated successfully" };
   } catch (error) {
-    const errorMessage =
-      error.response?.data?.errors.Name[0] ||
-      "An error occurred during role change";
+    let errorMessage = "An error occurred during product creation.";
+
+    if (error.response) {
+      if (error.response.data?.title) {
+        errorMessage = error.response.data.title;
+      } else if (typeof error.response.data === "string") {
+        errorMessage = error.response.data;
+      }
+    }
+
+    console.error("Error creating product:", errorMessage);
     return { success: false, message: errorMessage };
   }
 };
