@@ -2,6 +2,7 @@ import React, { memo, useCallback } from "react";
 import productImage from "../../../../hooks/productImage";
 import useActions from "../../../../hooks/useActions";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ImageItem = ({ image }) => {
   const { deleteProductImageById } = useActions();

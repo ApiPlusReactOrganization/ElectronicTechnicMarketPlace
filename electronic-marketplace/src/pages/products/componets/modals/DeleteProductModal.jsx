@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { memo, useCallback } from 'react'
 import { Modal, Box, Typography, Button } from '@mui/material'
 import { toast } from 'react-toastify'
 import useActions from '../../../../hooks/useActions'
@@ -51,4 +51,4 @@ const DeleteProductModal = ({ showModal, closeModal, productId }) => {
   )
 }
 
-export default DeleteProductModal
+export default memo(DeleteProductModal)

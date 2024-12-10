@@ -81,6 +81,7 @@ const ProductForm = () => {
       e.preventDefault();
       const result = await createProduct(formData);
       if (result.success) {
+        toast.success(result.message);
         navigate("/products");
       } else {
         toast.error(result.message);
