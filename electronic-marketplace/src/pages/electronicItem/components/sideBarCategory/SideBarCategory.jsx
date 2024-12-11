@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import useActions from "../../../../hooks/useActions";
 import { useSelector } from "react-redux";
 
-const SideBarCategory = memo(() => {
+const SideBarCategory = memo(({ basePath }) => {
   const { getCategories } = useActions();
   const categoryList = useSelector((state) => state.category.categoryList);
   const navigate = useNavigate();
@@ -14,13 +14,13 @@ const SideBarCategory = memo(() => {
   }, []);
 
   const handleCategoryClick = (categoryClickId) => {
-    if (categoryClickId != categoryId) {
-      navigate(`/electronicItem/${categoryClickId}`);
+    if (categoryClickId !== categoryId) {
+      navigate(`${basePath}/${categoryClickId}`);
     }
   };
 
   const handleShowAllProducts = () => {
-    navigate("/electronicItem");
+    navigate(basePath);
   };
 
   return (

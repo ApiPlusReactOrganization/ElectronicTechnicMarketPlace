@@ -1,16 +1,21 @@
 import React, { memo, useCallback, useEffect, useState } from 'react'
-import useActions from '../../../../hooks/useActions'
+import useActions from '../../../hooks/useActions'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import MinMaxInput from '../minMaxInput/MinMaxInput'
+import MinMaxInput from '../../electronicItem/components/minMaxInput/MinMaxInput'
 
 const MAX_PRICE_VAL = 50000
 const MAX_STOCK_QUANTITY = 100
 
-const FilterSideBarElectronicItem = memo(() => {
-  const { filterProducts, getManufacturers, getManufacturersByCategoryId } =
-    useActions()
+const FilterSideBarFavoriteProducts = memo(() => {
+  const {
+    filterFavoriteProducts,
+    getManufacturers,
+    getManufacturersByCategoryId,
+  } = useActions()
   const { categoryId } = useParams()
+
+  const userId = useSelector((state) => state.user.currentUser.id)
   const [filters, setFilters] = useState({
     manufacturerIds: [],
     name: '',
@@ -67,11 +72,13 @@ const FilterSideBarElectronicItem = memo(() => {
   useEffect(() => {
     const handler = setTimeout(() => {
       const finalFilters = cleanFilters(filters)
-      filterProducts(finalFilters)
+      if (userId) {
+        filterFavoriteProducts(userId, finalFilters)
+      }
     }, 300)
 
     return () => clearTimeout(handler)
-  }, [filters])
+  }, [filters, userId])
 
   const handleFilterChange = useCallback((key, value) => {
     setFilters((prev) => ({
@@ -166,4 +173,4 @@ const FilterSideBarElectronicItem = memo(() => {
   )
 })
 
-export default FilterSideBarElectronicItem
+export default FilterSideBarFavoriteProducts

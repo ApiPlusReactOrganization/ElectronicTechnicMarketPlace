@@ -1,50 +1,58 @@
-import React, { useEffect, useState } from 'react';
-import { FaShoppingCart, FaCheckCircle } from 'react-icons/fa';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom'; // Для навігації
-import { toast } from 'react-toastify';
-import useActions from '../../../hooks/useActions';
-import { IconButton } from '@mui/material';
+import React, { useEffect, useState, useCallback } from 'react'
+import { FaShoppingCart, FaCheckCircle } from 'react-icons/fa'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import useActions from '../../../hooks/useActions'
+import { IconButton } from '@mui/material'
+import CartItemModal from '../cartItemsModals/CartItemModal'
 
 const ProductToCartButton = ({ productId }) => {
-  const [isInCart, setIsInCart] = useState(false);
+  const [isInCart, setIsInCart] = useState(false)
+  const [showModal, setShowModal] = useState(false)
 
-  const cartItems = useSelector((state) => state.cartItem.cartItemList);
-  const userId = useSelector((state) => state.user.currentUser.id);
-  const { createCartItem } = useActions();
-  const navigate = useNavigate();
+  const cartItems = useSelector((state) => state.cartItem.cartItemList)
+  const userId = useSelector((state) => state.user.currentUser.id)
+  const { createCartItem } = useActions()
+  const navigate = useNavigate()
 
-  // Використовуємо useEffect для оновлення статусу після завантаження cartItems
   useEffect(() => {
     if (cartItems && userId) {
       const isProductInCart = cartItems.some(
         (item) => item.productId === productId && item.userId === userId
-      );
-      setIsInCart(isProductInCart);
+      )
+      setIsInCart(isProductInCart)
     }
-  }, [cartItems]);
+  }, [cartItems])
+
+  const openModal = useCallback(() => setShowModal(true), [])
+  const closeModal = useCallback(() => setShowModal(false), [])
 
   const handleAddToCart = () => {
     if (isInCart) {
-      // Якщо товар вже є в кошику, перенаправляємо на сторінку кошика
-      navigate('/cartItems');
+      openModal()
     } else {
       const cartItem = {
         productId,
         userId,
         quantity: 1,
-      };
+      }
 
       createCartItem(cartItem).then((response) => {
         if (response.success) {
-          toast.success('Product added to cart!');
-          setIsInCart(true); // Оновлюємо статус на "в кошику"
+          toast.success('Product added to cart!')
+          setIsInCart(true)
         } else {
-          toast.error(response.message);
+          toast.error(response.message)
         }
-      });
+      })
     }
-  };
+  }
+
+  const handleGoToCart = () => {
+    closeModal()
+    navigate('/cartItems')
+  }
 
   return (
     <div>
@@ -55,8 +63,14 @@ const ProductToCartButton = ({ productId }) => {
           <FaShoppingCart size={24} color="gray" title="Add to Cart" />
         )}
       </IconButton>
-    </div>
-  );
-};
 
-export default ProductToCartButton;
+      <CartItemModal
+        open={showModal}
+        onClose={closeModal}
+        onGoToCart={handleGoToCart}
+      />
+    </div>
+  )
+}
+
+export default ProductToCartButton

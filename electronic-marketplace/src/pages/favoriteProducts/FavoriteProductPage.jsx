@@ -1,20 +1,13 @@
-import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import useActions from '../../hooks/useActions'
-import FavoriteProductsGrid from './components/FavoriteProductsGrid'
+import React from 'react'
+import FavoriteProductsContainer from './components/FavoriteProductsContainer'
 
-const FavoriteProducts = () => {
-  const { loadFavoriteProducts, getCartItems } = useActions()
-  const userId = useSelector((state) => state.user.currentUser.id)
-
-  useEffect(() => {
-    if (userId) {
-      loadFavoriteProducts(userId)
-      getCartItems()
-    }
-  }, [])
-
-  return <FavoriteProductsGrid />
+const FavoriteProductsPage = () => {
+  return (
+    <>
+      <h2>Your favorite products</h2>
+      <FavoriteProductsContainer />
+    </>
+  )
 }
 
-export default FavoriteProducts
+export default FavoriteProductsPage
