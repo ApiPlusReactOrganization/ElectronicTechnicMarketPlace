@@ -16,7 +16,7 @@ const FavoriteProductsGrid = React.memo(({ favoriteProducts }) => {
       {favoriteProducts && favoriteProducts.length > 0 ? (
         renderFavoriteProductCards()
       ) : (
-        <Typography variant="h6" color="textSecondary" align="center">
+        <Typography variant="h6" color="textSecondary" align="center" sx={{ mt: 4 }}>
           No products found.
         </Typography>
       )}

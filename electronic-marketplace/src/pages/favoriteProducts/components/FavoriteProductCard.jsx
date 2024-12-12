@@ -42,6 +42,7 @@ const CardWrapper = styled(Card)(({ theme }) => ({
   width: '100%',
   height: 350,
   margin: 'auto',
+  marginTop: theme.spacing(5),
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',

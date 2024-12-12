@@ -40,7 +40,7 @@ const MinMaxInput = memo(({
       <Typography variant="subtitle1">{label}</Typography>
       <Box display="flex" alignItems="center" gap={2} mt={1}>
         <TextField
-          label="Мін"
+          label="Min"
           name="min"
           variant="outlined"
           size="small"
@@ -50,7 +50,7 @@ const MinMaxInput = memo(({
         />
         <Typography>-</Typography>
         <TextField
-          label="Макс"
+          label="Max"
           name="max"
           variant="outlined"
           size="small"
