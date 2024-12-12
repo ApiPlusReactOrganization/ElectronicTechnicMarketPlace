@@ -3,7 +3,9 @@ import {
   logout,
   getAllFavoriteProducts,
   addFavoriteProduct,
-  removeFavoriteProduct
+  removeFavoriteProduct,
+  getFavoriteProductsByManufacturer,
+  getFavoriteProductsByCategory
 } from "./../reduserSlises/userSlice";
 import {
   deleteUserSlice,
@@ -12,6 +14,28 @@ import {
 import { AuthService } from "../../../utils/services/AuthService";
 import { UserService } from "../../../utils/services/UserService";
 import { jwtDecode } from "jwt-decode";
+
+export const loadFavoriteProductsByManufacturer = (userId, manufacturerId) => async (dispatch) => {
+  try {
+    const response = await UserService.getFavoriteProductsByManufacturer(userId, manufacturerId);
+    dispatch(getFavoriteProductsByManufacturer(response));
+  } catch (error) {
+    const errorMessage = error.response?.data;
+    console.error("Error loading favorite products by manufacturer:", errorMessage);
+    return { success: false, message: errorMessage };
+  }
+};
+
+export const loadFavoriteProductsByCategory = (userId, categoryId) => async (dispatch) => {
+  try {
+    const response = await UserService.getFavoriteProductsByCategory(userId, categoryId);
+    dispatch(getFavoriteProductsByCategory(response));
+  } catch (error) {
+    const errorMessage = error.response?.data;
+    console.error("Error loading favorite products by category:", errorMessage);
+    return { success: false, message: errorMessage };
+  }
+};
 
 export const signInUser = (model) => async (dispatch) => {
   try {

@@ -10,7 +10,6 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-
     authUser: (state, action) => {
       state.currentUser = action.payload;
       state.isAuthenticated = true;
@@ -38,7 +37,14 @@ export const userSlice = createSlice({
       );
     },
 
-  }
+    getFavoriteProductsByManufacturer: (state, action) => {
+      state.favoriteProducts = action.payload;
+    },
+
+    getFavoriteProductsByCategory: (state, action) => {
+      state.favoriteProducts = action.payload;
+    },
+  },
 });
 
 export const {
@@ -46,7 +52,9 @@ export const {
   logout,
   addFavoriteProduct,
   removeFavoriteProduct,
-  getAllFavoriteProducts
+  getAllFavoriteProducts,
+  getFavoriteProductsByManufacturer,
+  getFavoriteProductsByCategory,
 } = userSlice.actions;
 
 export default userSlice.reducer;

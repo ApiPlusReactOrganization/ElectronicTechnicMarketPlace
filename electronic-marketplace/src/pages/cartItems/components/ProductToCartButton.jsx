@@ -25,8 +25,8 @@ const ProductToCartButton = ({ productId }) => {
     }
   }, [cartItems])
 
-  const openModal = useCallback(() => setShowModal(true), [])
-  const closeModal = useCallback(() => setShowModal(false), [])
+  const openModal = useCallback(() => setShowModal(true))
+  const closeModal = useCallback(() => setShowModal(false))
 
   const handleAddToCart = () => {
     if (isInCart) {

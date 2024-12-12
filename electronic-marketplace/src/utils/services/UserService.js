@@ -1,4 +1,4 @@
-import HttpClient from '../http/HttpClient'
+import HttpClient from '../http/HttpClient';
 
 export class UserService {
   static httpClient = new HttpClient({
@@ -38,6 +38,14 @@ export class UserService {
     return await this.httpClient.get(`get-all-favorite-products/${userId}`);
   }
 
+  static async getFavoriteProductsByManufacturer(userId, manufacturerId) {
+    return await this.httpClient.get(`get-favorite-products-by-manufacturer/${userId}/${manufacturerId}`);
+  }
+
+  static async getFavoriteProductsByCategory(userId, categoryId) {
+    return await this.httpClient.get(`get-favorite-products-by-category/${userId}/${categoryId}`);
+  }
+
   static async addFavoriteProduct(userId, productId) {
     return await this.httpClient.put(`favorite-product-add/${userId}/${productId}`);
   }
@@ -45,5 +53,4 @@ export class UserService {
   static async removeFavoriteProduct(userId, productId) {
     return await this.httpClient.put(`favorite-product-remove/${userId}/${productId}`);
   }
-
 }
