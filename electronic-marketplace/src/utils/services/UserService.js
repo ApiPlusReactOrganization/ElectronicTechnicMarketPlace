@@ -46,18 +46,4 @@ export class UserService {
     return await this.httpClient.put(`favorite-product-remove/${userId}/${productId}`);
   }
 
-  static async getFilteredFavoriteProducts(userId, filters) {
-    const queryParams = new URLSearchParams();
-    Object.entries(filters).forEach(([key, value]) => {
-      if (Array.isArray(value)) {
-        value.forEach((v) => queryParams.append(key, v));
-      } else if (value !== null && value !== undefined) {
-        queryParams.append(key, value);
-      }
-    });
-
-    return await this.httpClient.get(
-      `favorite-products-filter/${userId}?${queryParams.toString()}`
-    );
-  }
 }

@@ -3,8 +3,7 @@ import {
   logout,
   getAllFavoriteProducts,
   addFavoriteProduct,
-  removeFavoriteProduct,
-  getFilterFavoriteProducts
+  removeFavoriteProduct
 } from "./../reduserSlises/userSlice";
 import {
   deleteUserSlice,
@@ -155,20 +154,6 @@ export const removeProductFromFavorites = (userId, productId) => async (dispatch
     return { success: true, message: "Product removed from favorites" };
   } catch (error) {
     const errorMessage = error.response?.data;
-    return { success: false, message: errorMessage };
-  }
-};
-
-export const filterFavoriteProducts = (userId, filters) => async (dispatch) => {
-  try {
-    const response = await UserService.getFilteredFavoriteProducts(userId, filters);
-
-    dispatch(getFilterFavoriteProducts(response));
-
-    return { success: true, payload: response };
-  } catch (error) {
-    const errorMessage = error.response?.data || "Failed to filter products.";
-    console.error("Error filtering favorite products:", errorMessage);
     return { success: false, message: errorMessage };
   }
 };

@@ -38,9 +38,6 @@ export const userSlice = createSlice({
       );
     },
 
-    getFilteredFavoriteProducts: (state, action) => {
-      state.favoriteProducts = action.payload;
-    }
   }
 });
 
@@ -49,8 +46,7 @@ export const {
   logout,
   addFavoriteProduct,
   removeFavoriteProduct,
-  getAllFavoriteProducts,
-  getFilterFavoriteProducts
+  getAllFavoriteProducts
 } = userSlice.actions;
 
 export default userSlice.reducer;
