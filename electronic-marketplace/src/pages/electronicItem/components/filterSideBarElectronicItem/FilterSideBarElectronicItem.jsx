@@ -8,8 +8,12 @@ const MAX_PRICE_VAL = 50000
 const MAX_STOCK_QUANTITY = 100
 
 const FilterSideBarElectronicItem = memo(() => {
-  const { filterProducts, getManufacturers, getManufacturersByCategoryId } =
-    useActions()
+  const {
+    filterProducts,
+    getManufacturers,
+    getManufacturersByCategoryId,
+    getCartItems,
+  } = useActions()
   const { categoryId } = useParams()
   const [filters, setFilters] = useState({
     manufacturerIds: [],
@@ -29,6 +33,7 @@ const FilterSideBarElectronicItem = memo(() => {
 
   useEffect(() => {
     const updateManufacturers = async () => {
+      getCartItems()
       if (categoryId) {
         await getManufacturersByCategoryId(categoryId)
 

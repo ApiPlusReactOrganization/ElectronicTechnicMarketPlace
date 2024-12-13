@@ -17,6 +17,7 @@ const ProductToCartButton = ({ productId }) => {
   const navigate = useNavigate()
 
   useEffect(() => {
+    
     if (cartItems && userId) {
       const isProductInCart = cartItems.some(
         (item) => item.productId === productId && item.userId === userId

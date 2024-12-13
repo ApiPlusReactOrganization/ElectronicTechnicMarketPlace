@@ -36,14 +36,6 @@ export const userSlice = createSlice({
         (product) => product.id !== action.payload
       );
     },
-
-    getFavoriteProductsByManufacturer: (state, action) => {
-      state.favoriteProducts = action.payload;
-    },
-
-    getFavoriteProductsByCategory: (state, action) => {
-      state.favoriteProducts = action.payload;
-    },
   },
 });
 
@@ -52,9 +44,7 @@ export const {
   logout,
   addFavoriteProduct,
   removeFavoriteProduct,
-  getAllFavoriteProducts,
-  getFavoriteProductsByManufacturer,
-  getFavoriteProductsByCategory,
+  getAllFavoriteProducts
 } = userSlice.actions;
 
 export default userSlice.reducer;

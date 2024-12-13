@@ -14,10 +14,13 @@ const FavoriteProductsContainer = React.memo(() => {
   const {
     filteredProducts,
     searchTerm,
+    maxPrice,
     setSearchTerm,
     setPriceRange,
-    setQuantityRange,
+    setQuantityRange
   } = useFilteredProducts()
+
+  console.log('max price from FPC', maxPrice);
 
   const handleRangeChange = (key, value) => {
     if (key === 'priceMin') setPriceRange((prev) => [value, prev[1]])
@@ -57,7 +60,7 @@ const FavoriteProductsContainer = React.memo(() => {
             <MinMaxInput
               label="Price UAH"
               minLimit={0}
-              maxLimit={50000}
+              maxLimit={maxPrice}
               step={100}
               filterKeyMin="priceMin"
               filterKeyMax="priceMax"

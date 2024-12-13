@@ -38,14 +38,6 @@ export class UserService {
     return await this.httpClient.get(`get-all-favorite-products/${userId}`);
   }
 
-  static async getFavoriteProductsByManufacturer(userId, manufacturerId) {
-    return await this.httpClient.get(`get-favorite-products-by-manufacturer/${userId}/${manufacturerId}`);
-  }
-
-  static async getFavoriteProductsByCategory(userId, categoryId) {
-    return await this.httpClient.get(`get-favorite-products-by-category/${userId}/${categoryId}`);
-  }
-
   static async addFavoriteProduct(userId, productId) {
     return await this.httpClient.put(`favorite-product-add/${userId}/${productId}`);
   }
