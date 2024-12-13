@@ -3,8 +3,8 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import useActions from "../../../../hooks/useActions";
-import ProductEditForm from "./ProductEditForm";
-import ProductImages from "./ProductImages";
+import ProductEditForm from "./components/ProductEditForm";
+import ProductImages from "./components/ProductImages";
 
 const ProductsEdit = () => {
   const { getProductById } = useActions();

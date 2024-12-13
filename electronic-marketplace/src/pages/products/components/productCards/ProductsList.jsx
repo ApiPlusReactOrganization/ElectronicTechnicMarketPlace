@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import ProductCard from "./ProductCard";
+import ProductCard from "./components/ProductCard";
 import { useSelector } from "react-redux";
 import useActions from "../../../../hooks/useActions";
 import { useRenderCount } from "../../../../hooks/useRenderCount";

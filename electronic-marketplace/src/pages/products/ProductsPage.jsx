@@ -1,5 +1,5 @@
 import React from "react";
-import ProductsList from "./componets/productCards/ProductsList";
+import ProductsList from "./components/productCards/ProductsList";
 import { Link } from "react-router-dom";
 
 const ProductsPage = () => {

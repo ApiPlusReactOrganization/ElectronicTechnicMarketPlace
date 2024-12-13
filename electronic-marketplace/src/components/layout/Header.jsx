@@ -1,31 +1,31 @@
-import './layout.css'
-import { Link, useNavigate } from 'react-router-dom'
-import useActions from '../../hooks/useActions'
-import { useSelector } from 'react-redux'
-import userImage from '../../hooks/userImage'
-import { memo } from 'react'
+import "./layout.css";
+import { Link, useNavigate } from "react-router-dom";
+import useActions from "../../hooks/useActions";
+import { useSelector } from "react-redux";
+import userImage from "../../hooks/userImage";
+import { memo } from "react";
 
 const adminPages = [
-  { title: 'Categories', path: '/categories' },
-  { title: 'Manufacturers', path: '/manufacturers' },
-  { title: 'Users', path: '/users' },
-  { title: 'Products', path: '/products' },
-]
+  { title: "Categories", path: "/categories" },
+  { title: "Manufacturers", path: "/manufacturers" },
+  { title: "Users", path: "/users" },
+  { title: "Products", path: "/products" },
+];
 
 const Header = memo(() => {
-  const currentUser = useSelector((store) => store.user.currentUser)
-  const isAuthenticated = useSelector((store) => store.user.isAuthenticated)
-  const logoutUser = useActions().logoutUser
-  const navigate = useNavigate()
-  const favoriteProducts = useSelector((state) => state.user.favoriteProducts)
-  const cartItems = useSelector((state) => state.cartItem.cartItemList)
+  const currentUser = useSelector((store) => store.user.currentUser);
+  const isAuthenticated = useSelector((store) => store.user.isAuthenticated);
+  const logoutUser = useActions().logoutUser;
+  const navigate = useNavigate();
+  const favoriteProducts = useSelector((state) => state.user.favoriteProducts);
+  const cartItems = useSelector((state) => state.cartItem.cartItemList);
   const logoutHandler = () => {
-    logoutUser()
-    navigate('/')
-  }
+    logoutUser();
+    navigate("/");
+  };
 
-  const userId = currentUser?.id
-  const userCartItems = cartItems.filter((item) => item.userId === userId)
+  const userId = currentUser?.id;
+  const userCartItems = cartItems.filter((item) => item.userId === userId);
 
   return (
     <>
@@ -66,17 +66,17 @@ const Header = memo(() => {
             <Link to="/favoriteProducts" className="text-reset me-3">
               <i
                 className="fas fa-heart"
-                style={{ fontSize: '20px', position: 'relative' }}
+                style={{ fontSize: "20px", position: "relative" }}
               >
                 {favoriteProducts && favoriteProducts.length > 0 && (
                   <span
                     className="badge bg-danger position-absolute top-0 start-100 translate-middle"
                     style={{
-                      fontSize: '10px',
-                      minWidth: '15px',
-                      height: '15px',
-                      lineHeight: '1',
-                      padding: '2px 4px'
+                      fontSize: "10px",
+                      minWidth: "15px",
+                      height: "15px",
+                      lineHeight: "1",
+                      padding: "2px 4px",
                     }}
                   >
                     {favoriteProducts.length}
@@ -88,17 +88,17 @@ const Header = memo(() => {
             <Link to="/cartItems" className="text-reset me-3">
               <i
                 className="fas fa-shopping-cart"
-                style={{ fontSize: '20px', position: 'relative' }}
+                style={{ fontSize: "20px", position: "relative" }}
               >
                 {userCartItems && userCartItems.length > 0 && (
                   <span
                     className="badge bg-danger position-absolute top-0 start-100 translate-middle"
                     style={{
-                      fontSize: '10px',
-                      minWidth: '15px',
-                      height: '15px',
-                      lineHeight: '1',
-                      padding: '2px 4px'
+                      fontSize: "10px",
+                      minWidth: "15px",
+                      height: "15px",
+                      lineHeight: "1",
+                      padding: "2px 4px",
                     }}
                   >
                     {userCartItems.length}
@@ -112,8 +112,8 @@ const Header = memo(() => {
             </a>
 
             {(Array.isArray(currentUser?.role)
-              ? currentUser?.role.includes('Administrator')
-              : currentUser?.role === 'Administrator') && (
+              ? currentUser?.role.includes("Administrator")
+              : currentUser?.role === "Administrator") && (
               <div className="dropdown mx-2">
                 <a
                   className="text-reset dropdown-toggle hidden-arrow"
@@ -166,8 +166,8 @@ const Header = memo(() => {
                   aria-labelledby="navbarDropdownMenuAvatar"
                 >
                   {(Array.isArray(currentUser?.role)
-                    ? currentUser?.role.includes('User')
-                    : currentUser?.role === 'User') && (
+                    ? currentUser?.role.includes("User")
+                    : currentUser?.role === "User") && (
                     <li>
                       <Link className="dropdown-item" to="/profile">
                         My Profile
@@ -201,7 +201,7 @@ const Header = memo(() => {
         </div>
       </nav>
     </>
-  )
-})
+  );
+});
 
-export default Header
+export default Header;

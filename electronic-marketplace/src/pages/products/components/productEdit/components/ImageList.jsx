@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import ImageItem from "./ImageItem";
 import { useSelector } from "react-redux";
-import productImage from "../../../../hooks/productImage";
+import productImage from "../../../../../hooks/productImage";
 
 const ImageList = () => {
   const images = useSelector((state) => state.product.imagesForEdit);

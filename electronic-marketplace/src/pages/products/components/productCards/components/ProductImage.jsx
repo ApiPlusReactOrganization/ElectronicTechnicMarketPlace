@@ -1,6 +1,6 @@
 import React from "react";
 import { CardMedia } from "@mui/material";
-import productImage from "../../../../hooks/productImage";
+import productImage from "../../../../../hooks/productImage";
 
 const ProductImage = ({ images }) => {
   return (

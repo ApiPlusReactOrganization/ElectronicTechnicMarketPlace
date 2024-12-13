@@ -6,8 +6,8 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import ProductImage from "./ProductImage";
-import DeleteProductModal from "../modals/DeleteProductModal";
-import { useRenderCount } from "../../../../hooks/useRenderCount";
+import DeleteProductModal from "../../modals/DeleteProductModal";
+import { useRenderCount } from "../../../../../hooks/useRenderCount";
 
 const ProductCard = React.memo(({ product }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);

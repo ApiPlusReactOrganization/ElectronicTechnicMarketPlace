@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import useActions from "../../../../hooks/useActions";
+import useActions from "../../../../../hooks/useActions";
 import ImageList from "./ImageList";
 
 const ProductImages = () => {
