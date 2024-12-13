@@ -1,31 +1,28 @@
-import React, { useState, useCallback } from "react";
-import { useRenderCount } from "../../../hooks/useRenderCount";
-import isEqual from "lodash/isEqual";
-import DeleteManufacturerModal from "./manufacturersModals/DeleteManufacturerModal";
-import EditManufacturerModal from "./manufacturersModals/EditManufacturerModal";
-import { TextField, Autocomplete } from "@mui/material";
-import { useSelector } from "react-redux";
+import React, { useState, useCallback } from 'react'
+import isEqual from 'lodash/isEqual'
+import DeleteManufacturerModal from './manufacturersModals/DeleteManufacturerModal'
+import EditManufacturerModal from './manufacturersModals/EditManufacturerModal'
+import { TextField, Autocomplete } from '@mui/material'
+import { useSelector } from 'react-redux'
 
 const ManufacturerTableRow = React.memo(
   ({ manufacturer }) => {
-    const renderCount = useRenderCount();
+    const categoryList = useSelector((store) => store.category.categoryList)
 
-    const categoryList = useSelector((store) => store.category.categoryList);
-
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [selectedManufacturerId, setSelectedManufacturerId] = useState(null);
-    const [showEditModal, setShowEditModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false)
+    const [selectedManufacturerId, setSelectedManufacturerId] = useState(null)
+    const [showEditModal, setShowEditModal] = useState(false)
 
     const openDeleteModal = useCallback((id) => {
-      setSelectedManufacturerId(id);
-      setShowDeleteModal(true);
-    }, []);
+      setSelectedManufacturerId(id)
+      setShowDeleteModal(true)
+    }, [])
 
-    const closeDeleteModal = useCallback(() => setShowDeleteModal(false), []);
+    const closeDeleteModal = useCallback(() => setShowDeleteModal(false), [])
 
-    const openEditModal = useCallback(() => setShowEditModal(true), []);
+    const openEditModal = useCallback(() => setShowEditModal(true), [])
 
-    const closeEditModal = useCallback(() => setShowEditModal(false), []);
+    const closeEditModal = useCallback(() => setShowEditModal(false), [])
 
     return (
       <>
@@ -62,9 +59,6 @@ const ManufacturerTableRow = React.memo(
               </button>
             </div>
           </td>
-          {/* <td>
-            <h5>ManufacturerTableRow render count: {renderCount}</h5>
-          </td> */}
         </tr>
 
         <EditManufacturerModal
@@ -78,10 +72,10 @@ const ManufacturerTableRow = React.memo(
           manufacturerId={selectedManufacturerId}
         />
       </>
-    );
+    )
   },
   (prevProps, nextProps) =>
     isEqual(prevProps.manufacturer, nextProps.manufacturer)
-);
+)
 
-export default ManufacturerTableRow;
+export default ManufacturerTableRow

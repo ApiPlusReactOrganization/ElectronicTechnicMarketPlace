@@ -1,4 +1,4 @@
-import { ProductsService } from "../../../utils/services/ProductServise";
+import { ProductsService } from "../../../utils/services/ProductService";
 import {
   getAll,
   getFilterProducts,
@@ -75,6 +75,7 @@ export const getProductById = (productId) => async (dispatch) => {
     return { success: false, message: errorMessage };
   }
 };
+
 export const getProductsByCategoryId = (categoryId) => async (dispatch) => {
   try {
     const response = await ProductsService.getProductsByCategoryId(categoryId);
@@ -121,17 +122,16 @@ export const addProductImages =
       return { success: false, message: errorMessage };
     }
   };
+
   export const filterProducts = (filters) => async (dispatch) => {
     try {
       const response = await ProductsService.getFilteredProducts(filters);
-  
+
       dispatch(getFilterProducts(response));
-  
+
       return { success: true, payload: response };
     } catch (error) {
       const errorMessage = error.response;
       return { success: false, message: errorMessage };
     }
   };
-
-  

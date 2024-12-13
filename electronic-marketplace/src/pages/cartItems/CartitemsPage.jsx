@@ -1,19 +1,21 @@
-import React, { useEffect, useMemo } from "react";
-import { useSelector } from "react-redux";
-import useActions from "../../hooks/useActions";
+import React, { useEffect, useMemo } from 'react'
+import { useSelector } from 'react-redux'
+import useActions from '../../hooks/useActions'
 
 const CartItemsPage = () => {
-  const cartItems = useSelector((state) => state.cartItem.cartItemList);
-  const userId = useSelector((state) => state.user.currentUser.id);
-  const { getCartItems } = useActions();
+  const cartItems = useSelector((state) => state.cartItem.cartItemList)
+  const userId = useSelector((state) => state.user.currentUser.id)
+  const { getCartItems } = useActions()
 
   useEffect(() => {
-    getCartItems();
-  }, []);
+    if (userId) {
+      getCartItems()
+    }
+  }, [])
 
   const userCartItems = useMemo(() => {
-    return cartItems.filter((item) => item.userId === userId);
-  }, [cartItems]);
+    return cartItems.filter((item) => item.userId === userId)
+  }, [cartItems])
 
   return (
     <div>
@@ -22,7 +24,7 @@ const CartItemsPage = () => {
         <ul>
           {userCartItems.map((item) => (
             <li key={item.id}>
-              <strong>Product ID:</strong> {item.productId} |{" "}
+              <strong>Product ID:</strong> {item.productId} |{' '}
               <strong>Quantity:</strong> {item.quantity}
             </li>
           ))}
@@ -31,7 +33,7 @@ const CartItemsPage = () => {
         <p>Your cart is empty!</p>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default CartItemsPage;
+export default CartItemsPage

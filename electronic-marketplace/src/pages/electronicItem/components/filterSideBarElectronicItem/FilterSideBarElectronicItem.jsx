@@ -1,84 +1,89 @@
-import React, { memo, useCallback, useEffect, useState } from "react";
-import useActions from "../../../../hooks/useActions";
-import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
-import MinMaxInput from "../minMaxInput/MinMaxInput";
+import React, { memo, useCallback, useEffect, useState } from 'react'
+import useActions from '../../../../hooks/useActions'
+import { useParams } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import MinMaxInput from '../minMaxInput/MinMaxInput'
 
-const MAX_PRICE_VAL = 50000;
-const MAX_STOCK_QUANTITY = 100;
+const MAX_PRICE_VAL = 50000
+const MAX_STOCK_QUANTITY = 100
 
 const FilterSideBarElectronicItem = memo(() => {
-  const { filterProducts, getManufacturers, getManufacturersByCategoryId } = useActions();
-  const { categoryId } = useParams();
+  const {
+    filterProducts,
+    getManufacturers,
+    getManufacturersByCategoryId,
+    getCartItems,
+  } = useActions()
+  const { categoryId } = useParams()
   const [filters, setFilters] = useState({
     manufacturerIds: [],
-    name: "",
+    name: '',
     minPrice: 0,
     maxPrice: MAX_PRICE_VAL,
     minStockQuantity: 0,
     maxStockQuantity: MAX_STOCK_QUANTITY,
-  });
+  })
 
   const [isManufacturerListVisible, setIsManufacturerListVisible] =
-    useState(false);
+    useState(false)
 
   const manufacturerList = useSelector(
     (state) => state.manufacturer.manufacturerList
-  );
+  )
 
   useEffect(() => {
     const updateManufacturers = async () => {
+      getCartItems()
       if (categoryId) {
-        await getManufacturersByCategoryId(categoryId);
-  
+        await getManufacturersByCategoryId(categoryId)
+
         setFilters((prev) => {
           if (prev.categoryId !== categoryId) {
-            return { ...prev, categoryId };
+            return { ...prev, categoryId }
           }
-          return prev;
-        });
+          return prev
+        })
       } else {
-        await getManufacturers();
-  
-        setFilters((prev) => {
-          if (prev.categoryId !== "") {
-            return { ...prev, categoryId: "" };
-          }
-          return prev;
-        });
-      }
-    };
-  
-    updateManufacturers();
-  }, [categoryId]);
+        await getManufacturers()
 
-  
-    const cleanFilters = useCallback(
-      (filters) =>
-        Object.fromEntries(
-          Object.entries(filters).filter(([_, value]) => {
-            if (Array.isArray(value)) return value.length > 0;
-            return value !== "" && value !== null && value !== undefined;
-          })
-        ),
-      []
-    );
-    useEffect(() => {
-      const handler = setTimeout(() => {
-        const finalFilters = cleanFilters(filters);
-        filterProducts(finalFilters);
-      }, 300);
-  
-      return () => clearTimeout(handler);
-    }, [filters]);
+        setFilters((prev) => {
+          if (prev.categoryId !== '') {
+            return { ...prev, categoryId: '' }
+          }
+          return prev
+        })
+      }
+    }
+
+    updateManufacturers()
+  }, [categoryId])
+
+  const cleanFilters = useCallback(
+    (filters) =>
+      Object.fromEntries(
+        Object.entries(filters).filter(([_, value]) => {
+          if (Array.isArray(value)) return value.length > 0
+          return value !== '' && value !== null && value !== undefined
+        })
+      ),
+    []
+  )
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      const finalFilters = cleanFilters(filters)
+      filterProducts(finalFilters)
+    }, 300)
+
+    return () => clearTimeout(handler)
+  }, [filters])
 
   const handleFilterChange = useCallback((key, value) => {
     setFilters((prev) => ({
       ...prev,
       [key]: value,
-    }));
-  }, []);
-  
+    }))
+  }, [])
 
   return (
     <div className="filter-sidebar p-3 border rounded bg-light">
@@ -128,9 +133,10 @@ const FilterSideBarElectronicItem = memo(() => {
           }
         >
           {isManufacturerListVisible
-            ? "Приховати виробників"
-            : "Показати виробників"}
+            ? 'Приховати виробників'
+            : 'Показати виробників'}
         </button>
+
         {isManufacturerListVisible && (
           <div className="mt-3">
             {manufacturerList.map((manufacturer) => (
@@ -162,7 +168,7 @@ const FilterSideBarElectronicItem = memo(() => {
         )}
       </div>
     </div>
-  );
-});
+  )
+})
 
-export default FilterSideBarElectronicItem;
+export default FilterSideBarElectronicItem

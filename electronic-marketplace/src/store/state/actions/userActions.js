@@ -3,7 +3,7 @@ import {
   logout,
   getAllFavoriteProducts,
   addFavoriteProduct,
-  removeFavoriteProduct,
+  removeFavoriteProduct
 } from "./../reduserSlises/userSlice";
 import {
   deleteUserSlice,
