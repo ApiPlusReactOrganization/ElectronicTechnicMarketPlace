@@ -5,17 +5,18 @@ import { toast } from "react-toastify";
 import useActions from "../../../../hooks/useActions";
 import ProductEditForm from "./ProductEditForm";
 import ProductImages from "./ProductImages";
-import { EditProductTitle } from "./EditProductTitle";
 
 const ProductsEdit = () => {
   const { getProductById } = useActions();
   const { productId } = useParams();
-  const product = useSelector((state) => state.product.productForEdit);
+  const product = useSelector(
+    (state) => state.product.productWithoutImagesForEdit
+  );
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const result = await getProductById(productId);
+        const result = await getProductById(productId, true);
         if (!result.success) {
           toast.error(result.message || "Failed to load product");
         }
@@ -26,23 +27,14 @@ const ProductsEdit = () => {
 
     fetchProduct();
   }, []);
-
-  const productWithoutImages = useMemo(() => {
-    if (!product) return null;
-    const { images, ...rest } = product;
-    return rest;
-  });
-
-  // console.log("Rendering ProductsEdit", product);
-
   return (
     <div>
       {product && (
         <div className="container">
           <div className="d-flex flex-column align-items-center gap-3">
-            <EditProductTitle name={product.name} />
+            <h1 className="m-0">Edit Product: {product.name}</h1>
             <ProductImages />
-            <ProductEditForm product={productWithoutImages} />
+            <ProductEditForm />
           </div>
         </div>
       )}

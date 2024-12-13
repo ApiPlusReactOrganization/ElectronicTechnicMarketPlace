@@ -2,7 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   productList: [],
-  productForEdit: null
+  product : null,
+  productWithoutImagesForEdit: null,
+  imagesForEdit: [],
 };
 
 export const productSlice = createSlice({
@@ -14,7 +16,8 @@ export const productSlice = createSlice({
     },
 
     getFilterProducts: (state, action) => {
-      const isEqual = JSON.stringify(state.productList) === JSON.stringify(action.payload);
+      const isEqual =
+        JSON.stringify(state.productList) === JSON.stringify(action.payload);
       if (!isEqual) {
         state.productList = action.payload;
       }
@@ -25,7 +28,21 @@ export const productSlice = createSlice({
     },
 
     getProduct: (state, action) => {
-      state.productForEdit = action.payload;
+      state.product = action.payload;
+    },
+
+    getProductForEdit: (state, action) => {
+      const { images, ...rest } = action.payload;
+      state.productWithoutImagesForEdit = rest;
+      state.imagesForEdit = images || [];
+    },
+
+    updateImageForProduct: (state, action) => {
+        state.imagesForEdit = action.payload || [];
+    },
+
+    updateImage: (state, action) => {
+      state.imagesForEdit = action.payload;
     },
 
     addProduct: (state, action) => {
@@ -56,6 +73,8 @@ export const {
   deleteProductReduser,
   updateProductReducer,
   getProductsByCategory,
-  getProduct
+  getProduct,
+  getProductForEdit,
+  updateImageForProduct,
 } = productSlice.actions;
 export default productSlice.reducer;

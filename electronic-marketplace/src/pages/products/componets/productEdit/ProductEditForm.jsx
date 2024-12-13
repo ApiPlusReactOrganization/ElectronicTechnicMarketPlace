@@ -16,9 +16,10 @@ import { categoryListSwitch } from "../productCreate/categoryListSwitch";
 import TextBox from "../productCreate/TextBox";
 import CategorySpecificFormForEdit from "./CategorySpecificFormForEdit";
 
-const ProductEditForm = ({ product }) => {
-  console.log(product)
+const ProductEditForm = () => {
   const { getCategories, getManufacturers, updateProduct } = useActions();
+  const product = useSelector((state) => state.product.productWithoutImagesForEdit);
+
 
   const navigate = useNavigate();
 
@@ -110,11 +111,15 @@ const ProductEditForm = ({ product }) => {
     [updateProduct, formData, navigate]
   );
 
+  const handleCancel = () => {
+    navigate("/products");
+  };
+
   return (
     <Box
       component="form"
       onSubmit={handleSubmit}
-      sx={{ display: "flex", flexDirection: "column", gap: 2, minWidth: 500 }}
+      sx={{ display: "flex", flexDirection: "column", gap: 2, minWidth: 500, margin: "0 0 20px 0" }}
     >
       <TextBox
         value={formData.name}
@@ -186,13 +191,16 @@ const ProductEditForm = ({ product }) => {
           }
         />
       )}
-      <Button variant="contained" type="submit">
-        Update Product
-      </Button>
+      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Button variant="contained" type="submit">
+          Update Product
+        </Button>
+        <Button variant="contained" color="error" onClick={handleCancel}>
+          Cansell
+        </Button>
+      </Box>
     </Box>
   );
 };
 
-export default memo(ProductEditForm, (prevProps, nextProps) => {
-  return JSON.stringify(prevProps.product) === JSON.stringify(nextProps.product);
-});
+export default ProductEditForm;
