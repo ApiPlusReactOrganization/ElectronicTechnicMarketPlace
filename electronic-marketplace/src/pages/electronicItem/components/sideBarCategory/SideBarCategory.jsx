@@ -2,10 +2,11 @@ import React, { memo, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useActions from "../../../../hooks/useActions";
 import { useSelector } from "react-redux";
+import { selectMemoizedcategoryList } from "../../../../store/state/selectors/categorySelectors";
 
 const SideBarCategory = memo(({ basePath }) => {
   const { getCategories } = useActions();
-  const categoryList = useSelector((state) => state.category.categoryList);
+  const categoryList = useSelector(selectMemoizedcategoryList);
   const navigate = useNavigate();
   const { categoryId } = useParams();
 

@@ -14,10 +14,10 @@ export const productSlice = createSlice({
     },
 
     getFilterProducts: (state, action) => {
-      const isEqual = JSON.stringify(state.productList) === JSON.stringify(action.payload);
-      if (!isEqual) {
+      // const isEqual = JSON.stringify(state.productList) === JSON.stringify(action.payload);
+      // if (!isEqual) {
         state.productList = action.payload;
-      }
+      // }
     },
 
     getProductsByCategory: (state, action) => {

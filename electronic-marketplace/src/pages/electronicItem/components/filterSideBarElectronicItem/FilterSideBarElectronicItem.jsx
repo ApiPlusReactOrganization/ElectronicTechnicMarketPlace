@@ -1,93 +1,52 @@
-import React, { memo, useCallback, useEffect, useState } from 'react'
-import useActions from '../../../../hooks/useActions'
-import { useParams } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import MinMaxInput from '../minMaxInput/MinMaxInput'
+import React, { memo, useCallback, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import useActions from "../../../../hooks/useActions";
+import useFilters from "../../../../hooks/useFilters";
+import ManufacturerFilter from "../manufacturerFilter/ManufacturerFilter";
+import MinMaxInput from "../minMaxInput/MinMaxInput";
 
-const MAX_PRICE_VAL = 50000
-const MAX_STOCK_QUANTITY = 100
+const MAX_PRICE_VAL = 50000;
+const MAX_STOCK_QUANTITY = 100;
 
 const FilterSideBarElectronicItem = memo(() => {
-  const {
-    filterProducts,
-    getManufacturers,
-    getManufacturersByCategoryId,
-    getCartItems,
-  } = useActions()
-  const { categoryId } = useParams()
-  const [filters, setFilters] = useState({
+  const { categoryId } = useParams();
+  const { filterProducts, getManufacturers, getManufacturersByCategoryId } =
+    useActions();
+
+  const initialFilters = {
+    categoryId: categoryId || "",
     manufacturerIds: [],
-    name: '',
+    name: "",
     minPrice: 0,
     maxPrice: MAX_PRICE_VAL,
     minStockQuantity: 0,
     maxStockQuantity: MAX_STOCK_QUANTITY,
-  })
+  };
 
-  const [isManufacturerListVisible, setIsManufacturerListVisible] =
-    useState(false)
-
-  const manufacturerList = useSelector(
-    (state) => state.manufacturer.manufacturerList
-  )
+  const { filters, updateFilter, cleanFilters } = useFilters(initialFilters);
 
   useEffect(() => {
-    const updateManufacturers = async () => {
-      getCartItems()
-      if (categoryId) {
-        await getManufacturersByCategoryId(categoryId)
-
-        setFilters((prev) => {
-          if (prev.categoryId !== categoryId) {
-            return { ...prev, categoryId }
-          }
-          return prev
-        })
-      } else {
-        await getManufacturers()
-
-        setFilters((prev) => {
-          if (prev.categoryId !== '') {
-            return { ...prev, categoryId: '' }
-          }
-          return prev
-        })
-      }
+    if (categoryId) {
+      getManufacturersByCategoryId(categoryId);
+    } else {
+      getManufacturers();
     }
+    updateFilter("categoryId", categoryId || "");
+  }, [categoryId]);
 
-    updateManufacturers()
-  }, [categoryId])
-
-  const cleanFilters = useCallback(
-    (filters) =>
-      Object.fromEntries(
-        Object.entries(filters).filter(([_, value]) => {
-          if (Array.isArray(value)) return value.length > 0
-          return value !== '' && value !== null && value !== undefined
-        })
-      ),
-    []
-  )
+  const handleManufacturerChange = useCallback((manufacturerIds) => {
+    updateFilter("manufacturerIds", manufacturerIds);
+  }, []);
 
   useEffect(() => {
-    const handler = setTimeout(() => {
-      const finalFilters = cleanFilters(filters)
-      filterProducts(finalFilters)
-    }, 300)
-
-    return () => clearTimeout(handler)
-  }, [filters])
-
-  const handleFilterChange = useCallback((key, value) => {
-    setFilters((prev) => ({
-      ...prev,
-      [key]: value,
-    }))
-  }, [])
+    const finalFilters = cleanFilters();
+    filterProducts(finalFilters);
+  }, [filters]);
 
   return (
     <div className="filter-sidebar p-3 border rounded bg-light">
       <h3 className="mb-4 text-center">Фільтри</h3>
+
       <div className="mb-3">
         <label className="form-label">Назва</label>
         <input
@@ -95,9 +54,7 @@ const FilterSideBarElectronicItem = memo(() => {
           name="name"
           className="form-control"
           value={filters.name}
-          onChange={(e) =>
-            setFilters((prev) => ({ ...prev, name: e.target.value }))
-          }
+          onChange={(e) => updateFilter("name", e.target.value)}
         />
       </div>
 
@@ -110,7 +67,7 @@ const FilterSideBarElectronicItem = memo(() => {
         initialMax={filters.maxPrice}
         filterKeyMin="minPrice"
         filterKeyMax="maxPrice"
-        onFilterChange={handleFilterChange}
+        onFilterChange={updateFilter}
       />
 
       <MinMaxInput
@@ -122,53 +79,15 @@ const FilterSideBarElectronicItem = memo(() => {
         initialMax={filters.maxStockQuantity}
         filterKeyMin="minStockQuantity"
         filterKeyMax="maxStockQuantity"
-        onFilterChange={handleFilterChange}
+        onFilterChange={updateFilter}
       />
 
-      <div className="mb-3">
-        <button
-          className="btn btn-secondary w-100"
-          onClick={() =>
-            setIsManufacturerListVisible(!isManufacturerListVisible)
-          }
-        >
-          {isManufacturerListVisible
-            ? 'Приховати виробників'
-            : 'Показати виробників'}
-        </button>
-
-        {isManufacturerListVisible && (
-          <div className="mt-3">
-            {manufacturerList.map((manufacturer) => (
-              <div
-                key={manufacturer.id}
-                className="form-check mb-2 d-flex align-items-center"
-              >
-                <input
-                  type="checkbox"
-                  className="form-check-input me-2"
-                  checked={filters.manufacturerIds.includes(manufacturer.id)}
-                  onChange={() =>
-                    setFilters((prev) => ({
-                      ...prev,
-                      manufacturerIds: prev.manufacturerIds.includes(
-                        manufacturer.id
-                      )
-                        ? prev.manufacturerIds.filter(
-                            (id) => id !== manufacturer.id
-                          )
-                        : [...prev.manufacturerIds, manufacturer.id],
-                    }))
-                  }
-                />
-                <label className="form-check-label">{manufacturer.name}</label>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+      <ManufacturerFilter
+        selectedManufacturerIds={filters.manufacturerIds}
+        onManufacturerChange={handleManufacturerChange}
+      />
     </div>
-  )
-})
+  );
+});
 
-export default FilterSideBarElectronicItem
+export default FilterSideBarElectronicItem;
