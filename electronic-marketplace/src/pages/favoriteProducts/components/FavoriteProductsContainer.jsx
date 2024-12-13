@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import useActions from '../../../hooks/useActions'
-import FavoriteProductsGrid from './FavoriteProductsGrid'
-import SearchField from './filter/SearchField'
-import MinMaxInput from '../../electronicItem/components/minMaxInput/MinMaxInput'
-import { Paper, Typography } from '@mui/material'
-import useFilteredProducts from '../hooks/useFilteredProducts'
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+import useActions from "../../../hooks/useActions";
+import FavoriteProductsGrid from "./FavoriteProductsGrid";
+import SearchField from "./filter/SearchField";
+import MinMaxInput from "../../electronicItem/components/minMaxInput/MinMaxInput";
+import { Paper, Typography } from "@mui/material";
+import useFilteredProducts from "../hooks/useFilteredProducts";
 
 const FavoriteProductsContainer = React.memo(() => {
-  const { loadFavoriteProducts, getCartItems } = useActions()
-  const userId = useSelector((state) => state.user.currentUser.id)
+  const { loadFavoriteProducts, getCartItems } = useActions();
+  const userId = useSelector((state) => state.user.currentUser.id);
 
   const {
     filteredProducts,
@@ -17,24 +17,22 @@ const FavoriteProductsContainer = React.memo(() => {
     maxPrice,
     setSearchTerm,
     setPriceRange,
-    setQuantityRange
-  } = useFilteredProducts()
-
-  console.log('max price from FPC', maxPrice);
+    setQuantityRange,
+  } = useFilteredProducts();
 
   const handleRangeChange = (key, value) => {
-    if (key === 'priceMin') setPriceRange((prev) => [value, prev[1]])
-    if (key === 'priceMax') setPriceRange((prev) => [prev[0], value])
-    if (key === 'quantityMin') setQuantityRange((prev) => [value, prev[1]])
-    if (key === 'quantityMax') setQuantityRange((prev) => [prev[0], value])
-  }
+    if (key === "priceMin") setPriceRange((prev) => [value, prev[1]]);
+    if (key === "priceMax") setPriceRange((prev) => [prev[0], value]);
+    if (key === "quantityMin") setQuantityRange((prev) => [value, prev[1]]);
+    if (key === "quantityMax") setQuantityRange((prev) => [prev[0], value]);
+  };
 
   useEffect(() => {
     if (userId) {
-      loadFavoriteProducts(userId)
-      getCartItems()
+      loadFavoriteProducts(userId);
+      getCartItems();
     }
-  }, [])
+  }, []);
 
   return (
     <div className="container-fluid">
@@ -45,9 +43,9 @@ const FavoriteProductsContainer = React.memo(() => {
               p: 3,
               mb: 3,
               borderRadius: 2,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
             }}
           >
             <Typography variant="h6" sx={{ mb: 2 }}>
@@ -82,7 +80,7 @@ const FavoriteProductsContainer = React.memo(() => {
         </div>
       </div>
     </div>
-  )
-})
+  );
+});
 
-export default FavoriteProductsContainer
+export default FavoriteProductsContainer;

@@ -7,7 +7,7 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { memo, useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -16,9 +16,9 @@ import { categoryListSwitch } from "../productCreate/categoryListSwitch";
 import TextBox from "../productCreate/TextBox";
 import CategorySpecificFormForEdit from "./CategorySpecificFormForEdit";
 
-const ProductEditForm = () => {
+const ProductEditForm = ({ product }) => {
+  console.log(product)
   const { getCategories, getManufacturers, updateProduct } = useActions();
-  const product = useSelector((state) => state.product.productForEdit);
 
   const navigate = useNavigate();
 
@@ -48,7 +48,7 @@ const ProductEditForm = () => {
   );
 
   const [selectedCategory, setSelectedCategory] = useState(
-    product.categoryName || ""
+    product.category.name || ""
   );
 
   const [formData, setFormData] = useState({
@@ -193,4 +193,6 @@ const ProductEditForm = () => {
   );
 };
 
-export default ProductEditForm;
+export default memo(ProductEditForm, (prevProps, nextProps) => {
+  return JSON.stringify(prevProps.product) === JSON.stringify(nextProps.product);
+});

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, memo } from "react";
+import React, { useState, useCallback } from "react";
 import { toast } from "react-toastify";
 import useActions from "../../../../hooks/useActions";
 import productImage from "../../../../hooks/productImage";
@@ -73,4 +73,4 @@ const ProductImages = () => {
   );
 };
 
-export default memo(ProductImages);
+export default ProductImages;
