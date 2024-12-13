@@ -1,4 +1,4 @@
-import HttpClient from '../http/HttpClient'
+import HttpClient from '../http/HttpClient';
 
 export class UserService {
   static httpClient = new HttpClient({

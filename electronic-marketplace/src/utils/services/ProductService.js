@@ -28,6 +28,7 @@ export class ProductsService {
   static async getProductById(productId) {
     return await this.httpClient.get(`get-by-id/${productId}`);
   }
+
   static async getProductsByCategoryId(categoryId) {
     return await this.httpClient.get(`under-category/${categoryId}`);
   }
@@ -52,7 +53,6 @@ export class ProductsService {
 
   static async getFilteredProducts(filters) {
     const queryParams = new URLSearchParams();
-
     Object.entries(filters).forEach(([key, value]) => {
       if (Array.isArray(value)) {
         value.forEach((v) => queryParams.append(key, v));

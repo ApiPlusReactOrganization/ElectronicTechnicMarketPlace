@@ -8,7 +8,6 @@ const ManufacturerTableContainer = () => {
 
   const [showAddModal, setShowAddModal] = useState(false)
 
-
   useEffect(() => {
     getManufacturers()
     getCategories()

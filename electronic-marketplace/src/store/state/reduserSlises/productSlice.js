@@ -12,26 +12,32 @@ export const productSlice = createSlice({
     getAll: (state, action) => {
       state.productList = action.payload;
     },
+
     getFilterProducts: (state, action) => {
       const isEqual = JSON.stringify(state.productList) === JSON.stringify(action.payload);
       if (!isEqual) {
         state.productList = action.payload;
       }
     },
+
     getProductsByCategory: (state, action) => {
       state.productList = action.payload;
     },
+
     getProduct: (state, action) => {
       state.productForEdit = action.payload;
     },
+
     addProduct: (state, action) => {
       state.productList = [...state.productList, action.payload];
     },
+
     deleteProductReduser: (state, action) => {
       state.productList = state.productList.filter(
         (m) => m.id !== action.payload.id
       );
     },
+
     updateProductReducer: (state, action) => {
       const index = state.productList.findIndex(
         (m) => m.id === action.payload.id

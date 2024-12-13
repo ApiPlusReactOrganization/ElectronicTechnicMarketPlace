@@ -2,9 +2,12 @@ import React from 'react'
 import FavoriteIcon from '../../../favoriteProducts/components/FavoriteIcon'
 import defaultImage from '../../../../assets/images/noImageProduct.png'
 import productImage from '../../../../hooks/productImage'
+import ProductToCartButton from '../../../cartItems/components/ProductToCartButton'
 import { styled } from '@mui/system'
+import { useNavigate } from 'react-router-dom'
 
 const ProductCard = ({ product }) => {
+  const navigate = useNavigate()
   const imageUrl =
     product.images && product.images.length > 0
       ? productImage(product.images[0].filePath)
@@ -27,12 +30,19 @@ const ProductCard = ({ product }) => {
           <FavoriteIcon productId={product.id} />
         </FavoriteIconWrapper>
 
-        <button
-          className="btn btn-primary"
-          onClick={() => navigate(`/electronicItem/product/${product.id}`)}
-        >
-          View Details
-        </button>
+        <ButtonsContainer>
+          <button
+            className="btn btn-primary"
+            onClick={() => navigate(`/electronicItem/product/${product.id}`)}
+          >
+            View Details
+          </button>
+
+          <ProductButtonWrapper>
+            <ProductToCartButton productId={product.id} />
+          </ProductButtonWrapper>
+
+        </ButtonsContainer>
       </div>
     </CardWrapper>
   )
@@ -51,4 +61,15 @@ const FavoriteIconWrapper = styled('div')({
   top: 10,
   right: 10,
   zIndex: 1,
+})
+
+const ButtonsContainer = styled('div')({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  marginTop: '1rem',
+})
+
+const ProductButtonWrapper = styled('div')({
+  marginLeft: '20px',
 })

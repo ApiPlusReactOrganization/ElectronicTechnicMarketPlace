@@ -1,4 +1,4 @@
-import { ProductsService } from "../../../utils/services/ProductServise";
+import { ProductsService } from "../../../utils/services/ProductService";
 import {
   getAll,
   getFilterProducts,
@@ -24,7 +24,7 @@ export const getProducts = () => async (dispatch) => {
 
 export const createProduct = (product) => async (dispatch) => {
   try {
-    console.log(product)
+    console.log(product);
 
     const res = await ProductsService.createProduct(product);
 
@@ -93,6 +93,7 @@ export const getProductById = (productId) => async (dispatch) => {
     return { success: false, message: errorMessage };
   }
 };
+
 export const getProductsByCategoryId = (categoryId) => async (dispatch) => {
   try {
     const response = await ProductsService.getProductsByCategoryId(categoryId);
@@ -139,6 +140,7 @@ export const addProductImages =
       return { success: false, message: errorMessage };
     }
   };
+
 export const filterProducts = (filters) => async (dispatch) => {
   try {
     const response = await ProductsService.getFilteredProducts(filters);
