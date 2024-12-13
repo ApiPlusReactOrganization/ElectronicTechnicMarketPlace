@@ -22,16 +22,26 @@ export const getProducts = () => async (dispatch) => {
   }
 };
 
-export const createProduct = (name) => async (dispatch) => {
+export const createProduct = (product) => async (dispatch) => {
   try {
-    const res = await ProductsService.createProduct(name);
+    console.log(product);
+
+    const res = await ProductsService.createProduct(product);
 
     dispatch(addProduct(res));
-    return { success: true, message: "User roles updated successfully" };
+    return { success: true, message: "Product created successfully." };
   } catch (error) {
-    const errorMessage =
-      error.response?.data?.errors.Name[0] ||
-      "An error occurred during role change";
+    let errorMessage = "An error occurred during product creation.";
+
+    if (error.response) {
+      if (error.response.data?.title) {
+        errorMessage = error.response.data.title;
+      } else if (typeof error.response.data === "string") {
+        errorMessage = error.response.data;
+      }
+    }
+
+    console.error("Error creating product:", errorMessage);
     return { success: false, message: errorMessage };
   }
 };
@@ -48,17 +58,25 @@ export const deleteProduct = (id) => async (dispatch) => {
   }
 };
 
-export const updateProduct = (model) => async (dispatch) => {
+export const updateProduct = (productId, model) => async (dispatch) => {
   try {
-    const response = await ProductsService.updateProduct(model);
+    const response = await ProductsService.updateProduct(productId, model);
 
     dispatch(updateProductReducer(response));
 
-    return { success: true, message: "User roles updated successfully" };
+    return { success: true, message: "Product updated successfully" };
   } catch (error) {
-    const errorMessage =
-      error.response?.data?.errors.Name[0] ||
-      "An error occurred during role change";
+    let errorMessage = "An error occurred during product creation.";
+
+    if (error.response) {
+      if (error.response.data?.title) {
+        errorMessage = error.response.data.title;
+      } else if (typeof error.response.data === "string") {
+        errorMessage = error.response.data;
+      }
+    }
+
+    console.error("Error creating product:", errorMessage);
     return { success: false, message: errorMessage };
   }
 };
@@ -123,15 +141,15 @@ export const addProductImages =
     }
   };
 
-  export const filterProducts = (filters) => async (dispatch) => {
-    try {
-      const response = await ProductsService.getFilteredProducts(filters);
+export const filterProducts = (filters) => async (dispatch) => {
+  try {
+    const response = await ProductsService.getFilteredProducts(filters);
 
-      dispatch(getFilterProducts(response));
+    dispatch(getFilterProducts(response));
 
-      return { success: true, payload: response };
-    } catch (error) {
-      const errorMessage = error.response;
-      return { success: false, message: errorMessage };
-    }
-  };
+    return { success: true, payload: response };
+  } catch (error) {
+    const errorMessage = error.response;
+    return { success: false, message: errorMessage };
+  }
+};

@@ -21,8 +21,8 @@ export class ProductsService {
     return await this.httpClient.delete(`delete/${id}`);
   }
 
-  static async updateProduct(model) {
-    return await this.httpClient.put("update", model);
+  static async updateProduct(productId, model) {
+    return await this.httpClient.put(`update/${productId}`, model);
   }
 
   static async getProductById(productId) {

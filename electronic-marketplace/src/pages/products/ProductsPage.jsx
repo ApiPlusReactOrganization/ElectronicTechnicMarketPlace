@@ -1,57 +1,17 @@
-import useActions from "../../hooks/useActions";
-import { useSelector } from "react-redux";
-import { useEffect } from "react";
-import productImage from "../../hooks/productImage";
+import React from "react";
+import ProductsList from "./componets/productCards/ProductsList";
 import { Link } from "react-router-dom";
 
-const ProductPage = () => {
-  const productList = useSelector((state) => state.product.productList);
-  const { getProducts } = useActions();
-
-  useEffect(() => {
-    getProducts();
-  }, []);
-
+const ProductsPage = () => {
   return (
-    <div>
+    <div className="container">
+      <Link to={`create`}>
+        <button className="btn btn-primary float-end">Add product</button>
+      </Link>
       <h1>Products</h1>
-      <div className="float-start">
-        {productList.map((product) => (
-          <div className="d-flex gap-3 align-items-center my-2">
-            <h3>
-              <Link
-                className="link-offset-2 link-underline link-underline-opacity-0"
-                to={"edit/" + product.id}
-              >
-                {product.name}
-              </Link>
-            </h3>
-            {product.images.length === 0 ? (
-              <img
-                height="100"
-                width="100"
-                alt="Product Image"
-                loading="lazy"
-                src={productImage(undefined)}
-              />
-            ) : (
-              <div className="d-flex gap-3 flex-wrap">
-                {product.images.map((image) => (
-                  <img
-                    height="100"
-                    width="100"
-                    alt="Product Image"
-                    loading="lazy"
-                    src={productImage(image.filePath)}
-                  />
-                ))}
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
+      <ProductsList/>
     </div>
   );
 };
 
-export default ProductPage;
+export default ProductsPage;
