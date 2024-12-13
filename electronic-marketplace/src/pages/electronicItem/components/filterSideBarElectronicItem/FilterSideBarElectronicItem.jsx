@@ -4,6 +4,7 @@ import useActions from "../../../../hooks/useActions";
 import useFilters from "../../../../hooks/useFilters";
 import ManufacturerFilter from "../manufacturerFilter/ManufacturerFilter";
 import MinMaxInput from "../minMaxInput/MinMaxInput";
+import useDebouncedEffect from "../../../../hooks/useDebouncedEffect";
 
 const MAX_PRICE_VAL = 50000;
 const MAX_STOCK_QUANTITY = 100;
@@ -37,11 +38,12 @@ const FilterSideBarElectronicItem = memo(() => {
   const handleManufacturerChange = useCallback((manufacturerIds) => {
     updateFilter("manufacturerIds", manufacturerIds);
   }, []);
-
-  useEffect(() => {
+ 
+  useDebouncedEffect(() => {
     const finalFilters = cleanFilters();
     filterProducts(finalFilters);
-  }, [filters]);
+  }, 300, [filters]);
+
 
   return (
     <div className="filter-sidebar p-3 border rounded bg-light">
