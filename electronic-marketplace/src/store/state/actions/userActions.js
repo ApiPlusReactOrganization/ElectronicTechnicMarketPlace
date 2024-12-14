@@ -3,15 +3,13 @@ import {
   logout,
   getAllFavoriteProducts,
   addFavoriteProduct,
-  removeFavoriteProduct
+  removeFavoriteProduct,
 } from "./../reduserSlises/userSlice";
-import {
-  deleteUserSlice,
-  getAll
-} from "./../reduserSlises/usersSlice";
+import { deleteUserSlice, getAll } from "./../reduserSlises/usersSlice";
 import { AuthService } from "../../../utils/services/AuthService";
 import { UserService } from "../../../utils/services/UserService";
 import { jwtDecode } from "jwt-decode";
+import { getCartItemsByUserId } from "./cartItemActions";
 
 export const signInUser = (model) => async (dispatch) => {
   try {
@@ -28,10 +26,13 @@ export const AuthByToken = (tokens) => async (dispatch) => {
   if (tokens) {
     localStorage.setItem("accessToken", tokens.accessToken);
     localStorage.setItem("refreshToken", tokens.refreshToken);
+
     await AuthService.setAuthorizationToken(tokens.accessToken);
     const user = jwtDecode(tokens.accessToken);
     dispatch(authUser(user));
+
     await loadFavoriteProducts(user.id)(dispatch);
+    await getCartItemsByUserId(user.id)(dispatch);
   } else {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
@@ -117,7 +118,7 @@ export const updateUser = (userId, model) => async (dispatch) => {
 
     await AuthByToken(response)(dispatch);
 
-    return { success: true, message: response.message };
+    return { success: true, message: "User updated successfully" };
   } catch (error) {
     const errorMessage = error.response?.data;
     return { success: false, message: errorMessage };
@@ -135,25 +136,27 @@ export const loadFavoriteProducts = (userId) => async (dispatch) => {
   }
 };
 
-export const addProductToFavorites = (userId, productId) => async (dispatch) => {
-  try {
-    await UserService.addFavoriteProduct(userId, productId);
-    dispatch(addFavoriteProduct(productId));
-    await loadFavoriteProducts(userId)(dispatch);
-    return { success: true, message: "Product added to favorites" };
-  } catch (error) {
-    const errorMessage = error.response?.data;
-    return { success: false, message: errorMessage };
-  }
-};
+export const addProductToFavorites =
+  (userId, productId) => async (dispatch) => {
+    try {
+      await UserService.addFavoriteProduct(userId, productId);
+      dispatch(addFavoriteProduct(productId));
+      await loadFavoriteProducts(userId)(dispatch);
+      return { success: true, message: "Product added to favorites" };
+    } catch (error) {
+      const errorMessage = error.response?.data;
+      return { success: false, message: errorMessage };
+    }
+  };
 
-export const removeProductFromFavorites = (userId, productId) => async (dispatch) => {
-  try {
-    await UserService.removeFavoriteProduct(userId, productId);
-    dispatch(removeFavoriteProduct(productId));
-    return { success: true, message: "Product removed from favorites" };
-  } catch (error) {
-    const errorMessage = error.response?.data;
-    return { success: false, message: errorMessage };
-  }
-};
+export const removeProductFromFavorites =
+  (userId, productId) => async (dispatch) => {
+    try {
+      await UserService.removeFavoriteProduct(userId, productId);
+      dispatch(removeFavoriteProduct(productId));
+      return { success: true, message: "Product removed from favorites" };
+    } catch (error) {
+      const errorMessage = error.response?.data;
+      return { success: false, message: errorMessage };
+    }
+  };

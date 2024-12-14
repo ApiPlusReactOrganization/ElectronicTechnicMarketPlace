@@ -13,6 +13,10 @@ export const cartItemSlice = createSlice({
       state.cartItemList = action.payload;
     },
 
+    getCartItemsByUserId: (state, action) => {
+      state.cartItemList = action.payload;
+    },
+
     addCartItem: (state, action) => {
       state.cartItemList = [...state.cartItemList, action.payload];
     },
@@ -39,5 +43,6 @@ export const {
   addCartItem,
   updateCartItemQuantity,
   deleteCartItem,
+  getCartItemsByUserId,
 } = cartItemSlice.actions;
 export default cartItemSlice.reducer;

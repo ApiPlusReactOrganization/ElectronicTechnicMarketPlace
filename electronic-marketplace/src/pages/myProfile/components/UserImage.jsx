@@ -1,13 +1,12 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import useActions from "../../../hooks/useActions";
+import React, { memo, useState } from "react";
 import { toast } from "react-toastify";
+import useActions from "../../../hooks/useActions";
 import userImage from "../../../hooks/userImage";
 
-const UserImage = () => {
-  const { currentUser } = useSelector((store) => store.user);
-  const { uploadImage } = useActions();
+const UserImage = ({ userId, image }) => {
+  // console.log("UserImage")
 
+  const { uploadImage } = useActions();
   const [selectedFile, setSelectedFile] = useState(null);
 
   const handleFileChange = (event) => {
@@ -23,7 +22,7 @@ const UserImage = () => {
     const formData = new FormData();
     formData.append("imageFile", selectedFile);
 
-    const result = await uploadImage(currentUser.id, formData);
+    const result = await uploadImage(userId, formData);
     if (result.success) {
       toast.success(result.message);
     } else {
@@ -34,12 +33,13 @@ const UserImage = () => {
   return (
     <div className="d-flex flex-column align-items-center">
       <img
-        src={userImage(currentUser?.image)}
+        src={userImage(image)}
         className="rounded-circle"
         height="200"
         width="200"
         alt="User Avatar"
         loading="lazy"
+        key={image}
       />
       <div className="d-flex gap-3 align-items-center mt-3">
         <input
@@ -62,4 +62,4 @@ const UserImage = () => {
   );
 };
 
-export default UserImage;
+export default memo(UserImage);

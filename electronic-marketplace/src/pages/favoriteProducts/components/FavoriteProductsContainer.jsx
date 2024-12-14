@@ -8,7 +8,7 @@ import { Paper, Typography } from "@mui/material";
 import useFilteredProducts from "../hooks/useFilteredProducts";
 
 const FavoriteProductsContainer = React.memo(() => {
-  const { loadFavoriteProducts, getCartItems } = useActions();
+  const { loadFavoriteProducts } = useActions();
   const userId = useSelector((state) => state.user.currentUser.id);
 
   const {
@@ -30,7 +30,6 @@ const FavoriteProductsContainer = React.memo(() => {
   useEffect(() => {
     if (userId) {
       loadFavoriteProducts(userId);
-      getCartItems();
     }
   }, []);
 

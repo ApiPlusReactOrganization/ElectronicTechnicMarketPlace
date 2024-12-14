@@ -4,6 +4,9 @@ import useActions from "../../hooks/useActions";
 import { useSelector } from "react-redux";
 import userImage from "../../hooks/userImage";
 import { memo } from "react";
+import HeadersLinks from "./HeadersLinks";
+import { Badge } from "@mui/material";
+import {ShoppingCart, Favorite} from "@mui/icons-material";
 
 const adminPages = [
   { title: "Categories", path: "/categories" },
@@ -43,68 +46,19 @@ const Header = memo(() => {
             <i className="fas fa-bars"></i>
           </button>
 
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <a className="navbar-brand mt-2 mt-lg-0" href="#">
-              <img
-                src="https://mdbcdn.b-cdn.net/img/logo/mdb-transaprent-noshadows.webp"
-                height="15"
-                alt="MDB Logo"
-                loading="lazy"
-              />
-            </a>
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0 gap-3">
-              <li className="nav-item">
-                <Link to="/">Home</Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/electronicItem">Electronic Item</Link>
-              </li>
-            </ul>
-          </div>
+          <HeadersLinks />
 
           <div className="d-flex align-items-center">
             <Link to="/favoriteProducts" className="text-reset me-3">
-              <i
-                className="fas fa-heart"
-                style={{ fontSize: "20px", position: "relative" }}
-              >
-                {favoriteProducts && favoriteProducts.length > 0 && (
-                  <span
-                    className="badge bg-danger position-absolute top-0 start-100 translate-middle"
-                    style={{
-                      fontSize: "10px",
-                      minWidth: "15px",
-                      height: "15px",
-                      lineHeight: "1",
-                      padding: "2px 4px",
-                    }}
-                  >
-                    {favoriteProducts.length}
-                  </span>
-                )}
-              </i>
+              <Badge color="error" badgeContent={favoriteProducts.length}>
+                <Favorite />
+              </Badge>
             </Link>
 
             <Link to="/cartItems" className="text-reset me-3">
-              <i
-                className="fas fa-shopping-cart"
-                style={{ fontSize: "20px", position: "relative" }}
-              >
-                {userCartItems && userCartItems.length > 0 && (
-                  <span
-                    className="badge bg-danger position-absolute top-0 start-100 translate-middle"
-                    style={{
-                      fontSize: "10px",
-                      minWidth: "15px",
-                      height: "15px",
-                      lineHeight: "1",
-                      padding: "2px 4px",
-                    }}
-                  >
-                    {userCartItems.length}
-                  </span>
-                )}
-              </i>
+              <Badge color="error" badgeContent={userCartItems.length}>
+                <ShoppingCart />
+              </Badge>
             </Link>
 
             <a className="text-reset me-2" href="#">

@@ -1,39 +1,40 @@
-import React, { useEffect, useMemo } from 'react'
-import { useSelector } from 'react-redux'
-import useActions from '../../hooks/useActions'
+import { Typography } from "@mui/material";
+import React, { memo, useEffect } from "react";
+import { useSelector } from "react-redux";
+import useActions from "../../hooks/useActions";
+import { useRenderCount } from "../../hooks/useRenderCount";
+import CartItemCard from "./components/CartItemCard";
+
+const MemoizedTypography = memo(Typography);
 
 const CartItemsPage = () => {
-  const cartItems = useSelector((state) => state.cartItem.cartItemList)
-  const userId = useSelector((state) => state.user.currentUser.id)
-  const { getCartItems } = useActions()
+  const cartItems = useSelector((state) => state.cartItem.cartItemList);
+  const userId = useSelector((state) => state.user.currentUser.id);
+  const { getCartItemsByUserId } = useActions();
 
   useEffect(() => {
     if (userId) {
-      getCartItems()
+      getCartItemsByUserId(userId);
     }
-  }, [])
+  }, []);
 
-  const userCartItems = useMemo(() => {
-    return cartItems.filter((item) => item.userId === userId)
-  }, [cartItems])
+  const renderCount = useRenderCount();
 
   return (
-    <div>
-      <h1>Your Cart</h1>
-      {userCartItems.length > 0 ? (
-        <ul>
-          {userCartItems.map((item) => (
-            <li key={item.id}>
-              <strong>Product ID:</strong> {item.productId} |{' '}
-              <strong>Quantity:</strong> {item.quantity}
-            </li>
-          ))}
-        </ul>
+    <div className="container">
+      <MemoizedTypography variant="h4" gutterBottom>
+        Your Cart
+      </MemoizedTypography>
+      {cartItems.length > 0 ? (
+        cartItems.map((item) => <CartItemCard cartItem={item} key={item.id} />)
       ) : (
-        <p>Your cart is empty!</p>
+        <Typography variant="h6" color="text.secondary">
+          Your cart is empty!
+        </Typography>
       )}
+      {/* <h5>render {renderCount}</h5> */}
     </div>
-  )
-}
+  );
+};
 
-export default CartItemsPage
+export default CartItemsPage;
