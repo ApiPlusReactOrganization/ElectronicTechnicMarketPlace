@@ -10,28 +10,11 @@ const MemoizedTypography = memo(Typography);
 const CartItemsPage = () => {
   const cartItems = useSelector((state) => state.cartItem.cartItemList);
   const userId = useSelector((state) => state.user.currentUser?.id);
-  const {
-    getCartItemsByUserId,
-    getCategories,
-    filterProducts,
-    getManufacturers,
-  } = useActions();
-
-const [filters, setFilters] = useState({
-    manufacturerIds: [],
-    name: '',
-    minPrice: 0,
-    maxPrice: 100000,
-    minStockQuantity: 0,
-    maxStockQuantity: 100000,
-  })
+  const { getCartItemsByUserId } = useActions();
 
   useEffect(() => {
     if (userId) {
       getCartItemsByUserId(userId);
-      getCategories();
-      filterProducts(filters);
-      getManufacturers();
     }
   }, []);
 
