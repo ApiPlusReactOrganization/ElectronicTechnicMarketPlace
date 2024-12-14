@@ -29,10 +29,17 @@ export const AuthByToken = (tokens) => async (dispatch) => {
 
     await AuthService.setAuthorizationToken(tokens.accessToken);
     const user = jwtDecode(tokens.accessToken);
-    dispatch(authUser(user));
 
-    await loadFavoriteProducts(user.id)(dispatch);
-    await getCartItemsByUserId(user.id)(dispatch);
+    if (
+      Array.isArray(user?.role)
+        ? user?.role.includes("User")
+        : user?.role === "User"
+    ) {
+      await loadFavoriteProducts(user.id)(dispatch);
+      await getCartItemsByUserId(user.id)(dispatch);
+    }
+
+    dispatch(authUser(user));
   } else {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
@@ -127,6 +134,8 @@ export const updateUser = (userId, model) => async (dispatch) => {
 
 export const loadFavoriteProducts = (userId) => async (dispatch) => {
   try {
+    UserService.setAuthorizationToken(localStorage.getItem("accessToken"));
+
     const response = await UserService.getFavoriteProducts(userId);
     dispatch(getAllFavoriteProducts(response));
   } catch (error) {

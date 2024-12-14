@@ -9,7 +9,7 @@ const MemoizedTypography = memo(Typography);
 
 const CartItemsPage = () => {
   const cartItems = useSelector((state) => state.cartItem.cartItemList);
-  const userId = useSelector((state) => state.user.currentUser.id);
+  const userId = useSelector((state) => state.user.currentUser?.id);
   const { getCartItemsByUserId } = useActions();
 
   useEffect(() => {

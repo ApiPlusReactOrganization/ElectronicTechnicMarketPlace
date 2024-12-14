@@ -19,6 +19,8 @@ export const getCartItems = () => async (dispatch) => {
 
 export const getCartItemsByUserId = (userId) => async (dispatch) => {
   try {
+    const token = localStorage.getItem("accessToken");
+    await CartItemService.setAuthorizationToken(token);
     const res = await CartItemService.getCartItemsByUserId(userId);
 
     dispatch(getCartItemsByUserIdSliser(res));
@@ -43,7 +45,10 @@ export const createCartItem = (cartItem) => async (dispatch) => {
 
 export const updateCartItem = (cartItemId, quantity) => async (dispatch) => {
   try {
-    const res = await CartItemService.updateCartItemQuantity(cartItemId, quantity);
+    const res = await CartItemService.updateCartItemQuantity(
+      cartItemId,
+      quantity
+    );
 
     dispatch(updateCartItemQuantity({ id: cartItemId, quantity }));
     return { success: true, message: "Cart item updated successfully" };

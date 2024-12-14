@@ -107,7 +107,7 @@ const CartItemCard = ({ cartItem }) => {
           variant="h6"
           sx={{ color: "red", marginLeft: 2, minWidth: 80 }}
         >
-          {cartItem.product.price} $
+          {(cartItem.product.price * cartItem.quantity).toFixed(2)} $
         </Typography>
 
         {/* Видалення товару */}
