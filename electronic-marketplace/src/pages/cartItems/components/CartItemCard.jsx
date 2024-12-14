@@ -4,22 +4,19 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import {
   Box,
   Card,
-  CardContent,
   IconButton,
   TextField,
-  Typography,
-  Link,
+  Typography
 } from "@mui/material";
 import React, { memo, useCallback, useState } from "react";
 import { toast } from "react-toastify";
 import useActions from "../../../hooks/useActions";
-import ProductImage from "../../products/components/productCards/components/ProductImage";
 import { useRenderCount } from "../../../hooks/useRenderCount";
+import ProductImage from "../../products/components/productCards/components/ProductImage";
 import DeleteCartItemModal from "../cartItemsModals/DeleteCartItemModal";
-import { useNavigate } from "react-router-dom";
+import InfoAboutProduct from "./InfoAboutProduct";
 
 const CartItemCard = ({ cartItem }) => {
-  const navigate = useNavigate();
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState(null);
@@ -61,24 +58,12 @@ const CartItemCard = ({ cartItem }) => {
         <ProductImage images={cartItem.product.images} />
 
         {/* Інформація про товар */}
-        <CardContent sx={{ flex: "1 1 auto" }}>
-          <Typography variant="h6" component="div">
-            <Link
-              component="button"
-              onClick={() => {
-                navigate(`/electronicItem/product/${cartItem.product.id}`);
-              }}
-            >
-              {cartItem.product.name}
-            </Link>
-          </Typography>
-          <Typography color="text.secondary">
-            Продавець: {cartItem.product.manufacturer.name || "Unknown"}
-          </Typography>
-          <Typography color="text.secondary">
-            Категорія: {cartItem.product.category.name || "Unknown"}
-          </Typography>
-        </CardContent>
+        <InfoAboutProduct
+          producId={cartItem.product.id}
+          productName={cartItem.product.name}
+          ManufacturerName={cartItem.product.manufacturer.name}
+          categoryName={cartItem.product.category.name}
+        />
 
         {/* Кількість товару */}
         <Box sx={{ display: "flex", alignItems: "center" }}>

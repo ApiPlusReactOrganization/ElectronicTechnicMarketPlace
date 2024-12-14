@@ -16,10 +16,10 @@ const ProductDetailsPage = () => {
       if (fetchedProduct) {
         setProduct(fetchedProduct);
       } else {
-        getProductById(productId).then((data) => setProduct(data));
+        getProductById(productId).then((data) => setProduct(data.payload));
       }
     }
-  }, [productId, products, getProductById]);
+  }, [productId, products]);
 
   if (!product) {
     return <UserMessage message="Loading product details..." />;
