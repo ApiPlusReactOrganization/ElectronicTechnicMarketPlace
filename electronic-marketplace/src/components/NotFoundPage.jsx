@@ -1,10 +1,9 @@
 import React from 'react'
-import NotFoundImg from "../assets/images/NotFound.png"
 
 const NotFoundPage = () => {
   return (
     <div>
-      <img src={NotFoundImg}></img>
+      <h1>Not Found</h1>
     </div>
   )
 }
