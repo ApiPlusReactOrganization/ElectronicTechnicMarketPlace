@@ -15,6 +15,7 @@ export default class HttpClient {
         "Content-Type": "application/json",
         Accept: "application/json",
         ...configs.headers,
+        "Access-Control-Allow-Origin": "*",
       },
       ...configs,
     });
