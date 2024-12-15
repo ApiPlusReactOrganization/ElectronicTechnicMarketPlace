@@ -11,10 +11,10 @@ const ProductToCartButton = memo(({ productId }) => {
   const [isInCart, setIsInCart] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-  const cartItems = useSelector((state) => state.cartItem.cartItemList);
-  const userId = useSelector((state) => state.user.currentUser.id);
-  const { createCartItem } = useActions();
-  const navigate = useNavigate();
+  const cartItems = useSelector((state) => state.cartItem.cartItemList)
+  const userId = useSelector((state) => state.user.currentUser?.id)
+  const { createCartItem } = useActions()
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (cartItems && userId) {
@@ -23,7 +23,7 @@ const ProductToCartButton = memo(({ productId }) => {
       );
       setIsInCart(isProductInCart);
     }
-  }, [cartItems, userId]);
+  }, [])
 
   const openModal = useCallback(() => setShowModal(true), []);
   const closeModal = useCallback(() => setShowModal(false), []);

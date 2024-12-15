@@ -1,15 +1,15 @@
-import React, { memo, useEffect, useCallback } from 'react'
-import { useSelector } from 'react-redux'
-import useActions from '../../../hooks/useActions'
-import FavoriteProductsGrid from './FavoriteProductsGrid'
-import SearchField from './filter/SearchField'
-import { Paper, Typography } from '@mui/material'
-import useFilteredProducts from '../hooks/useFilteredProducts'
-import FavoriteProductsMinMaxInput from './filter/FavoriteProductsMinMaxInput'
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+import useActions from "../../../hooks/useActions";
+import FavoriteProductsGrid from "./FavoriteProductsGrid";
+import SearchField from "./filter/SearchField";
+import MinMaxInput from "../../electronicItem/components/minMaxInput/MinMaxInput";
+import { Paper, Typography } from "@mui/material";
+import useFilteredProducts from "../hooks/useFilteredProducts";
 
-const FavoriteProductsContainer = memo(() => {
-  const { loadFavoriteProducts, getCartItems } = useActions()
-  const userId = useSelector((state) => state.user.currentUser.id)
+const FavoriteProductsContainer = React.memo(() => {
+  const { loadFavoriteProducts } = useActions();
+  const userId = useSelector((state) => state.user.currentUser?.id);
 
   const {
     filteredProducts,
@@ -41,10 +41,9 @@ const FavoriteProductsContainer = memo(() => {
 
   useEffect(() => {
     if (userId) {
-      loadFavoriteProducts(userId)
-      getCartItems()
+      loadFavoriteProducts(userId);
     }
-  }, [])
+  }, []);
 
   return (
     <div className="container-fluid">
@@ -55,9 +54,9 @@ const FavoriteProductsContainer = memo(() => {
               p: 3,
               mb: 3,
               borderRadius: 2,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
             }}
           >
             <Typography variant="h6" sx={{ mb: 2 }}>
@@ -92,7 +91,7 @@ const FavoriteProductsContainer = memo(() => {
         </div>
       </div>
     </div>
-  )
-})
+  );
+});
 
-export default FavoriteProductsContainer
+export default FavoriteProductsContainer;

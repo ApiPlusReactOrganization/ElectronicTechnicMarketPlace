@@ -7,6 +7,8 @@ import {
   updateProductReducer,
   getProductsByCategory,
   getProduct,
+  getProductForEdit,
+  updateImageForProduct,
 } from "../reduserSlises/productSlice";
 
 export const getProducts = () => async (dispatch) => {
@@ -80,18 +82,24 @@ export const updateProduct = (productId, model) => async (dispatch) => {
   }
 };
 
-export const getProductById = (productId) => async (dispatch) => {
-  try {
-    const response = await ProductsService.getProductById(productId);
+export const getProductById =
+  (productId, forEdit = false) =>
+  async (dispatch) => {
+    try {
+      const response = await ProductsService.getProductById(productId);
 
-    dispatch(getProduct(response));
+      if (forEdit) {
+        dispatch(getProductForEdit(response));
+      } else {
+        dispatch(getProduct(response));
+      }
 
-    return { success: true, payload: response };
-  } catch (error) {
-    const errorMessage = error.response;
-    return { success: false, message: errorMessage };
-  }
-};
+      return { success: true, payload: response };
+    } catch (error) {
+      const errorMessage = error.response;
+      return { success: false, message: errorMessage };
+    }
+  };
 
 export const getProductsByCategoryId = (categoryId) => async (dispatch) => {
   try {
@@ -114,7 +122,7 @@ export const deleteProductImageById =
         productImageId
       );
 
-      dispatch(getProduct(response));
+      dispatch(updateImageForProduct(response.images));
 
       return { success: true, payload: response };
     } catch (error) {
@@ -131,7 +139,7 @@ export const addProductImages =
         imagesFiles
       );
 
-      dispatch(getProduct(response));
+      dispatch(updateImageForProduct(response.images));
 
       return { success: true, payload: response };
     } catch (error) {
@@ -140,8 +148,22 @@ export const addProductImages =
     }
   };
 
-export const filterProducts = (filters) => async (dispatch) => {
+// export const filterProducts = (filters) => async (dispatch) => {
+//   try {
+//     const response = await ProductsService.getFilteredProducts(filters);
+
+//     dispatch(getFilterProducts(response));
+
+//     return { success: true, payload: response };
+//   } catch (error) {
+//     const errorMessage = error.response;
+//     return { success: false, message: errorMessage };
+//   }
+// };
+
+export const filterProducts = () => async (dispatch, getState) => {
   try {
+    const filters = getState().filters;
     const response = await ProductsService.getFilteredProducts(filters);
 
     dispatch(getFilterProducts(response));

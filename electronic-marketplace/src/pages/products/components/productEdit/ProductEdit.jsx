@@ -1,19 +1,22 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import useActions from "../../../../hooks/useActions";
-import ProductEditForm from "./ProductEditForm";
-import ProductImages from "./ProductImages";
+import ProductEditForm from "./components/ProductEditForm";
+import ProductImages from "./components/ProductImages";
 
 const ProductsEdit = () => {
   const { getProductById } = useActions();
   const { productId } = useParams();
+  const product = useSelector(
+    (state) => state.product.productWithoutImagesForEdit
+  );
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const result = await getProductById(productId);
+        const result = await getProductById(productId, true);
         if (!result.success) {
           toast.error(result.message || "Failed to load product");
         }
@@ -24,9 +27,6 @@ const ProductsEdit = () => {
 
     fetchProduct();
   }, []);
-
-  const product = useSelector((state) => state.product.productForEdit);
-
   return (
     <div>
       {product && (

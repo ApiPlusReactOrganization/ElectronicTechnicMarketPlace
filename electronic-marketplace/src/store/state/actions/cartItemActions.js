@@ -4,16 +4,26 @@ import {
   addCartItem,
   updateCartItemQuantity,
   deleteCartItem,
+  getCartItemsByUserId as getCartItemsByUserIdSliser,
 } from "../reduserSlises/cartItemSlice";
 
 export const getCartItems = () => async (dispatch) => {
   try {
-    const token = localStorage.getItem("accessToken");
-    CartItemService.setAuthorizationToken(token);
-
     const res = await CartItemService.getAllCartItems();
 
     dispatch(getAllCartItems(res));
+  } catch (error) {
+    console.error("Getting cart items failed", error);
+  }
+};
+
+export const getCartItemsByUserId = (userId) => async (dispatch) => {
+  try {
+    const token = localStorage.getItem("accessToken");
+    await CartItemService.setAuthorizationToken(token);
+    const res = await CartItemService.getCartItemsByUserId(userId);
+
+    dispatch(getCartItemsByUserIdSliser(res));
   } catch (error) {
     console.error("Getting cart items failed", error);
   }
@@ -35,14 +45,25 @@ export const createCartItem = (cartItem) => async (dispatch) => {
 
 export const updateCartItem = (cartItemId, quantity) => async (dispatch) => {
   try {
-    const res = await CartItemService.updateCartItemQuantity(cartItemId, quantity);
+    const res = await CartItemService.updateCartItemQuantity(
+      cartItemId,
+      quantity
+    );
 
     dispatch(updateCartItemQuantity({ id: cartItemId, quantity }));
     return { success: true, message: "Cart item updated successfully" };
   } catch (error) {
-    const errorMessage =
-      error.response?.data?.errors?.Message ||
-      "An error occurred while updating the cart item";
+    let errorMessage = "An error occurred during cart item update.";
+
+    if (error.response) {
+      if (error.response.data?.title) {
+        errorMessage = error.response.data.title;
+      } else if (typeof error.response.data === "string") {
+        errorMessage = error.response.data;
+      }
+    }
+
+    console.error("Error updating cart item:", errorMessage);
     return { success: false, message: errorMessage };
   }
 };

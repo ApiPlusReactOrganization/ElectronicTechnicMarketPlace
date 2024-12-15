@@ -5,6 +5,7 @@ import * as RoleActions from "../state/actions/rolesActions";
 import * as ProductsActions from "../state/actions/productActions";
 import * as AppSettingActions from "../state/actions/appSettingActions";
 import * as CartItemActions from "../state/actions/cartItemActions";
+import * as FiltersActions from "../state/actions/filtersActions";
 
 const actions = {
   ...UserActionCreators,
@@ -13,7 +14,8 @@ const actions = {
   ...RoleActions,
   ...ProductsActions,
   ...AppSettingActions,
-  ...CartItemActions
+  ...CartItemActions,
+  ...FiltersActions
 };
 
 export default actions;
