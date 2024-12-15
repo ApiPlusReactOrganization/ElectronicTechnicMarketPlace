@@ -68,24 +68,14 @@ const BasicRoute = memo(() => {
             }
           />
 
-          <Route path="/favoriteProducts">
-            <Route
-              index
-              element={
-                <ProtectedRoute allowedRoles={["User"]}>
-                  <FavoriteProductPage />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path=":categoryId"
-              element={
-                <ProtectedRoute allowedRoles={["User"]}>
-                  <FavoriteProductPage />
-                </ProtectedRoute>
-              }
-            />
-          </Route>
+          <Route
+            path="/favoriteProducts"
+            element={
+              <ProtectedRoute allowedRoles={['User']}>
+                <FavoriteProductPage />
+              </ProtectedRoute>
+            }
+          />
 
           <Route
             path="/users"

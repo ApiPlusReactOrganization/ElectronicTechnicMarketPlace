@@ -1,15 +1,15 @@
-import React, { useEffect, useState, useCallback } from 'react'
-import { FaShoppingCart, FaCheckCircle } from 'react-icons/fa'
-import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
-import useActions from '../../../hooks/useActions'
-import { IconButton } from '@mui/material'
-import CartItemModal from '../cartItemsModals/CartItemModal'
+import React, { memo, useEffect, useState, useCallback } from 'react';
+import { FaShoppingCart, FaCheckCircle } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import useActions from '../../../hooks/useActions';
+import { IconButton } from '@mui/material';
+import CartItemModal from '../cartItemsModals/CartItemModal';
 
-const ProductToCartButton = ({ productId }) => {
-  const [isInCart, setIsInCart] = useState(false)
-  const [showModal, setShowModal] = useState(false)
+const ProductToCartButton = memo(({ productId }) => {
+  const [isInCart, setIsInCart] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const cartItems = useSelector((state) => state.cartItem.cartItemList)
   const userId = useSelector((state) => state.user.currentUser?.id)
@@ -17,43 +17,37 @@ const ProductToCartButton = ({ productId }) => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    
     if (cartItems && userId) {
       const isProductInCart = cartItems.some(
         (item) => item.productId === productId && item.userId === userId
-      )
-      setIsInCart(isProductInCart)
+      );
+      setIsInCart(isProductInCart);
     }
   }, [])
 
-  const openModal = useCallback(() => setShowModal(true))
-  const closeModal = useCallback(() => setShowModal(false))
+  const openModal = useCallback(() => setShowModal(true), []);
+  const closeModal = useCallback(() => setShowModal(false), []);
 
-  const handleAddToCart = () => {
+  const handleAddToCart = useCallback(() => {
     if (isInCart) {
-      openModal()
+      openModal();
     } else {
-      const cartItem = {
-        productId,
-        userId,
-        quantity: 1,
-      }
-
+      const cartItem = { productId, userId, quantity: 1 };
       createCartItem(cartItem).then((response) => {
         if (response.success) {
-          toast.success('Product added to cart!')
-          setIsInCart(true)
+          toast.success('Product added to cart!');
+          setIsInCart(true);
         } else {
-          toast.error(response.message)
+          toast.error(response.message);
         }
-      })
+      });
     }
-  }
+  }, [isInCart, productId]);
 
-  const handleGoToCart = () => {
-    closeModal()
-    navigate('/cartItems')
-  }
+  const handleGoToCart = useCallback(() => {
+    closeModal();
+    navigate('/cartItems');
+  }, [closeModal, navigate]);
 
   return (
     <div>
@@ -65,13 +59,9 @@ const ProductToCartButton = ({ productId }) => {
         )}
       </IconButton>
 
-      <CartItemModal
-        open={showModal}
-        onClose={closeModal}
-        onGoToCart={handleGoToCart}
-      />
+      <CartItemModal open={showModal} onClose={closeModal} onGoToCart={handleGoToCart} />
     </div>
-  )
-}
+  );
+});
 
-export default ProductToCartButton
+export default ProductToCartButton;

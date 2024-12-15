@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
 import useActions from "../../../hooks/useActions";
 import FavoriteProductsGrid from "./FavoriteProductsGrid";
 import SearchField from "./filter/SearchField";
-import MinMaxInput from "../../electronicItem/components/minMaxInput/MinMaxInput";
 import { Paper, Typography } from "@mui/material";
 import useFilteredProducts from "../hooks/useFilteredProducts";
+import FavoriteProductsMinMaxInput from "./filter/FavoriteProductsMinMaxInput";
 
 const FavoriteProductsContainer = React.memo(() => {
   const { loadFavoriteProducts } = useActions();
@@ -18,14 +18,26 @@ const FavoriteProductsContainer = React.memo(() => {
     setSearchTerm,
     setPriceRange,
     setQuantityRange,
-  } = useFilteredProducts();
+  } = useFilteredProducts()
 
-  const handleRangeChange = (key, value) => {
-    if (key === "priceMin") setPriceRange((prev) => [value, prev[1]]);
-    if (key === "priceMax") setPriceRange((prev) => [prev[0], value]);
-    if (key === "quantityMin") setQuantityRange((prev) => [value, prev[1]]);
-    if (key === "quantityMax") setQuantityRange((prev) => [prev[0], value]);
-  };
+  const handleRangeChange = useCallback((key, value) => {
+    switch (key) {
+      case 'priceMin':
+        setPriceRange((prev) => [value, prev[1]])
+        break
+      case 'priceMax':
+        setPriceRange((prev) => [prev[0], value])
+        break
+      case 'quantityMin':
+        setQuantityRange((prev) => [value, prev[1]])
+        break
+      case 'quantityMax':
+        setQuantityRange((prev) => [prev[0], value])
+        break
+      default:
+        break
+    }
+  }, [])
 
   useEffect(() => {
     if (userId) {
@@ -54,16 +66,16 @@ const FavoriteProductsContainer = React.memo(() => {
               searchTerm={searchTerm}
               onSearchChange={setSearchTerm}
             />
-            <MinMaxInput
+            <FavoriteProductsMinMaxInput
               label="Price UAH"
               minLimit={0}
               maxLimit={maxPrice}
-              step={100}
+              step={50}
               filterKeyMin="priceMin"
               filterKeyMax="priceMax"
               onFilterChange={handleRangeChange}
             />
-            <MinMaxInput
+            <FavoriteProductsMinMaxInput
               label="Quantity"
               minLimit={0}
               maxLimit={100}

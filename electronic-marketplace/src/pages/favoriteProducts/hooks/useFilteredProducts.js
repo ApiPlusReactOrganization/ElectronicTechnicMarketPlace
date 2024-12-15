@@ -18,9 +18,10 @@ const useFilteredProducts = () => {
   useEffect(() => {
     const filtered = favoriteProducts.filter((product) => {
       const isNameMatch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
+
       const isPriceMatch = product.price >= priceRange[0] && product.price <= priceRange[1];
-      const isQuantityMatch =
-        product.stockQuantity >= quantityRange[0] && product.stockQuantity <= quantityRange[1];
+
+      const isQuantityMatch = product.stockQuantity >= quantityRange[0] && product.stockQuantity <= quantityRange[1];
 
       return isNameMatch && isPriceMatch && isQuantityMatch;
     });
@@ -32,13 +33,10 @@ const useFilteredProducts = () => {
     filteredProducts,
     searchTerm,
     setSearchTerm,
-    priceRange,
     setPriceRange,
-    quantityRange,
     setQuantityRange,
     maxPrice,
   };
 };
-
 
 export default useFilteredProducts

@@ -26,7 +26,6 @@ export const getProducts = () => async (dispatch) => {
 
 export const createProduct = (product) => async (dispatch) => {
   try {
-    console.log(product);
 
     const res = await ProductsService.createProduct(product);
 
