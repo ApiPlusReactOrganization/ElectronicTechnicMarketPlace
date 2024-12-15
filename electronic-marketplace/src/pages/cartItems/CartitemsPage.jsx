@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material";
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useEffect } from "react";
 import { useSelector } from "react-redux";
 import useActions from "../../hooks/useActions";
 import { useRenderCount } from "../../hooks/useRenderCount";
@@ -16,15 +16,29 @@ const CartItemsPage = () => {
     if (userId) {
       getCartItemsByUserId(userId);
     }
-  }, []);
+  }, [userId]);
+
+  const totalPrice = cartItems.reduce(
+    (sum, item) => sum + item.quantity * item.product.price,
+    0
+  );
 
   const renderCount = useRenderCount();
 
   return (
     <div className="container">
+      {/* Вивід загальної ціни */}
+      <div className="float-end d-flex gap-2">
+        <MemoizedTypography variant="h6">Total price:</MemoizedTypography>
+        <Typography variant="h6" sx={{ color: "red" }}>
+          {totalPrice.toFixed(2)}$
+        </Typography>
+      </div>
       <MemoizedTypography variant="h4" gutterBottom>
         Your Cart
       </MemoizedTypography>
+
+      {/* Відображення товарів у кошику */}
       {cartItems.length > 0 ? (
         cartItems.map((item) => <CartItemCard cartItem={item} key={item.id} />)
       ) : (
