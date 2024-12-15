@@ -8,6 +8,7 @@ import productReducer from '../store/state/reduserSlises/productSlice';
 import appSettingSlice from '../store/state/reduserSlises/appSettingSlice';
 import roleReducer from '../store/state/reduserSlises/roleSlice'
 import cartItemReducer from '../store/state/reduserSlises/cartItemSlice';
+import filtersReducer from '../store/state/reduserSlises/filtersSlice';
 
 export const rootReducer = combineReducers({
     user: userReducer,
@@ -17,6 +18,7 @@ export const rootReducer = combineReducers({
     product: productReducer,
     appSettings: appSettingSlice,
     users: usersReducer,
+    filters: filtersReducer,
     cartItem : cartItemReducer
   });
 

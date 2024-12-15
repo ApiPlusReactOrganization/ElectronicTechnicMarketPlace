@@ -2,10 +2,11 @@ import React, { memo, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useActions from "../../../../hooks/useActions";
 import { useSelector } from "react-redux";
+import { selectMemoizedcategoryList } from "../../../../store/state/selectors/categorySelectors";
 
-const SideBarCategory = memo(({ basePath }) => {
+const SideBarCategory = memo(() => {
   const { getCategories } = useActions();
-  const categoryList = useSelector((state) => state.category.categoryList);
+  const categoryList = useSelector(selectMemoizedcategoryList);
   const navigate = useNavigate();
   const { categoryId } = useParams();
 
@@ -15,12 +16,12 @@ const SideBarCategory = memo(({ basePath }) => {
 
   const handleCategoryClick = (categoryClickId) => {
     if (categoryClickId !== categoryId) {
-      navigate(`${basePath}/${categoryClickId}`);
+      navigate(`/electronicItem/${categoryClickId}`);
     }
   };
 
   const handleShowAllProducts = () => {
-    navigate(basePath);
+    navigate("/electronicItem");
   };
 
   return (

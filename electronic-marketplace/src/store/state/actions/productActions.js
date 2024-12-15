@@ -149,8 +149,22 @@ export const addProductImages =
     }
   };
 
-export const filterProducts = (filters) => async (dispatch) => {
+// export const filterProducts = (filters) => async (dispatch) => {
+//   try {
+//     const response = await ProductsService.getFilteredProducts(filters);
+
+//     dispatch(getFilterProducts(response));
+
+//     return { success: true, payload: response };
+//   } catch (error) {
+//     const errorMessage = error.response;
+//     return { success: false, message: errorMessage };
+//   }
+// };
+
+export const filterProducts = () => async (dispatch, getState) => {
   try {
+    const filters = getState().filters;
     const response = await ProductsService.getFilteredProducts(filters);
 
     dispatch(getFilterProducts(response));
