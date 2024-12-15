@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
 import useActions from "../../../hooks/useActions";
 import FavoriteProductsGrid from "./FavoriteProductsGrid";
 import SearchField from "./filter/SearchField";
-import MinMaxInput from "../../electronicItem/components/minMaxInput/MinMaxInput";
 import { Paper, Typography } from "@mui/material";
 import useFilteredProducts from "../hooks/useFilteredProducts";
+import FavoriteProductsMinMaxInput from "./filter/FavoriteProductsMinMaxInput";
 
 const FavoriteProductsContainer = React.memo(() => {
   const { loadFavoriteProducts } = useActions();
