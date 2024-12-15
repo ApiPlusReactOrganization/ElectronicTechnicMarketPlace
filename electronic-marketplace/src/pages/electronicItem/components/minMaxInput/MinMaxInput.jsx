@@ -1,8 +1,8 @@
 import React, { memo } from "react";
-import { TextField, MemoizedTypography, Box, Slider } from "@mui/material";
+import { TextField, Typography, Box, Slider } from "@mui/material";
 
 
-const MemoizedTypography = memo(MemoizedTypography);
+const MemoizedTypography = memo(Typography);
 
 
 const MinMaxInput = memo(

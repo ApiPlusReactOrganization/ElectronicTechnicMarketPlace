@@ -22,4 +22,4 @@ const CategoriesTable = () => {
   );
 };
 
-export default memo(CategoriesTable);
+export default CategoriesTable;
