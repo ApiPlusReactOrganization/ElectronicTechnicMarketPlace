@@ -1,27 +1,37 @@
-import React from 'react'
-import { Grid, Typography } from '@mui/material'
+import React, { memo } from 'react'
+import { Grid2, Typography } from '@mui/material'
 import FavoriteProductCard from './FavoriteProductCard'
 
-const FavoriteProductsGrid = React.memo(({ favoriteProducts }) => {
+const FavoriteProductsGrid = memo(({ favoriteProducts }) => {
   return (
-    <Grid container spacing={3}>
+    <Grid2 container spacing={3}>
       {favoriteProducts.length > 0 ? (
         favoriteProducts.map((product) => (
-          <Grid key={product.id} item xs={12} sm={6} md={4} lg={3}>
+          <Grid2
+            key={product.id}
+            xs={12}
+            sm={6}
+            md={4}
+            lg={3}
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
             <FavoriteProductCard product={product} />
-          </Grid>
+          </Grid2>
         ))
       ) : (
         <Typography
           variant="h6"
           color="textSecondary"
           align="center"
-          sx={{ mt: 4 , ml : 40}}
+          sx={{ mt: 4, ml: 40 }}
         >
           No products found.
         </Typography>
       )}
-    </Grid>
+    </Grid2>
   )
 })
 

@@ -1,19 +1,17 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { TextField } from '@mui/material';
 
-const SearchField = ({ searchTerm, onSearchChange }) => {
+const SearchField = memo(({ searchTerm, onSearchChange }) => {
   return (
-    <div>
-      <TextField
-        label="Search products..."
-        variant="outlined"
-        fullWidth
-        value={searchTerm}
-        onChange={(e) => onSearchChange(e.target.value)}
-        sx={{ mb: 2, p: 1 }}
-      />
-    </div>
+    <TextField
+      label="Search products..."
+      variant="outlined"
+      fullWidth
+      value={searchTerm}
+      onChange={(e) => onSearchChange(e.target.value)}
+      sx={{ mb: 2, p: 1 }}
+    />
   );
-};
+});
 
 export default SearchField;

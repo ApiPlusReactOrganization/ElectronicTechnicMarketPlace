@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { Card, CardContent, CardMedia, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import FavoriteIcon from './FavoriteIcon'
 import productImage from '../../../hooks/productImage'
 import ProductToCartButton from '../../cartItems/components/ProductToCartButton'
 
-const FavoriteProductCard = React.memo(({ product }) => {
+const FavoriteProductCard = memo(({ product }) => {
   return (
     <CardWrapper>
       <FavoriteIconWrapper>
@@ -39,8 +39,8 @@ const FavoriteProductCard = React.memo(({ product }) => {
 export default FavoriteProductCard
 
 const CardWrapper = styled(Card)(({ theme }) => ({
-  width: '100%',
-  height: 350,
+  width: '250px',
+  height: '350px',
   margin: 'auto',
   marginTop: theme.spacing(5),
   display: 'flex',
