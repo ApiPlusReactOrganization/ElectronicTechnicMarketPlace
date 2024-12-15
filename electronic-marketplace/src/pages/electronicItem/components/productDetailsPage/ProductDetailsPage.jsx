@@ -6,12 +6,13 @@ import UserMessage from "../../../../components/common/userMessage/UserMessage";
 import productImage from "../../../../hooks/productImage";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { categoryListSwitch } from "./categoryListSwitch";
+import { selectMemoizedProductList } from "../../../../store/state/selectors/productSelectors";
 
 const ProductDetailsPage = () => {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
   const { getProductById } = useActions();
-  const products = useSelector((state) => state.product.productList);
+  const products = useSelector(selectMemoizedProductList);
 
   useEffect(() => {
     if (productId) {

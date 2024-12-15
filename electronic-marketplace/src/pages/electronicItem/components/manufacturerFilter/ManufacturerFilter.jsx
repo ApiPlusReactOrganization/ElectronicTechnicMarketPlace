@@ -10,16 +10,17 @@ import React, { memo, useState } from "react";
 import { useSelector } from "react-redux";
 import useActions from "../../../../hooks/useActions";
 import useDebouncedEffect from "../../../../hooks/useDebouncedEffect";
-import { selectMemoizedmanufacturerList } from "../../../../store/state/selectors/manufacturerSelectors";
+import {
+  selectMemoizedFiltersManufacturerIds,
+  selectMemoizedmanufacturerList,
+} from "../../../../store/state/selectors/manufacturerSelectors";
 
 const MemoizedTypography = memo(Typography);
 
 const ManufacturerFilter = () => {
   const [isVisible, setIsVisible] = useState(true);
   const manufacturerList = useSelector(selectMemoizedmanufacturerList);
-  const selectedManufacturerIds = useSelector(
-    (state) => state.filters.manufacturerIds
-  );
+  const selectedManufacturerIds = useSelector(selectMemoizedFiltersManufacturerIds);
   const { updateManufacturerIds, filterProducts } = useActions();
 
   const handleCheckboxChange = (id) => {

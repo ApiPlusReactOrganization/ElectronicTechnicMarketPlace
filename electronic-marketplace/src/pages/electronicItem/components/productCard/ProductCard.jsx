@@ -45,7 +45,18 @@ const ProductCard = memo(({ product }) => {
       </div>
     </CardWrapper>
   );
-});
+},
+(prevProps, nextProps) => {
+  return (
+    prevProps.product.id === nextProps.product.id &&
+    prevProps.product.name === nextProps.product.name &&
+    prevProps.product.description === nextProps.product.description &&
+    prevProps.product.price === nextProps.product.price &&
+    JSON.stringify(prevProps.product.images) ===
+      JSON.stringify(nextProps.product.images)
+  );
+}
+);
 
 export default ProductCard;
 

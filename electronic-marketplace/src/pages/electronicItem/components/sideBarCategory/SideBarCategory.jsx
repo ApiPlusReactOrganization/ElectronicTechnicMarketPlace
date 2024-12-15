@@ -9,10 +9,20 @@ const SideBarCategory = () => {
   const categoryList = useSelector(selectMemoizedcategoryList);
   const navigate = useNavigate();
   const { categoryId } = useParams();
-
+  const { updateCategoryId, getManufacturersByCategoryId, getManufacturers, filterProducts } = useActions();
   useEffect(() => {
     getCategories();
   }, []);
+
+  useEffect(() => {
+    if (categoryId) {
+      getManufacturersByCategoryId(categoryId);
+    } else {
+      getManufacturers();
+    }
+    updateCategoryId(categoryId || "");
+    filterProducts();
+  }, [categoryId]);
 
   const handleCategoryClick = (categoryClickId) => {
     if (categoryClickId !== categoryId) {

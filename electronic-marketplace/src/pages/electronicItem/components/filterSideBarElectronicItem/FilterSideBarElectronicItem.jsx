@@ -8,19 +8,6 @@ import QuantityFilter from "../minMaxInput/QuantityFilter";
 
 
 const FilterSideBarElectronicItem = () => {
-  const { categoryId } = useParams();
-  const { updateCategoryId, getManufacturersByCategoryId, getManufacturers, filterProducts } = useActions();
-
-  useEffect(() => {
-    if (categoryId) {
-      getManufacturersByCategoryId(categoryId);
-    } else {
-      getManufacturers();
-    }
-    updateCategoryId(categoryId || "");
-    filterProducts();
-  }, [categoryId]);
-
   return (
     <div>
       <h3>Фільтри</h3>
