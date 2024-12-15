@@ -5,40 +5,62 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  TextField
+  TextField,
 } from "@mui/material";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { memo, useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import useActions from "../../../../hooks/useActions";
-import CategorySpecificForm from "./CategorySpecificForm";
-import TextBox from "./TextBox";
-import { categoryListSwitch } from "./categoryListSwitch";
+import useActions from "../../../../../hooks/useActions";
+import { categoryListSwitch } from "../../productCreate/components/categoryListSwitch";
+import TextBox from "../../productCreate/components/TextBox";
+import CategorySpecificFormForEdit from "./CategorySpecificFormForEdit";
 
-const ProductForm = () => {
-  const { getCategories, getManufacturers, createProduct } = useActions();
+const ProductEditForm = () => {
+  const { getCategories, getManufacturers, updateProduct } = useActions();
+  const product = useSelector(
+    (state) => state.product.productWithoutImagesForEdit
+  );
+
   const navigate = useNavigate();
+
   useEffect(() => {
     getCategories();
     getManufacturers();
   }, []);
+
+  useEffect(() => {
+    if (product) {
+      setSelectedCategory(product.category.name || "");
+      setFormData({
+        name: product.name || "",
+        price: product.price || 0,
+        description: product.description || "",
+        stockQuantity: product.stockQuantity || 0,
+        manufacturerId: product.manufacturer?.id || "",
+        categoryId: product.category?.id || "",
+        componentCharacteristic: product.componentCharacteristic || {},
+      });
+    }
+  }, [product]);
 
   const categoryList = useSelector((state) => state.category.categoryList);
   const manufacturerList = useSelector(
     (state) => state.manufacturer.manufacturerList
   );
 
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(
+    product.category.name || ""
+  );
 
   const [formData, setFormData] = useState({
-    name: "",
-    price: 0,
-    description: "",
-    stockQuantity: 0,
-    manufacturerId: "",
-    categoryId: "",
-    componentCharacteristic: {},
+    name: product.name || "",
+    price: product.price || 0,
+    description: product.description || "",
+    stockQuantity: product.stockQuantity || 0,
+    manufacturerId: product.manufacturer.id || "",
+    categoryId: product.category.id || "",
+    componentCharacteristic: product.componentCharacteristic || {},
   });
 
   const handleInputChange = useCallback((e) => {
@@ -79,22 +101,32 @@ const ProductForm = () => {
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
-      const result = await createProduct(formData);
+      const result = await updateProduct(product.id, formData);
       if (result.success) {
-        toast.success(result.message);
         navigate("/products");
+        toast.success(result.message);
       } else {
         toast.error(result.message);
       }
     },
-    [createProduct]
+    [updateProduct, formData, navigate]
   );
+
+  const handleCancel = () => {
+    navigate("/products");
+  };
 
   return (
     <Box
       component="form"
       onSubmit={handleSubmit}
-      sx={{ display: "flex", flexDirection: "column", gap: 2, minWidth: 500 }}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 2,
+        minWidth: 500,
+        margin: "0 0 20px 0",
+      }}
     >
       <TextBox
         value={formData.name}
@@ -108,7 +140,6 @@ const ProductForm = () => {
         name="price"
         value={formData.price}
         onChange={handleInputChange}
-        fullWidth
       />
       <TextField
         label="Description"
@@ -117,7 +148,6 @@ const ProductForm = () => {
         onChange={handleInputChange}
         multiline
         rows={4}
-        fullWidth
       />
       <TextField
         label="Stock Quantity"
@@ -125,9 +155,8 @@ const ProductForm = () => {
         name="stockQuantity"
         value={formData.stockQuantity}
         onChange={handleInputChange}
-        fullWidth
       />
-      <FormControl fullWidth>
+      <FormControl>
         <InputLabel id="manufacturer-label">Manufacturer</InputLabel>
         <Select
           labelId="manufacturer-label"
@@ -137,13 +166,13 @@ const ProductForm = () => {
           onChange={handleInputChange}
         >
           {manufacturerList.map((manufacturer) => (
-            <MenuItem key={manufacturer.id} value={manufacturer.id}>
+            <MenuItem key={manufacturer.name} value={manufacturer.id}>
               {manufacturer.name}
             </MenuItem>
           ))}
         </Select>
       </FormControl>
-      <FormControl fullWidth>
+      <FormControl>
         <InputLabel id="category-label">Category</InputLabel>
         <Select
           labelId="category-label"
@@ -159,16 +188,26 @@ const ProductForm = () => {
         </Select>
       </FormControl>
       {selectedCategory && (
-        <CategorySpecificForm
+        <CategorySpecificFormForEdit
           category={selectedCategory}
           onChange={handleCharacteristicChange}
+          values={
+            formData.componentCharacteristic[
+              categoryListSwitch(selectedCategory)
+            ] || {}
+          }
         />
       )}
-      <Button variant="contained" type="submit">
-        Create Product
-      </Button>
+      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Button variant="contained" type="submit">
+          Update Product
+        </Button>
+        <Button variant="contained" color="error" onClick={handleCancel}>
+          Cansell
+        </Button>
+      </Box>
     </Box>
   );
 };
 
-export default ProductForm;
+export default ProductEditForm;

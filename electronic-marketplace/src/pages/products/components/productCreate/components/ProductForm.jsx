@@ -11,54 +11,34 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import useActions from "../../../../hooks/useActions";
-import { categoryListSwitch } from "../productCreate/categoryListSwitch";
-import TextBox from "../productCreate/TextBox";
-import CategorySpecificFormForEdit from "./CategorySpecificFormForEdit";
+import useActions from "../../../../../hooks/useActions";
+import CategorySpecificForm from "./CategorySpecificForm";
+import TextBox from "./TextBox";
+import { categoryListSwitch } from "./categoryListSwitch";
 
-const ProductEditForm = () => {
-  const { getCategories, getManufacturers, updateProduct } = useActions();
-  const product = useSelector((state) => state.product.productForEdit);
-
+const ProductForm = () => {
+  const { getCategories, getManufacturers, createProduct } = useActions();
   const navigate = useNavigate();
-
   useEffect(() => {
     getCategories();
     getManufacturers();
   }, []);
-
-  useEffect(() => {
-    if (product) {
-      setSelectedCategory(product.category.name || "");
-      setFormData({
-        name: product.name || "",
-        price: product.price || 0,
-        description: product.description || "",
-        stockQuantity: product.stockQuantity || 0,
-        manufacturerId: product.manufacturer?.id || "",
-        categoryId: product.category?.id || "",
-        componentCharacteristic: product.componentCharacteristic || {},
-      });
-    }
-  }, [product]);
 
   const categoryList = useSelector((state) => state.category.categoryList);
   const manufacturerList = useSelector(
     (state) => state.manufacturer.manufacturerList
   );
 
-  const [selectedCategory, setSelectedCategory] = useState(
-    product.categoryName || ""
-  );
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   const [formData, setFormData] = useState({
-    name: product.name || "",
-    price: product.price || 0,
-    description: product.description || "",
-    stockQuantity: product.stockQuantity || 0,
-    manufacturerId: product.manufacturer.id || "",
-    categoryId: product.category.id || "",
-    componentCharacteristic: product.componentCharacteristic || {},
+    name: "",
+    price: 0,
+    description: "",
+    stockQuantity: 0,
+    manufacturerId: "",
+    categoryId: "",
+    componentCharacteristic: {},
   });
 
   const handleInputChange = useCallback((e) => {
@@ -99,15 +79,15 @@ const ProductEditForm = () => {
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
-      const result = await updateProduct(product.id, formData);
+      const result = await createProduct(formData);
       if (result.success) {
-        navigate("/products");
         toast.success(result.message);
+        navigate("/products");
       } else {
         toast.error(result.message);
       }
     },
-    [updateProduct, formData, navigate]
+    [createProduct]
   );
 
   return (
@@ -128,6 +108,7 @@ const ProductEditForm = () => {
         name="price"
         value={formData.price}
         onChange={handleInputChange}
+        fullWidth
       />
       <TextField
         label="Description"
@@ -136,6 +117,7 @@ const ProductEditForm = () => {
         onChange={handleInputChange}
         multiline
         rows={4}
+        fullWidth
       />
       <TextField
         label="Stock Quantity"
@@ -143,8 +125,9 @@ const ProductEditForm = () => {
         name="stockQuantity"
         value={formData.stockQuantity}
         onChange={handleInputChange}
+        fullWidth
       />
-      <FormControl>
+      <FormControl fullWidth>
         <InputLabel id="manufacturer-label">Manufacturer</InputLabel>
         <Select
           labelId="manufacturer-label"
@@ -154,13 +137,13 @@ const ProductEditForm = () => {
           onChange={handleInputChange}
         >
           {manufacturerList.map((manufacturer) => (
-            <MenuItem key={manufacturer.name} value={manufacturer.id}>
+            <MenuItem key={manufacturer.id} value={manufacturer.id}>
               {manufacturer.name}
             </MenuItem>
           ))}
         </Select>
       </FormControl>
-      <FormControl>
+      <FormControl fullWidth>
         <InputLabel id="category-label">Category</InputLabel>
         <Select
           labelId="category-label"
@@ -176,21 +159,16 @@ const ProductEditForm = () => {
         </Select>
       </FormControl>
       {selectedCategory && (
-        <CategorySpecificFormForEdit
+        <CategorySpecificForm
           category={selectedCategory}
           onChange={handleCharacteristicChange}
-          values={
-            formData.componentCharacteristic[
-              categoryListSwitch(selectedCategory)
-            ] || {}
-          }
         />
       )}
       <Button variant="contained" type="submit">
-        Update Product
+        Create Product
       </Button>
     </Box>
   );
 };
 
-export default ProductEditForm;
+export default ProductForm;

@@ -12,7 +12,7 @@ const ProductToCartButton = ({ productId }) => {
   const [showModal, setShowModal] = useState(false)
 
   const cartItems = useSelector((state) => state.cartItem.cartItemList)
-  const userId = useSelector((state) => state.user.currentUser.id)
+  const userId = useSelector((state) => state.user.currentUser?.id)
   const { createCartItem } = useActions()
   const navigate = useNavigate()
 
@@ -24,7 +24,7 @@ const ProductToCartButton = ({ productId }) => {
       )
       setIsInCart(isProductInCart)
     }
-  }, [cartItems])
+  }, [])
 
   const openModal = useCallback(() => setShowModal(true))
   const closeModal = useCallback(() => setShowModal(false))

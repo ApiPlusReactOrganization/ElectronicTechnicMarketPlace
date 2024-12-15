@@ -1,14 +1,14 @@
-import React from 'react'
-import ManufacturerTableRow from './ManufacturerTableRow'
-import { useSelector } from 'react-redux'
-import { useRenderCount } from '../../../hooks/useRenderCount'
+import React from "react";
+import ManufacturerTableRow from "./ManufacturerTableRow";
+import { useSelector } from "react-redux";
+import { useRenderCount } from "../../../hooks/useRenderCount";
 
 const ManufacturersTable = () => {
   const manufacturerList = useSelector(
     (state) => state.manufacturer.manufacturerList
-  )
+  );
 
-  const renderCount = useRenderCount()
+  const renderCount = useRenderCount();
 
   return (
     <>
@@ -32,7 +32,7 @@ const ManufacturersTable = () => {
       </table>
       <h5>ManufacturersTable render count: {renderCount}</h5>
     </>
-  )
-}
+  );
+};
 
-export default React.memo(ManufacturersTable)
+export default React.memo(ManufacturersTable);

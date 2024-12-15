@@ -82,6 +82,8 @@ export default class HttpClient {
         setStatus(PageStatuses.NOT_FOUND)(store.dispatch);
       } else if (status === 400) {
         //setStatus(PageStatuses.BAD_REQUEST)(store.dispatch);
+      } else if (status === 409) {
+        //setStatus(PageStatuses.BAD_REQUEST)(store.dispatch);
       } else {
         setStatus(PageStatuses.TOO_MANY_REQUESTS)(store.dispatch);
       }
