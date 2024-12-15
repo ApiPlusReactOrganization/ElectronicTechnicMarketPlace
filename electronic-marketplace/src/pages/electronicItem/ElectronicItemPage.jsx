@@ -1,11 +1,26 @@
-import React from 'react'
+import React from "react";
+import FilterSideBarElectronicItemContainer from "./containers/FilterSideBarElectronicItemContainer";
+import ProductListContainer from "./containers/ProductListContainer";
+import SideBarCategoryContainer from "./containers/SideBarCategoryContainer";
 
 const ElectronicItemPage = () => {
-  return (
-    <div>
-      <p>Electronic Item Page</p>
-    </div>
-  )
-}
+  console.log("ElectronicItemPage");
 
-export default ElectronicItemPage
+  return (
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col-md-3">
+          <SideBarCategoryContainer />
+        </div>
+        <div className="col-md-6">
+          <ProductListContainer />
+        </div>
+        <div className="col-md-3">
+          <FilterSideBarElectronicItemContainer />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ElectronicItemPage;

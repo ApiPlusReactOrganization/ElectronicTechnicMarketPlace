@@ -1,7 +1,35 @@
 import "./layout.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useActions from "../../hooks/useActions";
+import { useSelector } from "react-redux";
+import userImage from "../../hooks/userImage";
+import { memo } from "react";
+import HeadersLinks from "./HeadersLinks";
+import { Badge } from "@mui/material";
+import {ShoppingCart, Favorite} from "@mui/icons-material";
 
-const Header = () => {
+const adminPages = [
+  { title: "Categories", path: "/categories" },
+  { title: "Manufacturers", path: "/manufacturers" },
+  { title: "Users", path: "/users" },
+  { title: "Products", path: "/products" },
+];
+
+const Header = memo(() => {
+  const currentUser = useSelector((store) => store.user.currentUser);
+  const isAuthenticated = useSelector((store) => store.user.isAuthenticated);
+  const logoutUser = useActions().logoutUser;
+  const navigate = useNavigate();
+  const favoriteProducts = useSelector((state) => state.user.favoriteProducts);
+  const cartItems = useSelector((state) => state.cartItem.cartItemList);
+  const logoutHandler = () => {
+    logoutUser();
+    navigate("/");
+  };
+
+  const userId = currentUser?.id;
+  const userCartItems = cartItems.filter((item) => item.userId === userId);
+
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-body-tertiary">
@@ -18,110 +46,116 @@ const Header = () => {
             <i className="fas fa-bars"></i>
           </button>
 
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <a className="navbar-brand mt-2 mt-lg-0" href="#">
-              <img
-                src="https://mdbcdn.b-cdn.net/img/logo/mdb-transaprent-noshadows.webp"
-                height="15"
-                alt="MDB Logo"
-                loading="lazy"
-              />
-            </a>
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0 gap-3">
-              <li className="nav-item">
-                <Link to="/"> Home</Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/electronicItem">Electronic Item</Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/users">Users</Link>
-              </li>
-            </ul>
-          </div>
+          <HeadersLinks />
+
           <div className="d-flex align-items-center">
-            <a className="text-reset me-3" href="#">
-              <i className="fas fa-shopping-cart"></i>
+            <Link to="/favoriteProducts" className="text-reset me-3">
+              <Badge color="error" badgeContent={favoriteProducts.length}>
+                <Favorite />
+              </Badge>
+            </Link>
+
+            <Link to="/cartItems" className="text-reset me-3">
+              <Badge color="error" badgeContent={userCartItems.length}>
+                <ShoppingCart />
+              </Badge>
+            </Link>
+
+            <a className="text-reset me-2" href="#">
+              <i className="fas fa-bell"></i>
             </a>
 
-            <div className="dropdown">
-              <a
-                data-mdb-dropdown-init
-                className="text-reset me-3 dropdown-toggle hidden-arrow"
-                href="#"
-                id="navbarDropdownMenuLink"
-                role="button"
-                aria-expanded="false"
-              >
-                <i className="fas fa-bell"></i>
-                <span className="badge rounded-pill badge-notification bg-danger">
-                  1
-                </span>
-              </a>
-              <ul
-                className="dropdown-menu dropdown-menu-end"
-                aria-labelledby="navbarDropdownMenuLink"
-              >
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Some news
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Another news
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Something else here
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div className="dropdown">
-              <a
-                data-mdb-dropdown-init
-                className="dropdown-toggle d-flex align-items-center hidden-arrow"
-                href="#"
-                id="navbarDropdownMenuAvatar"
-                role="button"
-                aria-expanded="false"
-              >
-                <img
-                  src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
-                  className="rounded-circle"
-                  height="25"
-                  alt="Black and White Portrait of a Man"
-                  loading="lazy"
-                />
-              </a>
-              <ul
-                className="dropdown-menu dropdown-menu-end"
-                aria-labelledby="navbarDropdownMenuAvatar"
-              >
-                <li>
-                  <a className="dropdown-item" href="#">
-                    My profile
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Settings
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Logout
-                  </a>
-                </li>
-              </ul>
-            </div>
+            {(Array.isArray(currentUser?.role)
+              ? currentUser?.role.includes("Administrator")
+              : currentUser?.role === "Administrator") && (
+              <div className="dropdown mx-2">
+                <a
+                  className="text-reset dropdown-toggle hidden-arrow"
+                  href="#"
+                  id="navbarDropdownMenuLink"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <span className="badge rounded-pill badge-notification bg-danger">
+                    Admin
+                  </span>
+                </a>
+                <ul
+                  className="dropdown-menu dropdown-menu-end"
+                  aria-labelledby="navbarDropdownMenuLink"
+                >
+                  {adminPages.map((page) => (
+                    <li key={page.path}>
+                      <Link className="dropdown-item" to={page.path}>
+                        {page.title}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {isAuthenticated ? (
+              <div className="dropdown">
+                <a
+                  className="dropdown-toggle d-flex align-items-center hidden-arrow"
+                  href="#"
+                  id="navbarDropdownMenuAvatar"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <img
+                    src={userImage(currentUser?.image)}
+                    className="rounded-circle"
+                    height="25"
+                    width="25"
+                    alt="User Avatar"
+                    loading="lazy"
+                  />
+                </a>
+                <ul
+                  className="dropdown-menu dropdown-menu-end"
+                  aria-labelledby="navbarDropdownMenuAvatar"
+                >
+                  {(Array.isArray(currentUser?.role)
+                    ? currentUser?.role.includes("User")
+                    : currentUser?.role === "User") && (
+                    <li>
+                      <Link className="dropdown-item" to="/profile">
+                        My Profile
+                      </Link>
+                    </li>
+                  )}
+
+                  <li>
+                    <Link className="dropdown-item" to="/settings">
+                      Settings
+                    </Link>
+                  </li>
+                  <li>
+                    <button className="dropdown-item" onClick={logoutHandler}>
+                      Logout
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            ) : (
+              <div className="d-flex gap-3">
+                <Link to="/login" className="btn btn-outline-primary">
+                  Login
+                </Link>
+                <Link to="/register" className="btn btn-primary text-white">
+                  Register
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </nav>
     </>
   );
-};
+});
 
 export default Header;
