@@ -4,10 +4,10 @@ import { selectMemoizedmanufacturerList } from "../../../../store/state/selector
 import useActions from "../../../../hooks/useActions";
 import useDebouncedEffect from "../../../../hooks/useDebouncedEffect";
 import { FormControlLabel, Checkbox, Box, Typography, IconButton } from "@mui/material";
-import { ExpandMore, ExpandLess } from "@mui/icons-material"; // Іконки для відкриття/закриття фільтра
+import { ExpandMore, ExpandLess } from "@mui/icons-material";
 
 const ManufacturerFilter = memo(() => {
-  const [isVisible, setIsVisible] = useState(true); // Стан для видимості фільтра
+  const [isVisible, setIsVisible] = useState(true);
   const manufacturerList = useSelector(selectMemoizedmanufacturerList);
   const selectedManufacturerIds = useSelector(
     (state) => state.filters.manufacturerIds
@@ -25,7 +25,6 @@ const ManufacturerFilter = memo(() => {
     filterProducts();
   }, 300, [selectedManufacturerIds]);
 
-  // Функція для перемикання видимості фільтра
   const toggleVisibility = () => {
     setIsVisible((prev) => !prev);
   };

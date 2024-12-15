@@ -11,18 +11,16 @@ const QuantityFilter = memo(() => {
 
   const handleMinQuantityChange = (value) => {
     updateMinStockQuantity(value);
-    filterProducts();
   };
 
 
   const handleMaxQuantityChange = (value) => {
     updateMaxStockQuantity(value);
-    filterProducts();
   };
 
   useDebouncedEffect(() => {
     filterProducts();
-  }, 300, [minStockQuantity, maxStockQuantity]);
+  }, 500, [minStockQuantity, maxStockQuantity]);
 
   return (
     <MinMaxInput
