@@ -26,7 +26,7 @@ export class CartItemService {
   }
 
   static async updateCartItemQuantity(cartItemId, quantity) {
-    return await this.httpClient.put(`update-quantity/${cartItemId}`, { quantity });
+    return await this.httpClient.put(`update-quantity/${cartItemId}?quantity=${quantity}`);
   }
 
   static async deleteCartItem(cartItemId) {

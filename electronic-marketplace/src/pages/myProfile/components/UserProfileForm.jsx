@@ -1,20 +1,17 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import useActions from "../../../hooks/useActions";
+import React, { memo, useState } from "react";
 import { toast } from "react-toastify";
+import useActions from "../../../hooks/useActions";
 
-const UserProfileForm = () => {
-  const currentUser = useSelector((store) => store.user.currentUser);
+const UserProfileForm = ({ id, name, email }) => {
+  // console.log("UserProfileForm")
+
   const { updateUser } = useActions();
 
-  const [formData, setFormData] = useState({
-    name: currentUser?.name || "",
-    email: currentUser?.email || "",
-  });
+  const [formData, setFormData] = useState({ name, email });
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   const handleUpdateUser = async () => {
@@ -23,7 +20,7 @@ const UserProfileForm = () => {
       return;
     }
 
-    const result = await updateUser(currentUser.id, {
+    const result = await updateUser(id, {
       userName: formData.name,
       email: formData.email,
     });
@@ -75,4 +72,4 @@ const UserProfileForm = () => {
   );
 };
 
-export default UserProfileForm;
+export default memo(UserProfileForm);

@@ -12,7 +12,6 @@ const FilterSideBarElectronicItem = memo(() => {
     filterProducts,
     getManufacturers,
     getManufacturersByCategoryId,
-    getCartItems,
   } = useActions()
   const { categoryId } = useParams()
   const [filters, setFilters] = useState({
@@ -33,7 +32,6 @@ const FilterSideBarElectronicItem = memo(() => {
 
   useEffect(() => {
     const updateManufacturers = async () => {
-      getCartItems()
       if (categoryId) {
         await getManufacturersByCategoryId(categoryId)
 

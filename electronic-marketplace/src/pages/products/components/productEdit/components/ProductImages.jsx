@@ -1,12 +1,13 @@
-import React, { useState, useCallback, memo } from "react";
-import { toast } from "react-toastify";
-import useActions from "../../../../hooks/useActions";
-import productImage from "../../../../hooks/productImage";
-import ImageList from "./ImageList";
+import React, { useCallback, useState } from "react";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import useActions from "../../../../../hooks/useActions";
+import ImageList from "./ImageList";
 
 const ProductImages = () => {
-  const product = useSelector((state) => state.product.productForEdit);
+  const product = useSelector(
+    (state) => state.product.productWithoutImagesForEdit
+  );
   const { addProductImages } = useActions();
   const [selectedFiles, setSelectedFiles] = useState([]);
 
@@ -58,19 +59,10 @@ const ProductImages = () => {
         </button>
       </div>
       <div className="d-flex justify-content-center">
-        {product.images.length === 0 ? (
-          <img
-            height="200"
-            alt="Product Image"
-            loading="lazy"
-            src={productImage(undefined)}
-          />
-        ) : (
-          <ImageList />
-        )}
+        <ImageList />
       </div>
     </div>
   );
 };
 
-export default memo(ProductImages);
+export default ProductImages;

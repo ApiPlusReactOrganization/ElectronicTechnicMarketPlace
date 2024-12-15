@@ -1,6 +1,6 @@
-import React from "react";
+import React, { memo } from "react";
 import { CardMedia } from "@mui/material";
-import productImage from "../../../../hooks/productImage";
+import productImage from "../../../../../hooks/productImage";
 
 const ProductImage = ({ images }) => {
   return (
@@ -24,4 +24,4 @@ const ProductImage = ({ images }) => {
   );
 };
 
-export default ProductImage;
+export default memo(ProductImage);
