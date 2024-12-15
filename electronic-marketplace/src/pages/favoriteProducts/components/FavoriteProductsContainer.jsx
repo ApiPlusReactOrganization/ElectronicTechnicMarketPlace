@@ -9,7 +9,7 @@ import useFilteredProducts from "../hooks/useFilteredProducts";
 
 const FavoriteProductsContainer = React.memo(() => {
   const { loadFavoriteProducts } = useActions();
-  const userId = useSelector((state) => state.user.currentUser.id);
+  const userId = useSelector((state) => state.user.currentUser?.id);
 
   const {
     filteredProducts,

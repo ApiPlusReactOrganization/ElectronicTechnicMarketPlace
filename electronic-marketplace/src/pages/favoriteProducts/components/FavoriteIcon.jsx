@@ -7,7 +7,7 @@ import { toast } from 'react-toastify'
 const FavoriteIcon = ({ productId }) => {
   const { removeProductFromFavorites, addProductToFavorites } = useActions()
   const favoriteProducts = useSelector((state) => state.user.favoriteProducts)
-  const userId = useSelector((state) => state.user.currentUser.id)
+  const userId = useSelector((state) => state.user.currentUser?.id)
 
   const handleFavoriteToggle = () => {
     if (favoriteProducts.some((fav) => fav.id === productId)) {

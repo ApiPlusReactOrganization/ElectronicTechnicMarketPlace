@@ -16,7 +16,7 @@ const SideBarCategory = memo(() => {
 
   const handleCategoryClick = (categoryClickId) => {
     if (categoryClickId !== categoryId) {
-      navigate(`$/electronicItem/${categoryClickId}`);
+      navigate(`/electronicItem/${categoryClickId}`);
     }
   };
 
