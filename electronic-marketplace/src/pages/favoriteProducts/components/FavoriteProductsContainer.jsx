@@ -7,7 +7,7 @@ import { Paper, Typography } from "@mui/material";
 import useFilteredProducts from "../hooks/useFilteredProducts";
 import FavoriteProductsMinMaxInput from "./filter/FavoriteProductsMinMaxInput";
 
-const FavoriteProductsContainer = React.memo(() => {
+const FavoriteProductsContainer = () => {
   const { loadFavoriteProducts } = useActions();
   const userId = useSelector((state) => state.user.currentUser?.id);
 
@@ -18,26 +18,26 @@ const FavoriteProductsContainer = React.memo(() => {
     setSearchTerm,
     setPriceRange,
     setQuantityRange,
-  } = useFilteredProducts()
+  } = useFilteredProducts();
 
   const handleRangeChange = useCallback((key, value) => {
     switch (key) {
-      case 'priceMin':
-        setPriceRange((prev) => [value, prev[1]])
-        break
-      case 'priceMax':
-        setPriceRange((prev) => [prev[0], value])
-        break
-      case 'quantityMin':
-        setQuantityRange((prev) => [value, prev[1]])
-        break
-      case 'quantityMax':
-        setQuantityRange((prev) => [prev[0], value])
-        break
+      case "priceMin":
+        setPriceRange((prev) => [value, prev[1]]);
+        break;
+      case "priceMax":
+        setPriceRange((prev) => [prev[0], value]);
+        break;
+      case "quantityMin":
+        setQuantityRange((prev) => [value, prev[1]]);
+        break;
+      case "quantityMax":
+        setQuantityRange((prev) => [prev[0], value]);
+        break;
       default:
-        break
+        break;
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (userId) {
@@ -92,6 +92,6 @@ const FavoriteProductsContainer = React.memo(() => {
       </div>
     </div>
   );
-});
+};
 
 export default FavoriteProductsContainer;

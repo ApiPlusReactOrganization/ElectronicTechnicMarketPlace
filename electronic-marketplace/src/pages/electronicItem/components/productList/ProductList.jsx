@@ -1,10 +1,10 @@
-import React, { memo } from "react";
-import ProductCard from "../productCard/ProductCard";
-import UserMessage from "../../../../components/common/userMessage/UserMessage";
+import React from "react";
 import { useSelector } from "react-redux";
+import UserMessage from "../../../../components/common/userMessage/UserMessage";
 import { selectMemoizedProductList } from "../../../../store/state/selectors/productSelectors";
+import ProductCard from "../productCard/ProductCard";
 
-const ProductList = memo(() => {
+const ProductList = () => {
   const products = useSelector(selectMemoizedProductList);
   return (
     <div>
@@ -22,6 +22,6 @@ const ProductList = memo(() => {
       )}
     </div>
   );
-});
+};
 
 export default ProductList;

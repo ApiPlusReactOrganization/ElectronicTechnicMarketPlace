@@ -1,26 +1,34 @@
-import React, { memo } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import useActions from "../../../../hooks/useActions";
-import MinMaxInput from "../minMaxInput/MinMaxInput";
 import useDebouncedEffect from "../../../../hooks/useDebouncedEffect";
+import MinMaxInput from "../minMaxInput/MinMaxInput";
 
-const QuantityFilter = memo(() => {
-  const minStockQuantity = useSelector((state) => state.filters.minStockQuantity);
-  const maxStockQuantity = useSelector((state) => state.filters.maxStockQuantity);
-  const { updateMinStockQuantity, updateMaxStockQuantity, filterProducts } = useActions();
+const QuantityFilter = () => {
+  const minStockQuantity = useSelector(
+    (state) => state.filters.minStockQuantity
+  );
+  const maxStockQuantity = useSelector(
+    (state) => state.filters.maxStockQuantity
+  );
+  const { updateMinStockQuantity, updateMaxStockQuantity, filterProducts } =
+    useActions();
 
   const handleMinQuantityChange = (value) => {
     updateMinStockQuantity(value);
   };
 
-
   const handleMaxQuantityChange = (value) => {
     updateMaxStockQuantity(value);
   };
 
-  useDebouncedEffect(() => {
-    filterProducts();
-  }, 500, [minStockQuantity, maxStockQuantity]);
+  useDebouncedEffect(
+    () => {
+      filterProducts();
+    },
+    500,
+    [minStockQuantity, maxStockQuantity]
+  );
 
   return (
     <MinMaxInput
@@ -34,6 +42,6 @@ const QuantityFilter = memo(() => {
       onMaxChange={handleMaxQuantityChange}
     />
   );
-});
+};
 
 export default QuantityFilter;

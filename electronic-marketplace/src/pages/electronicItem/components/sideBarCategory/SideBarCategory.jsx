@@ -1,10 +1,10 @@
-import React, { memo, useEffect } from "react";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import useActions from "../../../../hooks/useActions";
-import { useSelector } from "react-redux";
 import { selectMemoizedcategoryList } from "../../../../store/state/selectors/categorySelectors";
 
-const SideBarCategory = memo(() => {
+const SideBarCategory = () => {
   const { getCategories } = useActions();
   const categoryList = useSelector(selectMemoizedcategoryList);
   const navigate = useNavigate();
@@ -57,6 +57,6 @@ const SideBarCategory = memo(() => {
       </div>
     </div>
   );
-});
+};
 
 export default SideBarCategory;

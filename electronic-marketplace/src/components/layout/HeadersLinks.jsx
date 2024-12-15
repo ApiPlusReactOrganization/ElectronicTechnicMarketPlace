@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
 const HeadersLinks = () => {
@@ -26,4 +26,4 @@ const HeadersLinks = () => {
   );
 };
 
-export default memo(HeadersLinks);
+export default HeadersLinks;

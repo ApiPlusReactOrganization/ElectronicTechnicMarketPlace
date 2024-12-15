@@ -1,12 +1,11 @@
-import "./layout.css";
+import { Favorite, ShoppingCart } from "@mui/icons-material";
+import { Badge } from "@mui/material";
+import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import useActions from "../../hooks/useActions";
-import { useSelector } from "react-redux";
 import userImage from "../../hooks/userImage";
-import { memo } from "react";
 import HeadersLinks from "./HeadersLinks";
-import { Badge } from "@mui/material";
-import {ShoppingCart, Favorite} from "@mui/icons-material";
+import "./layout.css";
 
 const adminPages = [
   { title: "Categories", path: "/categories" },
@@ -15,7 +14,7 @@ const adminPages = [
   { title: "Products", path: "/products" },
 ];
 
-const Header = memo(() => {
+const Header = () => {
   const currentUser = useSelector((store) => store.user.currentUser);
   const isAuthenticated = useSelector((store) => store.user.isAuthenticated);
   const logoutUser = useActions().logoutUser;
@@ -156,6 +155,6 @@ const Header = memo(() => {
       </nav>
     </>
   );
-});
+};
 
 export default Header;

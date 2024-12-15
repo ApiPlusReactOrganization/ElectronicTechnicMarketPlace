@@ -1,10 +1,10 @@
-import React, { memo } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import useActions from "../../../../hooks/useActions";
-import MinMaxInput from "../minMaxInput/MinMaxInput";
 import useDebouncedEffect from "../../../../hooks/useDebouncedEffect";
+import MinMaxInput from "../minMaxInput/MinMaxInput";
 
-const PriceFilter = memo(() => {
+const PriceFilter = () => {
   const minPrice = useSelector((state) => state.filters.minPrice);
   const maxPrice = useSelector((state) => state.filters.maxPrice);
   const { updateMinPrice, updateMaxPrice, filterProducts } = useActions();
@@ -17,9 +17,13 @@ const PriceFilter = memo(() => {
     updateMaxPrice(value);
   };
 
-  useDebouncedEffect(() => {
-    filterProducts();
-  }, 500, [minPrice, maxPrice]);
+  useDebouncedEffect(
+    () => {
+      filterProducts();
+    },
+    500,
+    [minPrice, maxPrice]
+  );
 
   return (
     <MinMaxInput
@@ -33,6 +37,6 @@ const PriceFilter = memo(() => {
       onMaxChange={handleMaxPriceChange}
     />
   );
-});
+};
 
 export default PriceFilter;

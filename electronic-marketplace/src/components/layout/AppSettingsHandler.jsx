@@ -1,10 +1,10 @@
-import React, { memo, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Loader from "../common/loader/Loader";
 import { PageStatuses } from "../../store/state/reduserSlises/appSettingSlice";
+import Loader from "../common/loader/Loader";
 
-const AppSettingsHandler = memo(() => {
+const AppSettingsHandler = () => {
   const apiRequestIsLoading = useSelector(
     (state) => state.appSettings.apiRequestIsLoading
   );
@@ -18,6 +18,6 @@ const AppSettingsHandler = memo(() => {
   }, [pageStatus]);
 
   return apiRequestIsLoading ? <Loader /> : null;
-});
+};
 
 export default AppSettingsHandler;

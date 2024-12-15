@@ -1,5 +1,9 @@
 import React, { memo } from "react";
-import { TextField, Typography, Box, Slider } from "@mui/material";
+import { TextField, MemoizedTypography, Box, Slider } from "@mui/material";
+
+
+const MemoizedTypography = memo(MemoizedTypography);
+
 
 const MinMaxInput = memo(
   ({
@@ -19,7 +23,7 @@ const MinMaxInput = memo(
     };
     return (
       <Box mb={3}>
-        <Typography variant="subtitle1">{label}</Typography>
+        <MemoizedTypography variant="subtitle1">{label}</MemoizedTypography>
         <Box display="flex" alignItems="center" gap={2} mt={1}>
           <TextField
             label="Min"
@@ -29,7 +33,7 @@ const MinMaxInput = memo(
             onChange={(e) => onMinChange(Number(e.target.value))}
             type="number"
           />
-          <Typography>-</Typography>
+          <MemoizedTypography>-</MemoizedTypography>
           <TextField
             label="Max"
             variant="outlined"

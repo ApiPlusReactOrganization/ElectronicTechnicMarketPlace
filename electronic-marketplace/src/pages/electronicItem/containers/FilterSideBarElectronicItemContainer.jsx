@@ -1,13 +1,13 @@
-import React, { memo } from "react";
+import React from "react";
 import FilterSideBarElectronicItem from "../components/filterSideBarElectronicItem/FilterSideBarElectronicItem";
 
-const FilterSideBarElectronicItemContainer = memo(() => {
+const FilterSideBarElectronicItemContainer = () => {
   
   return (
     <>
       <FilterSideBarElectronicItem />
     </>
   );
-});
+};
 
 export default FilterSideBarElectronicItemContainer;

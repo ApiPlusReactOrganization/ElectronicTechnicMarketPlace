@@ -1,12 +1,12 @@
-import React, { memo } from "react";
+import React from "react";
 import SideBarCategory from "../components/sideBarCategory/SideBarCategory";
 
-const SideBarCategoryContainer = memo(() => {
+const SideBarCategoryContainer = () => {
   return (
     <>
       <SideBarCategory />
     </>
   );
-});
+};
 
 export default SideBarCategoryContainer;

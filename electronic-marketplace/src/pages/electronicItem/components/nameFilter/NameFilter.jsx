@@ -1,9 +1,9 @@
-import React, { memo } from "react";
 import { TextField } from "@mui/material";
+import React from "react";
 import { useSelector } from "react-redux";
 import useActions from "../../../../hooks/useActions";
 
-const NameFilter = memo(() => {
+const NameFilter = () => {
   const name = useSelector((state) => state.filters.name);
   const { updateName, filterProducts } = useActions();
 
@@ -25,6 +25,6 @@ const NameFilter = memo(() => {
       />
     </div>
   );
-});
+};
 
 export default NameFilter;

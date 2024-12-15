@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import useActions from '../../../hooks/useActions';
 import { toast } from 'react-toastify';
 
-const FavoriteIcon = ({ productId }) => {
+const FavoriteIcon = memo(({ productId }) => {
   const { removeProductFromFavorites, addProductToFavorites } = useActions()
   const favoriteProducts = useSelector((state) => state.user.favoriteProducts)
   const userId = useSelector((state) => state.user.currentUser?.id)
@@ -29,6 +29,6 @@ const FavoriteIcon = ({ productId }) => {
       )}
     </IconButton>
   );
-};
+});
 
 export default FavoriteIcon;

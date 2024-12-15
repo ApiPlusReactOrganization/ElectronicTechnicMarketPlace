@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import ProductCard from "./components/ProductCard";
 import { useSelector } from "react-redux";
 import useActions from "../../../../hooks/useActions";
 import { useRenderCount } from "../../../../hooks/useRenderCount";
+import ProductCard from "./components/ProductCard";
 
-const ProductsList = React.memo(() => {
+const ProductsList = () => {
   const productList = useSelector((state) => state.product.productList);
   const { getProducts } = useActions();
 
@@ -24,6 +24,6 @@ const ProductsList = React.memo(() => {
       <h5>Render count: {renderCount}</h5>
     </div>
   );
-});
+};
 
 export default ProductsList;

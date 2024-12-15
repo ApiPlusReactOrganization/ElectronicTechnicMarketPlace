@@ -22,4 +22,4 @@ const CategoriesTable = () => {
   );
 };
 
-export default React.memo(CategoriesTable);
+export default memo(CategoriesTable);
