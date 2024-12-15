@@ -1,53 +1,62 @@
-import React, { memo, useCallback, useState } from "react";
+import React, { memo, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectMemoizedmanufacturerList } from "../../../../store/state/selectors/manufacturerSelectors";
+import useActions from "../../../../hooks/useActions";
+import useDebouncedEffect from "../../../../hooks/useDebouncedEffect";
+import { FormControlLabel, Checkbox, Box, Typography, IconButton } from "@mui/material";
+import { ExpandMore, ExpandLess } from "@mui/icons-material"; // Іконки для відкриття/закриття фільтра
 
-const ManufacturerFilter = memo(
-  ({ selectedManufacturerIds, onManufacturerChange }) => {
-    const [isVisible, setIsVisible] = useState(false);
-    const manufacturerList = useSelector(selectMemoizedmanufacturerList);
+const ManufacturerFilter = memo(() => {
+  const [isVisible, setIsVisible] = useState(true); // Стан для видимості фільтра
+  const manufacturerList = useSelector(selectMemoizedmanufacturerList);
+  const selectedManufacturerIds = useSelector(
+    (state) => state.filters.manufacturerIds
+  );
+  const { updateManufacturerIds, filterProducts } = useActions();
 
-    const handleCheckboxChange = useCallback(
-      (id) => {
-        const updatedIds = selectedManufacturerIds.includes(id)
-          ? selectedManufacturerIds.filter(
-              (manufacturerId) => manufacturerId !== id
-            )
-          : [...selectedManufacturerIds, id];
-        onManufacturerChange(updatedIds);
-      },
-      [selectedManufacturerIds, onManufacturerChange]
-    );
+  const handleCheckboxChange = (id) => {
+    const updatedIds = selectedManufacturerIds.includes(id)
+      ? selectedManufacturerIds.filter((manufacturerId) => manufacturerId !== id)
+      : [...selectedManufacturerIds, id];
+    updateManufacturerIds(updatedIds);
+  };
 
-    return (
-      <div className="mb-3">
-        <button
-          className="btn btn-secondary w-100"
-          onClick={() => setIsVisible((prev) => !prev)}
-        >
-          {isVisible ? "Приховати виробників" : "Показати виробників"}
-        </button>
-        {isVisible && (
-          <div className="mt-3">
-            {manufacturerList.map((manufacturer) => (
-              <div
-                key={manufacturer.id}
-                className="form-check mb-2 d-flex align-items-center"
-              >
-                <input
-                  type="checkbox"
-                  className="form-check-input me-2"
+  useDebouncedEffect(() => {
+    filterProducts();
+  }, 300, [selectedManufacturerIds]);
+
+  // Функція для перемикання видимості фільтра
+  const toggleVisibility = () => {
+    setIsVisible((prev) => !prev);
+  };
+
+  return (
+    <div className="mb-3">
+      <Typography variant="h6" gutterBottom>
+        Manufacturers
+        <IconButton onClick={toggleVisibility}>
+          {isVisible ? <ExpandLess /> : <ExpandMore />}
+        </IconButton>
+      </Typography>
+      {isVisible && (
+        <Box display="flex" flexDirection="column">
+          {manufacturerList.map((manufacturer) => (
+            <FormControlLabel
+              key={manufacturer.id}
+              control={
+                <Checkbox
                   checked={selectedManufacturerIds.includes(manufacturer.id)}
                   onChange={() => handleCheckboxChange(manufacturer.id)}
+                  color="primary"
                 />
-                <label className="form-check-label">{manufacturer.name}</label>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    );
-  }
-);
+              }
+              label={manufacturer.name}
+            />
+          ))}
+        </Box>
+      )}
+    </div>
+  );
+});
 
 export default ManufacturerFilter;
