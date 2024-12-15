@@ -2,7 +2,7 @@ import HttpClient from "../http/HttpClient";
 
 export class CartItemService {
   static httpClient = new HttpClient({
-    baseURL: "http://localhost:5132/cart-items",
+    baseURL: "http://13.60.245.135:4312/cart-items",
   });
 
   static setAuthorizationToken(token) {
@@ -26,7 +26,9 @@ export class CartItemService {
   }
 
   static async updateCartItemQuantity(cartItemId, quantity) {
-    return await this.httpClient.put(`update-quantity/${cartItemId}?quantity=${quantity}`);
+    return await this.httpClient.put(
+      `update-quantity/${cartItemId}?quantity=${quantity}`
+    );
   }
 
   static async deleteCartItem(cartItemId) {

@@ -2,7 +2,7 @@ import HttpClient from '../http/HttpClient';
 
 export class UserService {
   static httpClient = new HttpClient({
-    baseURL: "http://localhost:5132/users",
+    baseURL: "http://13.60.245.135:4312/users",
   });
 
   static setAuthorizationToken(token) {

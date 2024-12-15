@@ -2,7 +2,7 @@ import HttpClient from "../http/HttpClient";
 
 export class CategoryService {
   static httpClient = new HttpClient({
-    baseURL: "http://localhost:5132/categories",
+    baseURL: "http://13.60.245.135:4312/categories",
   });
 
   static setAuthorizationToken(token) {
@@ -12,5 +12,4 @@ export class CategoryService {
   static async getCategories() {
     return await this.httpClient.get("get-all");
   }
-
 }
