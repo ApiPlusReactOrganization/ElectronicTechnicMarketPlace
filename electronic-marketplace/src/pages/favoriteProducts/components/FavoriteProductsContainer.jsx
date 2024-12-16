@@ -9,7 +9,7 @@ import FavoriteProductsMinMaxInput from "./filter/FavoriteProductsMinMaxInput";
 
 const FavoriteProductsContainer = React.memo(() => {
   const { loadFavoriteProducts } = useActions();
-  const userId = useSelector((state) => state.user.currentUser?.id);
+  const userId = useSelector((state) => state.user.currentUser.id);
 
   const {
     filteredProducts,

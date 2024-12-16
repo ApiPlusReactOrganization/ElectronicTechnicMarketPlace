@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect } from 'react'
+import React, { memo, useState, useEffect, useCallback } from 'react'
 import { TextField, Typography, Box, Slider } from '@mui/material'
 
 const FavoriteProductsMinMaxInput = memo(
@@ -19,26 +19,34 @@ const FavoriteProductsMinMaxInput = memo(
       setRange([minLimit, maxLimit])
     }, [minLimit, maxLimit])
 
-    const handleRangeChange = (newRange) => {
-      setRange(newRange)
-      onFilterChange(filterKeyMin, newRange[0])
-      onFilterChange(filterKeyMax, newRange[1])
-    }
+    const handleRangeChange = useCallback(
+      (_, newValue) => {
+        setRange(newValue)
+        onFilterChange(filterKeyMin, newValue[0])
+        onFilterChange(filterKeyMax, newValue[1])
+      },
+      [onFilterChange, filterKeyMin, filterKeyMax]
+    )
 
-    const handleInputChange = (event) => {
-      const { name, value } = event.target
-      const parsedValue = value ? parseInt(value, 10) : 0
-      const newRange = [...range]
+    const handleInputChange = useCallback(
+      (event) => {
+        const { name, value } = event.target
+        const parsedValue = value ? parseInt(value, 10) : 0
 
-      if (name === 'min') {
-        newRange[0] = parsedValue
-      } else if (name === 'max') {
-        newRange[1] = parsedValue
-      }
+        setRange((prevRange) => {
+          const newRange = [...prevRange]
+          if (name === 'min') newRange[0] = parsedValue
+          if (name === 'max') newRange[1] = parsedValue
+          return newRange
+        })
 
-      setRange(newRange)
-      onFilterChange(name === 'min' ? filterKeyMin : filterKeyMax, parsedValue)
-    }
+        onFilterChange(
+          name === 'min' ? filterKeyMin : filterKeyMax,
+          parsedValue
+        )
+      },
+      [onFilterChange, filterKeyMin, filterKeyMax]
+    )
 
     return (
       <Box mb={3}>
@@ -66,7 +74,7 @@ const FavoriteProductsMinMaxInput = memo(
         </Box>
         <Slider
           value={range}
-          onChange={(_, newValue) => handleRangeChange(newValue)}
+          onChange={handleRangeChange}
           valueLabelDisplay="auto"
           disableSwap
           min={minLimit}

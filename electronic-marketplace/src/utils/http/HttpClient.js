@@ -80,10 +80,6 @@ export default class HttpClient {
       const status = error.response ? error.response.status : 500;
       if (status === 404) {
         setStatus(PageStatuses.NOT_FOUND)(store.dispatch);
-      } else if (status === 400) {
-        //setStatus(PageStatuses.BAD_REQUEST)(store.dispatch);
-      } else if (status === 409) {
-        //setStatus(PageStatuses.BAD_REQUEST)(store.dispatch);
       } else {
         setStatus(PageStatuses.TOO_MANY_REQUESTS)(store.dispatch);
       }
