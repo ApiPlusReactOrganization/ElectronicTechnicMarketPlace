@@ -4,7 +4,6 @@ import ProductListContainer from "./containers/ProductListContainer";
 import SideBarCategoryContainer from "./containers/SideBarCategoryContainer";
 
 const ElectronicItemPage = () => {
-  console.log("ElectronicItemPage");
 
   return (
     <div className="container-fluid">
